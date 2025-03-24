@@ -1,3 +1,0 @@
-# final-project
-aflkjfahlfkbslgjbskgbspgus
-gsg
