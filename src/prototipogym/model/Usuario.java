@@ -1,15 +1,15 @@
 package prototipogym.model;
 
 public class Usuario {
-    private String login;
+    private String user;
     private String password;
     private int nivelAcceso;
     private String nombre;
     private String apellidos;
     private String correo;
     
-    public Usuario(String login, String password, int nivelAcceso, String nombre, String apellidos, String correo) {
-        this.login = login;
+    public Usuario(String user, String password, int nivelAcceso, String nombre, String apellidos, String correo) {
+        this.user = user;
         this.password = password;
         this.nivelAcceso = nivelAcceso;
         this.nombre = nombre;
@@ -26,11 +26,11 @@ public class Usuario {
     }
     
     public String getLogin() {
-        return login;
+        return user;
     }
     
-    public void setLogin(String login) {
-        this.login = login;
+    public void setLogin(String user) {
+        this.user = user;
     }
     
     public String getPassword() {
