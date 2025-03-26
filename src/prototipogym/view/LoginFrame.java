@@ -1,6 +1,4 @@
 package prototipogym.view;
-import com.sun.source.tree.BreakTree;
-import javax.accessibility.AccessibleRole;
 import javax.swing.JOptionPane;
 import prototipogym.util.auth.AuthManager;
 //import prototipogym.util.FileManager;
@@ -9,6 +7,7 @@ public class LoginFrame extends javax.swing.JFrame {
     public LoginFrame() {
         initComponents();
         setLocationRelativeTo(null);
+        rootPane.setDefaultButton(btnIngresar);
     }
     
     @SuppressWarnings("unchecked")
@@ -112,22 +111,30 @@ public class LoginFrame extends javax.swing.JFrame {
         
         if(usuario.isEmpty() || password.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Campos oblogatorios");
-            break;
+            //break;
         }
         
         boolean credencialesValidas = AuthManager.validarUsuario(usuario, password);
+        int nivelAcceso = AuthManager.getNivelAcceso(usuario, password);
         
         if(credencialesValidas) {
-            JOptionPane.showMessageDialog(this, "Bienvenido");
-            //MenuPrincipalFrame = new MenuPrincipalFrame();
-            //menu.setVisible(true);
-            //this.dispose();
+            MenuPrincipalFrame menu = new MenuPrincipalFrame(nivelAcceso);
+            menu.setVisible(true);
+            this.dispose();
         }else {
             JOptionPane.showMessageDialog(this, "Nombre o contraseña incorrectas");
         }
-    }//GEN-LAST:event_btnIngresarActionPerformed
 
-    
+        if (nivelAcceso == 0) {
+            MenuPrincipalFrame menu = new MenuPrincipalFrame(nivelAcceso);
+            menu.setVisible(true);
+            this.dispose();
+        }else {
+            MenuPrincipalFrame menu = new MenuPrincipalFrame(nivelAcceso);
+            menu.setVisible(false);
+            this.dispose();
+        }
+    }//GEN-LAST:event_btnIngresarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

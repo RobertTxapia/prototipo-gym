@@ -34,7 +34,7 @@ public class AuthManager {
         return false;
     }
 
-    public static int getNivelAcceso() {
+    public static int getNivelAcceso(String login, String password) {
         // retornar el nivel de acceso del usuario autenticado
         return (usuarioLoquedo != null) ? usuarioLoquedo.getNivelAcceso() : -1;
     }
