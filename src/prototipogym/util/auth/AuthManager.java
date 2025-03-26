@@ -8,7 +8,7 @@ public class AuthManager {
     private static Usuario usuarioLoquedo;
 
     public static boolean validarUsuario(String login, String password) {
-        File archivoUsuarios = new File("usuarios.txt");
+        File archivoUsuarios = new File("data/usuarios.txt");
 
         try(
             FileReader fr = new FileReader(archivoUsuarios);
@@ -17,7 +17,7 @@ public class AuthManager {
         ) {
             String lineas;
             while ((lineas = br.readLine()) != null) {
-                String[] datos = lineas.split(",");
+                String[] datos = lineas.split(";");
                 if(datos.length >= 6 && datos[0].equals(login) && datos[1].equals(password)) {
                     usuarioLoquedo = new Usuario(datos[0], datos[1], Integer.parseInt(datos[2]), datos[3], datos[4], datos[5]);
                     return true;
