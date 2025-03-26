@@ -1,2 +1,0 @@
-admin;admin123;0;Admin;Super Admin
-user;user123;1;Juan;Pérez
