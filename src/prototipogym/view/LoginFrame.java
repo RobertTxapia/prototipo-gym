@@ -3,7 +3,7 @@ import com.sun.source.tree.BreakTree;
 import javax.accessibility.AccessibleRole;
 import javax.swing.JOptionPane;
 import prototipogym.util.auth.AuthManager;
-import prototipogym.util.mantenimientos.FileManager;
+//import prototipogym.util.FileManager;
 
 public class LoginFrame extends javax.swing.JFrame {
     public LoginFrame() {
