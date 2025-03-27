@@ -3,11 +3,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package prototipogym.view;
+import prototipogym.view.MenuPrincipalFrame;
+import prototipogym.view.LoginFrame;
 
-/**
- *
- * @author ramon
- */
 public class ManUsuario extends javax.swing.JFrame {
 
     /**
@@ -160,9 +158,9 @@ public class ManUsuario extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGap(31, 31, 31)
+                                        .addGap(19, 19, 19)
                                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGap(18, 18, 18)
                                         .addComponent(jLabel2))
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addGap(22, 22, 22)
@@ -244,6 +242,9 @@ public class ManUsuario extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void botonSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonSalirActionPerformed
+        int nivelAcceso=0;
+        MenuPrincipalFrame men = new MenuPrincipalFrame(nivelAcceso);
+        men.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_botonSalirActionPerformed
 
