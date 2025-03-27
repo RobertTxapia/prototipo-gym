@@ -189,39 +189,16 @@ public class LoginFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_btnIngresarActionPerformed
 
     private void btnIngresarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnIngresarKeyPressed
-<<<<<<< HEAD
-//        
-//        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
-//            
-//            String usuario = txtUsuario.getText().trim();
-//            String password = new String(txtPassword.getPassword()).trim();
-//        
-//            if (!usuario.isEmpty() && !password.isEmpty()) {
-//                 btnIngresar.doClick(); // Solo se ejecuta si ambos campos tienen contenido
-//            }
-//        }
-=======
-        
-        /*if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
-            
-            String usuario = txtUsuario.getText().trim();
-            String password = new String(txtPassword.getPassword()).trim();
-        
-            if (!usuario.isEmpty() && !password.isEmpty()) {
-                 btnIngresar.doClick(); // Solo se ejecuta si ambos campos tienen contenido
-            }
-        }*/
->>>>>>> 629074fbab4f3e3a0a97bcc54a2c08d063b3752a
+
     }//GEN-LAST:event_btnIngresarKeyPressed
 
     private void txtUsuarioKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtUsuarioKeyPressed
-//       
-//        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
-//            
-//           txtPassword.requestFocus();
-//           evt.consume(); //esto es para que el enter no siga de lalgo
-//           
-//        }
+       
+       if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
+           
+         txtPassword.requestFocus();
+            evt.consume(); //esto es para que el enter no siga de lalgo        
+      }
     }//GEN-LAST:event_txtUsuarioKeyPressed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
