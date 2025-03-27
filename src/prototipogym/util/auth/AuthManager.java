@@ -6,8 +6,9 @@ import java.util.List;
 
 public class AuthManager {
     private static Usuario usuarioLoquedo;
-
-    public static boolean validarUsuario(String login, String password) {
+    
+    //use el throws IOExpection para poder usarlo en el login por si hay algun error en los archivos
+    public static boolean validarUsuario(String login, String password) throws IOException {
         File archivoUsuarios = new File("data/usuarios.txt");
 
         try(

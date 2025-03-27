@@ -43,6 +43,11 @@ public class MenuPrincipalFrame extends javax.swing.JFrame {
 
         mItemUsuario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/businessapplication_edit_male_user_thepencil_theclient_negocio_2321.png"))); // NOI18N
         mItemUsuario.setText("Usuarios");
+        mItemUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mItemUsuarioActionPerformed(evt);
+            }
+        });
         mMantenimientos.add(mItemUsuario);
 
         mItemEntrenador.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/trainer_man_people_avatar_person_icon_224850.png"))); // NOI18N
@@ -81,6 +86,13 @@ public class MenuPrincipalFrame extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+    
+    //agregue la ventana de usuario
+    private void mItemUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mItemUsuarioActionPerformed
+        ManUsuario usuario = new ManUsuario();
+        usuario.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_mItemUsuarioActionPerformed
 
     private void configurarMenu(int nivelAcceso) {
         mMantenimientos.setVisible(nivelAcceso == 0);
