@@ -190,7 +190,7 @@ public class LoginFrame extends javax.swing.JFrame {
 
     private void btnIngresarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnIngresarKeyPressed
         
-        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
+        /*if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
             
             String usuario = txtUsuario.getText().trim();
             String password = new String(txtPassword.getPassword()).trim();
@@ -198,7 +198,7 @@ public class LoginFrame extends javax.swing.JFrame {
             if (!usuario.isEmpty() && !password.isEmpty()) {
                  btnIngresar.doClick(); // Solo se ejecuta si ambos campos tienen contenido
             }
-        }
+        }*/
     }//GEN-LAST:event_btnIngresarKeyPressed
 
     private void txtUsuarioKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtUsuarioKeyPressed
