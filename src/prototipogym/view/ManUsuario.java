@@ -1,13 +1,25 @@
 package prototipogym.view;
+import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import javax.swing.JOptionPane;
 import prototipogym.view.MenuPrincipalFrame;
 import prototipogym.view.LoginFrame;
 
 public class ManUsuario extends javax.swing.JFrame {
-
+    
+    private static ManUsuario instancia;
+    
     public ManUsuario() {
         initComponents();
         setLocationRelativeTo(null);
-        
+        addWindowListener(new WindowAdapter() {
+        @Override
+        public void windowClosing(WindowEvent e) {
+            instancia = null; // Liberar la instancia
+            dispose(); // Cerrar la ventana
+        }
+    });
     }
 
     @SuppressWarnings("unchecked")
@@ -39,7 +51,7 @@ public class ManUsuario extends javax.swing.JFrame {
 
         jPasswordField1.setText("jPasswordField1");
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(51, 51, 51));
         jPanel1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 193, 7), 3, true));
@@ -112,6 +124,11 @@ public class ManUsuario extends javax.swing.JFrame {
                 TextNombreActionPerformed(evt);
             }
         });
+        TextNombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                TextNombreKeyTyped(evt);
+            }
+        });
 
         TextApellido.setBackground(new java.awt.Color(200, 200, 200));
         TextApellido.setToolTipText("Apellidos");
@@ -119,6 +136,11 @@ public class ManUsuario extends javax.swing.JFrame {
         TextApellido.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 TextApellidoActionPerformed(evt);
+            }
+        });
+        TextApellido.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                TextApellidoKeyTyped(evt);
             }
         });
 
@@ -264,6 +286,13 @@ public class ManUsuario extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
     
+    public static ManUsuario getInstancia(){
+        if (instancia == null){
+            instancia = new ManUsuario();
+            getInstancia().setVisible(true);
+        }
+        return instancia;
+    }
     
     //Funcion para Limpiar las cajas de texto
     public void Limpiar (){
@@ -274,15 +303,14 @@ public class ManUsuario extends javax.swing.JFrame {
         TextCorreo.setText("");
     }
     
+    
     private void TextUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TextUsuarioActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_TextUsuarioActionPerformed
 
     private void ButtonSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonSalirActionPerformed
-        int nivelAcceso=0;
-        MenuPrincipalFrame men = new MenuPrincipalFrame(nivelAcceso);
-        men.setVisible(true);
-        this.dispose();
+       instancia = null;
+       dispose();
     }//GEN-LAST:event_ButtonSalirActionPerformed
 
     private void TextNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TextNombreActionPerformed
@@ -304,8 +332,39 @@ public class ManUsuario extends javax.swing.JFrame {
     private void ButtonLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonLimpiarActionPerformed
         Limpiar();
     }//GEN-LAST:event_ButtonLimpiarActionPerformed
+    
+    //no permite escribir numeros en la caja de nombres
+    private void TextNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TextNombreKeyTyped
+        try {
+            char letra = evt.getKeyChar();
+            // Permite todo excepto numeros
+            if (Character.isDigit(letra)) {
+                throw new Exception("No se permiten numeros");
+            }
+        }catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Advertencia", JOptionPane.WARNING_MESSAGE);
+            evt.consume();
+        }
+        
+    }//GEN-LAST:event_TextNombreKeyTyped
+    
+    //no permite escribir numeros en la caja de apellidos
+    private void TextApellidoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TextApellidoKeyTyped
+        try {
+            char letra = evt.getKeyChar();
+            // Permite todo excepto numeros
+            if (Character.isDigit(letra)) {
+                throw new Exception("No se permiten numeros");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Advertencia", JOptionPane.WARNING_MESSAGE);
+            evt.consume();
+        }
+    }//GEN-LAST:event_TextApellidoKeyTyped
 
-
+    
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JRadioButton ButtonAdmin;
     private javax.swing.JButton ButtonGuardar;
@@ -330,4 +389,7 @@ public class ManUsuario extends javax.swing.JFrame {
     private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JSeparator jSeparator1;
     // End of variables declaration//GEN-END:variables
+    
+    
+    
 }

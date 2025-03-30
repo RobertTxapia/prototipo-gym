@@ -203,7 +203,7 @@ public class LoginFrame extends javax.swing.JFrame {
        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
            
          txtPassword.requestFocus();
-            evt.consume(); //esto es para que el enter no siga de lalgo        
+         evt.consume(); //esto es para que el enter no siga de lalgo        
       }
     }//GEN-LAST:event_txtUsuarioKeyPressed
 

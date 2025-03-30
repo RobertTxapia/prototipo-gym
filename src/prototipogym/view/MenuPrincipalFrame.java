@@ -5,6 +5,12 @@ public class MenuPrincipalFrame extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         configurarMenu(nivelAcceso);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+        @Override
+        public void windowClosing(java.awt.event.WindowEvent e) {
+            new LoginFrame().setVisible(true);
+        }
+        });
     }
 
 
@@ -22,7 +28,7 @@ public class MenuPrincipalFrame extends javax.swing.JFrame {
         mProcesos = new javax.swing.JMenu();
         mConsulta = new javax.swing.JMenu();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         panelMenuPrincipal.setBackground(new java.awt.Color(51, 51, 51));
         panelMenuPrincipal.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 193, 7), 3));
@@ -32,7 +38,7 @@ public class MenuPrincipalFrame extends javax.swing.JFrame {
         panelMenuPrincipal.setLayout(panelMenuPrincipalLayout);
         panelMenuPrincipalLayout.setHorizontalGroup(
             panelMenuPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1094, Short.MAX_VALUE)
+            .addGap(0, 1102, Short.MAX_VALUE)
         );
         panelMenuPrincipalLayout.setVerticalGroup(
             panelMenuPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -97,13 +103,13 @@ public class MenuPrincipalFrame extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelMenuPrincipal, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(panelMenuPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(panelMenuPrincipal, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -111,9 +117,7 @@ public class MenuPrincipalFrame extends javax.swing.JFrame {
     
     //agregue la ventana de usuario
     private void mItemUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mItemUsuarioActionPerformed
-        ManUsuario usuario = new ManUsuario();
-        usuario.setVisible(true);
-        this.dispose();
+        ManUsuario.getInstancia();
     }//GEN-LAST:event_mItemUsuarioActionPerformed
 
     private void configurarMenu(int nivelAcceso) {
