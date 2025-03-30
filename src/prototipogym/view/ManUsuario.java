@@ -3,6 +3,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.JOptionPane;
+import prototipogym.controller.UsuarioController;
+import prototipogym.model.Usuario;
 import prototipogym.view.MenuPrincipalFrame;
 import prototipogym.view.LoginFrame;
 
@@ -47,7 +49,7 @@ public class ManUsuario extends javax.swing.JFrame {
         ButtonAdmin = new javax.swing.JRadioButton();
         ButtonUsuario = new javax.swing.JRadioButton();
         jSeparator1 = new javax.swing.JSeparator();
-        TextContraseña = new javax.swing.JPasswordField();
+        txtPassword = new javax.swing.JPasswordField();
 
         jPasswordField1.setText("jPasswordField1");
 
@@ -168,9 +170,7 @@ public class ManUsuario extends javax.swing.JFrame {
 
         jSeparator1.setBackground(new java.awt.Color(250, 250, 250));
 
-        TextContraseña.setBackground(new java.awt.Color(200, 200, 200));
-        TextContraseña.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        TextContraseña.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        txtPassword.setText("jPasswordField2");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -216,7 +216,7 @@ public class ManUsuario extends javax.swing.JFrame {
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(18, 18, 18)
-                                        .addComponent(TextContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                        .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE))))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(22, 22, 22)
                                 .addComponent(ButtonGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -243,11 +243,15 @@ public class ManUsuario extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(TextUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
-                .addGap(17, 17, 17)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(TextContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(19, 19, 19)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(27, 27, 27)
+                        .addComponent(jLabel4)
+                        .addGap(28, 28, 28))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(TextNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5))
@@ -297,7 +301,7 @@ public class ManUsuario extends javax.swing.JFrame {
     //Funcion para Limpiar las cajas de texto
     public void Limpiar (){
         TextUsuario.setText("");
-        TextContraseña.setText("");
+        txtPassword.setText("");
         TextNombre.setText("");
         TextApellido.setText("");
         TextCorreo.setText("");
@@ -326,7 +330,20 @@ public class ManUsuario extends javax.swing.JFrame {
     }//GEN-LAST:event_TextCorreoActionPerformed
 
     private void ButtonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonGuardarActionPerformed
+        String user = TextUsuario.getText();
+        String password = new String(txtPassword.getPassword()).trim();
+        String nombre = TextNombre.getName();
+        String apellidos = TextApellido.getText();
+        String correo = TextCorreo.getText();
+        int nivelAcceso = (ButtonAdmin.isSelected()) ? 0 : 1;
         
+        Usuario usuario = new Usuario(user, password,nivelAcceso,nombre,apellidos,correo);
+        
+        if(UsuarioController.guardarUsuario(usuario)) {
+            JOptionPane.showMessageDialog(this, "Usuario guardado");
+        }else {
+            JOptionPane.showMessageDialog(this, "Error: Usuario duplicado o campos vacíos");
+        }
     }//GEN-LAST:event_ButtonGuardarActionPerformed
 
     private void ButtonLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonLimpiarActionPerformed
@@ -372,7 +389,6 @@ public class ManUsuario extends javax.swing.JFrame {
     private javax.swing.JButton ButtonSalir;
     private javax.swing.JRadioButton ButtonUsuario;
     private javax.swing.JTextField TextApellido;
-    private javax.swing.JPasswordField TextContraseña;
     private javax.swing.JTextField TextCorreo;
     private javax.swing.JTextField TextNombre;
     private javax.swing.JTextField TextUsuario;
@@ -388,6 +404,7 @@ public class ManUsuario extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JPasswordField txtPassword;
     // End of variables declaration//GEN-END:variables
     
     

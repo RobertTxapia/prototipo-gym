@@ -16,7 +16,7 @@ public class Usuario {
         this.apellidos = apellidos;
         this.correo = correo;
     }
-    
+
     public int getNivelAcceso() {
         return nivelAcceso;
     }

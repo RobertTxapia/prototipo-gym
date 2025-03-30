@@ -3,7 +3,6 @@ import java.awt.HeadlessException;
 import java.io.IOException;
 import javax.swing.JOptionPane;
 import prototipogym.util.auth.AuthManager;
-//import prototipogym.util.FileManager;
 
 public class LoginFrame extends javax.swing.JFrame {
     public LoginFrame() {
