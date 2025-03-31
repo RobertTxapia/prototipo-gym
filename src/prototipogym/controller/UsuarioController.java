@@ -4,9 +4,12 @@ import prototipogym.model.Usuario;
 import prototipogym.util.mantenimientos.FileManager;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import javax.swing.JOptionPane;
 
 public class UsuarioController {
     public static boolean guardarUsuario(Usuario usuario) {
@@ -54,4 +57,48 @@ public class UsuarioController {
 
         return false;
     }
+    
+   public void ModificaDatos(String LineaAntigua, String nuevaLinea) {
+        boolean encontrado = false;
+        File fNuevo = new File("data/archivoCte1.txt"); // Archivo temporal
+        File fAntiguo = new File("data/usuarios.txt"); // Archivo original
+
+        try {
+            if (fAntiguo.exists()) {
+                BufferedReader br = new BufferedReader(new FileReader(fAntiguo));
+                BufferedWriter bw = new BufferedWriter(new FileWriter(fNuevo));
+
+                String linea;
+                while ((linea = br.readLine()) != null) {
+                    System.out.println("Leyendo línea: " + linea);
+                    // Si encontramos la línea antigua, escribimos la nueva
+                    if (linea.trim().equalsIgnoreCase(LineaAntigua.trim())) {
+                        encontrado = true;
+                        bw.write(nuevaLinea);
+                    } else {
+                        bw.write(linea); // Escribimos la línea original
+                    }
+                    bw.newLine(); // Agregamos un salto de línea
+                }
+
+                br.close();
+                bw.close();
+
+                // Si se encontró la línea, reemplazamos el archivo original
+                if (encontrado) {
+                    fAntiguo.delete(); // Eliminamos el archivo original
+                    fNuevo.renameTo(fAntiguo); // Renombramos el archivo nuevo
+                } else {
+                    fNuevo.delete(); // Eliminamos el archivo temporal si no hubo cambios
+                    
+                }
+            } 
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "❌ Error al modificar: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    
+    
+    
 }
