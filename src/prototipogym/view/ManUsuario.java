@@ -3,17 +3,11 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.Scanner;
 import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
 import prototipogym.controller.UsuarioController;
 import prototipogym.model.Usuario;
-import prototipogym.view.MenuPrincipalFrame;
-import prototipogym.view.LoginFrame;
 
 public class ManUsuario extends javax.swing.JFrame {
     
@@ -38,8 +32,8 @@ public class ManUsuario extends javax.swing.JFrame {
         addWindowListener(new WindowAdapter() {
         @Override
         public void windowClosing(WindowEvent e) {
-            instancia = null; // Liberar la instancia
-            dispose(); // Cerrar la ventana
+            instancia = null;
+            dispose(); 
         }
     });
     }
@@ -319,7 +313,7 @@ public class ManUsuario extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
     
     
-    
+    // Para que no se cierren automaticamente las ventanas
     public static ManUsuario getInstancia(){
         if (instancia == null){
             instancia = new ManUsuario();
@@ -512,7 +506,5 @@ public class ManUsuario extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JPasswordField txtPassword;
     // End of variables declaration//GEN-END:variables
-    
-    
-    
+  
 }

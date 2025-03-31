@@ -24,6 +24,7 @@ public class AuthManager {
                     return true;
                 }
             }
+            // to esos catch lo autocompleto el IDE por un error que tenia el FileReader. No me preguntes que hace
         }catch (NumberFormatException e) {
             System.out.println("Error: " + e.getMessage());
         } catch (FileNotFoundException e) {
@@ -31,7 +32,6 @@ public class AuthManager {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        // to esos catch lo autocompleto el IDE por un error que tenia el FileReader. No me preguntes que hace
         return false;
     }
 

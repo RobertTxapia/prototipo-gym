@@ -13,17 +13,14 @@ import javax.swing.JOptionPane;
 
 public class UsuarioController {
     public static boolean guardarUsuario(Usuario usuario) {
-        // 1. Validar campos obligatorios
         if (usuario.getLogin().isEmpty() || usuario.getPassword().isEmpty()) {
             return false;
         }
 
-        // 2. Verificar si el usuario ya existe en usuarios.txt
         if (existeUsuario(usuario.getLogin())) {
-            return false; // No permite duplicados
+            return false; 
         }
 
-        // 3. Guardar en el archivo usuarios.txt
         String linea = usuario.getLogin() + ";"
                 + usuario.getPassword() + ";"
                 + usuario.getNivelAcceso() + ";"
@@ -60,8 +57,8 @@ public class UsuarioController {
     
    public void ModificaDatos(String LineaAntigua, String nuevaLinea) {
         boolean encontrado = false;
-        File fNuevo = new File("data/archivoCte1.txt"); // Archivo temporal
-        File fAntiguo = new File("data/usuarios.txt"); // Archivo original
+        File fNuevo = new File("data/archivoCte1.txt"); 
+        File fAntiguo = new File("data/usuarios.txt"); 
 
         try {
             if (fAntiguo.exists()) {
@@ -70,15 +67,15 @@ public class UsuarioController {
 
                 String linea;
                 while ((linea = br.readLine()) != null) {
-                    System.out.println("Leyendo línea: " + linea);
+                    System.out.println("Leyendo linea: " + linea);
                     // Si encontramos la línea antigua, escribimos la nueva
                     if (linea.trim().equalsIgnoreCase(LineaAntigua.trim())) {
                         encontrado = true;
                         bw.write(nuevaLinea);
                     } else {
-                        bw.write(linea); // Escribimos la línea original
+                        bw.write(linea); 
                     }
-                    bw.newLine(); // Agregamos un salto de línea
+                    bw.newLine();
                 }
 
                 br.close();
@@ -86,19 +83,15 @@ public class UsuarioController {
 
                 // Si se encontró la línea, reemplazamos el archivo original
                 if (encontrado) {
-                    fAntiguo.delete(); // Eliminamos el archivo original
-                    fNuevo.renameTo(fAntiguo); // Renombramos el archivo nuevo
+                    fAntiguo.delete(); 
+                    fNuevo.renameTo(fAntiguo);
                 } else {
-                    fNuevo.delete(); // Eliminamos el archivo temporal si no hubo cambios
+                    fNuevo.delete(); 
                     
                 }
             } 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "❌ Error al modificar: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Error al modificar: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-
-    
-    
-    
 }
