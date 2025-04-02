@@ -68,7 +68,7 @@ public class UsuarioController {
                 String linea;
                 while ((linea = br.readLine()) != null) {
                     System.out.println("Leyendo linea: " + linea);
-                    // Si encontramos la línea antigua, escribimos la nueva
+                    // Si encontramos la linea antigua, escribimos la nueva
                     if (linea.trim().equalsIgnoreCase(LineaAntigua.trim())) {
                         encontrado = true;
                         bw.write(nuevaLinea);

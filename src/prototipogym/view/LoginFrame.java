@@ -9,7 +9,6 @@ public class LoginFrame extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         rootPane.setDefaultButton(btnIngresar);
-        
     }
     
     @SuppressWarnings("unchecked")

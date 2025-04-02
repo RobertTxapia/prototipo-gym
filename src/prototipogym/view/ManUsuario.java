@@ -187,6 +187,11 @@ public class ManUsuario extends javax.swing.JFrame {
 
         txtPassword.setBackground(new java.awt.Color(200, 200, 200));
         txtPassword.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        txtPassword.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtPasswordActionPerformed(evt);
+            }
+        });
 
         etiqueta.setFont(new java.awt.Font("Dialog", 0, 13)); // NOI18N
         etiqueta.setForeground(new java.awt.Color(255, 255, 255));
@@ -322,6 +327,7 @@ public class ManUsuario extends javax.swing.JFrame {
         return instancia;
     }
     
+    
     //Funcion para Limpiar las cajas de texto
     public void Limpiar (){
         TextUsuario.setText("");
@@ -402,7 +408,7 @@ public class ManUsuario extends javax.swing.JFrame {
 
     private void ButtonSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonSalirActionPerformed
        instancia = null;
-       dispose();
+       dispose(); 
     }//GEN-LAST:event_ButtonSalirActionPerformed
 
     private void TextNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TextNombreActionPerformed
@@ -477,6 +483,10 @@ public class ManUsuario extends javax.swing.JFrame {
             evt.consume();
         }
     }//GEN-LAST:event_TextApellidoKeyTyped
+
+    private void txtPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPasswordActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPasswordActionPerformed
 
     
     
