@@ -28,7 +28,7 @@
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="jPanel1" alignment="0" max="32767" attributes="0"/>
+          <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
       </Group>
     </DimensionLayout>
   </Layout>
@@ -66,7 +66,15 @@
               </Group>
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                      <Component id="etiqueta" min="-2" pref="45" max="-2" attributes="0"/>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="ButtonGuardar" min="-2" pref="80" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
+                          <Component id="ButtonLimpiar" min="-2" pref="80" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
+                          <Component id="ButtonSalir" min="-2" pref="80" max="-2" attributes="0"/>
+                      </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="103" alignment="0" groupAlignment="1" attributes="0">
@@ -79,24 +87,16 @@
                                   </Group>
                                   <Component id="jLabel4" alignment="1" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <Component id="jLabel5" min="-2" pref="96" max="-2" attributes="0"/>
+                              <Component id="jLabel5" alignment="0" min="-2" pref="96" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                              <Component id="TextNombreSala" alignment="0" max="32767" attributes="0"/>
-                              <Component id="TextDescripcion" alignment="0" max="32767" attributes="0"/>
-                              <Component id="TextLocalizacion" max="32767" attributes="0"/>
-                              <Component id="Text_ID" min="-2" pref="152" max="-2" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="TextLocalizacion" alignment="1" min="-2" pref="152" max="-2" attributes="0"/>
+                              <Component id="TextDescripcion" alignment="1" min="-2" pref="152" max="-2" attributes="0"/>
+                              <Component id="TextNombreSala" alignment="1" min="-2" pref="152" max="-2" attributes="0"/>
+                              <Component id="Text_ID" alignment="1" min="-2" pref="152" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <Group type="102" alignment="0" attributes="0">
-                          <Component id="ButtonGuardar" min="-2" pref="80" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
-                          <Component id="ButtonLimpiar" min="-2" pref="80" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
-                          <Component id="ButtonSalir" min="-2" pref="80" max="-2" attributes="0"/>
-                      </Group>
-                      <Component id="etiqueta" alignment="0" min="-2" pref="56" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="0" pref="30" max="32767" attributes="0"/>
               </Group>
@@ -134,15 +134,15 @@
                       <Component id="TextLocalizacion" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
                       <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="ButtonGuardar" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="ButtonLimpiar" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="ButtonSalir" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="etiqueta" pref="25" max="32767" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="etiqueta" min="-2" pref="25" max="-2" attributes="0"/>
+                  <EmptySpace pref="30" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
