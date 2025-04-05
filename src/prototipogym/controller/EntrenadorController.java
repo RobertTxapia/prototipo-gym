@@ -9,11 +9,11 @@ import java.util.List;
 
 public class EntrenadorController {
     public static boolean guardarEntrenador(Entrenador entrenador) {
-        String linea = entrenador.getId() + ""
-                + entrenador.getNombre() + ""
-                + entrenador.getApellido() + ""
-                + entrenador.getTelefono() + ""
-                + entrenador.getCorreo() + "";
+        String linea = entrenador.getId() + ";"
+                + entrenador.getNombre() + ";"
+                + entrenador.getApellido() + ";"
+                + entrenador.getTelefono() + ";"
+                + entrenador.getCorreo() + ";";
 
         if(existeEntrenador(entrenador.getId())) {
             FileManager.actualizarLinea(new File("data/entrenadores.txt"), entrenador.getId(), linea);

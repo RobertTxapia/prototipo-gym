@@ -289,16 +289,13 @@ public class ManEntrenador extends javax.swing.JFrame {
             return;
         }
 
-        try (FileWriter fw = new FileWriter("data/entrenadores.txt", true);
-             BufferedWriter bw = new BufferedWriter(fw)) {
+        EntrenadorController ec = new EntrenadorController();
+        Entrenador  entrenador = new Entrenador(id, nombre, apellido, telefono, correo);
 
-            String registro = id + ";" + nombre + ";" + apellido + ";" + telefono + ";" + correo;
-            bw.write(registro);
-            bw.newLine();
-            JOptionPane.showMessageDialog(this, "Entrenador guardado!");
-
-        }catch(IOException e){
-            JOptionPane.showMessageDialog(this, "No se pudo guardar el entrenador"+e.getMessage());
+        if (EntrenadorController.guardarEntrenador(entrenador)) {
+            JOptionPane.showMessageDialog(this, "Entrenador guardado");
+        }else {
+            JOptionPane.showMessageDialog(this, "Error al guardar entrenador");
         }
         Limpiar();
     }//GEN-LAST:event_ButtonGuardarActionPerformed
