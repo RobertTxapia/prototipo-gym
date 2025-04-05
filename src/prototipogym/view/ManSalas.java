@@ -46,6 +46,7 @@ public class ManSalas extends javax.swing.JFrame {
     }
     
     public void Limpiar(){
+        Text_ID.setText("");
         TextNombreSala.setText("");
         TextDescripcion.setText("");
         TextLocalizacion.setText("");

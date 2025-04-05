@@ -1,4 +1,4 @@
-package prototipogym.model;
+package prototipogym.controller;
 import prototipogym.model.EstadoReserva;
 import java.io.*;
 
