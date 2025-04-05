@@ -6,16 +6,28 @@ import prototipogym.model.Sala;
 
 import javax.swing.*;
 import java.awt.event.*;
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Scanner;
 
 
 public class ManSalas extends javax.swing.JFrame {
-
+    private static String antiguaLinea=""; 
     private static ManSalas instanciass;
     public ManSalas() {
         initComponents();
         setLocationRelativeTo(null);
+        KeyAdapter enterListener = new KeyAdapter() {
+            
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    buscarUsuario();
+                }
+            }
+        };
+        Text_ID.addKeyListener(enterListener);
         addWindowListener(new WindowAdapter() {
         @Override
         public void windowClosing(WindowEvent e) {
@@ -39,6 +51,56 @@ public class ManSalas extends javax.swing.JFrame {
         TextLocalizacion.setText("");
     }
 
+    
+     private void buscarUsuario(){
+        boolean encontrado = false;
+        Scanner s = null;
+        int cod;
+        
+        cod = Integer.parseInt(Text_ID.getText());
+        
+        try{
+            File f = new File("data/salas.txt"); 
+            s = new Scanner(f);
+             while (s.hasNextLine() && !encontrado){
+                String linea = s.nextLine().trim();
+                Scanner sl = new Scanner(linea);
+                sl.useDelimiter("\\s*;\\s*");
+                try{
+                    
+                    if (cod==Integer.parseInt(sl.next())){
+                         encontrado = true;
+                        etiqueta.setText("Modificando");
+                        
+                        String nombreSala = sl.hasNext() ? sl.next().trim() : "";
+                        String descripcion = sl.hasNext() ? sl.next().trim() : "";
+                        String idLocalizacion = sl.hasNext() ? sl.next().trim() : "";
+                        
+                        TextNombreSala.setText(nombreSala);
+                        TextDescripcion.setText(descripcion);
+                        TextLocalizacion.setText(idLocalizacion);
+                        
+                        
+                        antiguaLinea = cod + ";" + nombreSala + ";" + descripcion + ";" + idLocalizacion;
+                    }
+                    
+                }catch (Exception e) {
+                    System.out.println("Error al leer linea: " + e.getMessage());
+                }
+                
+             }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al leer el archivo: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }finally {
+            if (s != null) {
+                s.close();
+            }
+        }
+        
+        if (!encontrado) {
+            etiqueta.setText("Creando");
+        }
+    }
 
     private void guardarSala() {
         try {
@@ -46,7 +108,8 @@ public class ManSalas extends javax.swing.JFrame {
             String nombre = TextNombreSala.getText().trim();
             String descripcion = TextDescripcion.getText().trim();
             int idLocalizacion = Integer.parseInt(TextLocalizacion.getText());
-
+            SalaController salas = new SalaController();
+            Sala sala = new Sala(id, nombre, descripcion, idLocalizacion);
             if (nombre.isEmpty() || descripcion.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Nombre y Descripción son obligatorios");
                 return;
@@ -57,9 +120,15 @@ public class ManSalas extends javax.swing.JFrame {
                 return;
             }
 
-            Sala sala = new Sala(id, nombre, descripcion, idLocalizacion);
-            SalaController.guardarSala(sala);
-            JOptionPane.showMessageDialog(this, "Sala guardada!");
+            
+           if(SalaController.guardarSala(sala)){
+               JOptionPane.showMessageDialog(this, "Sala guardada!");
+           }
+           else{
+                String Snuevalinea = ( id + ";" + nombre + ";" + descripcion + ";" +idLocalizacion );
+                 salas.ModificaDatos(antiguaLinea, Snuevalinea);
+           }
+            
 
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "ID debe ser numérico");
@@ -133,6 +202,11 @@ public class ManSalas extends javax.swing.JFrame {
         ButtonGuardar.setText("Guardar");
         ButtonGuardar.setToolTipText("Guardar");
         ButtonGuardar.setBorderPainted(false);
+        ButtonGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButtonGuardarActionPerformed(evt);
+            }
+        });
 
         ButtonLimpiar.setBackground(new java.awt.Color(255, 193, 7));
         ButtonLimpiar.setText("Limpiar");
@@ -154,7 +228,7 @@ public class ManSalas extends javax.swing.JFrame {
             }
         });
 
-        etiqueta.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        etiqueta.setForeground(new java.awt.Color(255, 255, 255));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -173,13 +247,6 @@ public class ManSalas extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(25, 25, 25)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(etiqueta, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(ButtonGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(29, 29, 29)
-                        .addComponent(ButtonLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(27, 27, 27)
-                        .addComponent(ButtonSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -190,12 +257,20 @@ public class ManSalas extends javax.swing.JFrame {
                                     .addGap(21, 21, 21))
                                 .addComponent(jLabel4))
                             .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(TextLocalizacion, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(TextDescripcion, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(TextNombreSala, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(Text_ID, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(Text_ID, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(etiqueta, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(ButtonGuardar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE))
+                        .addGap(29, 29, 29)
+                        .addComponent(ButtonLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(27, 27, 27)
+                        .addComponent(ButtonSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(0, 30, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -220,11 +295,11 @@ public class ManSalas extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(102, 102, 102)))
-                .addGap(18, 18, 18)
+                .addGap(20, 20, 20)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(TextLocalizacion, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5))
-                .addGap(38, 38, 38)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(ButtonGuardar)
                     .addComponent(ButtonLimpiar)
@@ -242,7 +317,7 @@ public class ManSalas extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -260,6 +335,10 @@ public class ManSalas extends javax.swing.JFrame {
     private void TextLocalizacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TextLocalizacionActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_TextLocalizacionActionPerformed
+
+    private void ButtonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonGuardarActionPerformed
+        guardarSala();
+    }//GEN-LAST:event_ButtonGuardarActionPerformed
 
    
 

@@ -7,18 +7,32 @@ import prototipogym.model.Localizacion;
 import javax.swing.*;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Scanner;
 
 public class ManLocalizacion extends javax.swing.JFrame {
-
+    private static String antiguaLinea=""; 
     private static ManLocalizacion instanciass;
     public ManLocalizacion() {
         initComponents();
         setLocationRelativeTo(null);
+        KeyAdapter enterListener = new KeyAdapter() {
+            
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    buscarUsuario();
+                }
+            }
+        };
+        Text_ID.addKeyListener(enterListener);
         addWindowListener(new WindowAdapter() {
         @Override
         public void windowClosing(WindowEvent e) {
@@ -41,11 +55,57 @@ public class ManLocalizacion extends javax.swing.JFrame {
         TextTipo.setText("");
         etiqueta.setText("");
      }
-
+     
+     private void buscarUsuario(){
+        boolean encontrado = false;
+        Scanner s = null;
+        int cod;
+        
+        cod = Integer.parseInt(Text_ID.getText());
+        
+        try{
+            File f = new File("data/localizaciones.txt"); 
+            s = new Scanner(f);
+             while (s.hasNextLine() && !encontrado){
+                String linea = s.nextLine().trim();
+                Scanner sl = new Scanner(linea);
+                sl.useDelimiter("\\s*;\\s*");
+                try{
+                    
+                    if (cod==Integer.parseInt(sl.next())){
+                         encontrado = true;
+                        etiqueta.setText("Modificando");
+                        
+                        String tipo = sl.hasNext() ? sl.next().trim() : "";
+                        
+                        TextTipo.setText(tipo);
+                        
+                        antiguaLinea = cod + ";" + tipo;
+                    }
+                    
+                }catch (Exception e) {
+                    System.out.println("Error al leer linea: " + e.getMessage());
+                }
+                
+             }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al leer el archivo: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }finally {
+            if (s != null) {
+                s.close();
+            }
+        }
+        
+        if (!encontrado) {
+            etiqueta.setText("Creando");
+        }
+    }
+     
     private void guardarLocalizacion() {
         try {
             int id = Integer.parseInt(Text_ID.getText().trim());
             String tipo = TextTipo.getText().trim();
+            LocalizacionController lc = new LocalizacionController();
 
             if (tipo.isEmpty() || TextTipo.getText().trim().isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Campos sin completar");
@@ -56,11 +116,18 @@ public class ManLocalizacion extends javax.swing.JFrame {
             if (LocalizacionController.guardarLocalizacion(loc)) {
                 JOptionPane.showMessageDialog(this, "Localización guardada!");
             }
+            else
+            {
+                 String Snuevalinea = ( id + ";" + tipo);
+                 lc.ModificaDatos(Snuevalinea, Snuevalinea);
+                 
+            }
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "ID inválido: Debe ser número");
         } catch (IOException e) {
             JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
         }
+        Limpiar();
     }
 
 

@@ -5,6 +5,7 @@ import prototipogym.model.Sala;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
 
 public class SalaController {
 
@@ -44,7 +45,8 @@ public class SalaController {
         try (BufferedReader br = new BufferedReader(new FileReader("data/localizaciones.txt"))) {
             String linea;
             while ((linea = br.readLine()) != null) {
-                if (linea.startsWith(idLocalizacion + ";")) return true;
+                if (linea.startsWith(idLocalizacion + ";")) 
+                    return true;
             }
         }
         return false;
@@ -61,4 +63,45 @@ public class SalaController {
         }
         return lineas;
     }
+    
+    public void ModificaDatos(String LineaAntigua, String nuevaLinea) {
+        boolean encontrado = false;
+        File fNuevo = new File("data/salaArchivo.txt"); 
+        File fAntiguo = new File("data/salas.txt"); 
+
+        try {
+            if (fAntiguo.exists()) {
+                BufferedWriter bw;
+                try (BufferedReader br = new BufferedReader(new FileReader(fAntiguo))) {
+                    bw = new BufferedWriter(new FileWriter(fNuevo));
+                    String linea;
+                    while ((linea = br.readLine()) != null) {
+                        System.out.println("Leyendo linea: " + linea);
+                        // Si encontramos la linea antigua, escribimos la nueva
+                        if (linea.trim().equals(LineaAntigua.trim())) {
+                            encontrado = true;
+                            bw.write(nuevaLinea);
+                        } else {
+                            bw.write(linea); 
+                        }
+                        bw.newLine();
+                    }
+                }
+                bw.close();
+
+                // Si se encontró la línea, reemplazamos el archivo original
+                if (encontrado) {
+                    fAntiguo.delete(); 
+                    fNuevo.renameTo(fAntiguo);
+                } else {
+                    fNuevo.delete(); 
+                    
+                }
+            } 
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Error al modificar: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    
 }
