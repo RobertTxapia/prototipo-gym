@@ -222,59 +222,6 @@ public class ManEntrenador extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
 
-    private void configurarEventos() {
-        // Autocompletar al perder el foco en el campo ID
-        Text_ID.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                autocompletarCampos();
-            }
-        });
-
-        ButtonGuardar.addActionListener(this::ButtonGuardarActionPerformed);
-        ButtonLimpiar.addActionListener(this::ButtonLimpiarActionPerformed);
-        ButtonSalir.addActionListener(this::ButtonSalirActionPerformed);
-    }
-
-    public void autocompletarCampos(){
-        String id = Text_ID.getText().trim();
-        if(!id.isEmpty()){
-            File archivo = new File("data/entrenadores.txt");
-            if(!archivo.exists()) return;
-
-            try (BufferedReader br = new BufferedReader(new FileReader(archivo))){
-                String linea;
-                boolean encontrado = false;
-
-                while((linea = br.readLine()) != null) {
-                    int primerSeparador = linea.indexOf(",");
-                    String idArchivo = linea.substring(0, primerSeparador);
-
-                    if(id.equals(idArchivo)){
-                        int pos = primerSeparador + 1;
-                        int[] separadores = new int[3];
-                        for(int i = 0; i < 3; i++){
-                            separadores[i] = linea.indexOf(";", pos);
-                            pos = separadores[i];
-                        }
-
-                        TextNombre.setText(linea.substring(primerSeparador + 1, separadores[0]));
-                        TextApellidos.setText(linea.substring(separadores[0] + 1, separadores[1]));
-                        TextTelefono.setText(linea.substring(separadores[1] + 1, separadores[2]));
-                        TextCorreo.setText(linea.substring(separadores[2] + 1));
-
-                        encontrado = true;
-                        break;
-                    }
-                }
-                if(!encontrado) {
-                    JOptionPane.showMessageDialog(this, "No se encontro el entrenador");
-                }
-            }catch(IOException e){
-                JOptionPane.showMessageDialog(this, "No se encontro el entrenador");
-            }
-        }
-    }
-
     
     private void ButtonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonGuardarActionPerformed
         String id = Text_ID.getText().trim();

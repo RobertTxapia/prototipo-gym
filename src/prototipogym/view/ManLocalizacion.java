@@ -18,7 +18,6 @@ public class ManLocalizacion extends javax.swing.JFrame {
     private static ManLocalizacion instanciass;
     public ManLocalizacion() {
         initComponents();
-        configurarEventos();
         setLocationRelativeTo(null);
         addWindowListener(new WindowAdapter() {
         @Override
@@ -42,35 +41,6 @@ public class ManLocalizacion extends javax.swing.JFrame {
         TextTipo.setText("");
         etiqueta.setText("");
      }
-
-    private void configurarEventos() {
-        Text_ID.addFocusListener(new FocusAdapter() {
-            public void focusLost(FocusEvent e) {
-                autocompletarCampos();
-            }
-        });
-
-        ButtonGuardar.addActionListener(e -> guardarLocalizacion());
-        ButtonLimpiar.addActionListener(e -> Limpiar());
-    }
-
-    private void autocompletarCampos() {
-        try {
-            int id = Integer.parseInt(Text_ID.getText().trim());
-            try (BufferedReader br = new BufferedReader(new FileReader("data/localizaciones.txt"))) {
-                String linea;
-                while ((linea = br.readLine()) != null) {
-                    if (linea.startsWith(id + ";")) {
-                        TextTipo.setText(linea.split(";")[1]);
-                        return;
-                    }
-                }
-                TextTipo.setText("");
-            }
-        } catch (NumberFormatException | IOException ex) {
-            JOptionPane.showMessageDialog(this, "ID debe ser numérico");
-        }
-    }
 
     private void guardarLocalizacion() {
         try {

@@ -15,7 +15,6 @@ public class ManSalas extends javax.swing.JFrame {
     private static ManSalas instanciass;
     public ManSalas() {
         initComponents();
-        configurarEventos();
         setLocationRelativeTo(null);
         addWindowListener(new WindowAdapter() {
         @Override
@@ -40,34 +39,6 @@ public class ManSalas extends javax.swing.JFrame {
         TextLocalizacion.setText("");
     }
 
-    private void configurarEventos() {
-        Text_ID.addFocusListener(new FocusAdapter() {
-            public void focusLost(FocusEvent e) {
-                autocompletarCampos();
-            }
-        });
-
-        ButtonGuardar.addActionListener(e -> guardarSala());
-    }
-
-    private void autocompletarCampos() {
-        try {
-            int id = Integer.parseInt(Text_ID.getText());
-            List<String> lineas = SalaController.leerTodasLasSalas();
-            for (String linea : lineas) {
-                String[] datos = linea.split(";");
-                if (Integer.parseInt(datos[0]) == id) {
-                    TextNombreSala.setText(datos[1]);
-                    TextDescripcion.setText(datos[2]);
-                    TextLocalizacion.setText(datos[3]);
-                    return;
-                }
-            }
-            Limpiar();
-        } catch (NumberFormatException | IOException ex) {
-            JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage());
-        }
-    }
 
     private void guardarSala() {
         try {
