@@ -3,6 +3,11 @@ package prototipogym.view;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import prototipogym.controller.HorarioActividadController;
+import prototipogym.model.HorarioActividad;
+import javax.swing.*;
+import java.awt.event.*;
+import java.io.IOException;
 
 
 public class ManHoraActi extends javax.swing.JFrame {
@@ -35,6 +40,33 @@ public class ManHoraActi extends javax.swing.JFrame {
        Text_ID_Actividad.setText("");
        etiqueta.setText("");
    }
+
+    private void guardarHorario() {
+        try {
+            String id = Text_ID.getText().trim();
+            String dia =TextDia.getText().trim();
+            String hora = TextHora.getText();
+            String idActividad = Text_ID_Actividad.getText().trim();
+            String idSala = txtIdSala.getText().trim();
+
+            if (id.isEmpty() || idActividad.isEmpty() || idSala.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Campos obligatorios: ID, Actividad y Sala");
+                return;
+            }
+
+            if (!HorarioActividadController.validarRelaciones(idActividad, idSala)) {
+                JOptionPane.showMessageDialog(this, "Actividad o Sala no existen");
+                return;
+            }
+
+            HorarioActividad horario = new HorarioActividad(id, dia, hora, idActividad, idSala);
+            HorarioActividadController.guardarHorario(horario);
+            JOptionPane.showMessageDialog(this, "Horario guardado!");
+
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
+        }
+    }
    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -56,6 +88,8 @@ public class ManHoraActi extends javax.swing.JFrame {
         ButtonLimpiar = new javax.swing.JButton();
         ButtonSalir = new javax.swing.JButton();
         etiqueta = new javax.swing.JLabel();
+        txtIdSala = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
 
         jLabel2.setText("jLabel2");
 
@@ -97,6 +131,11 @@ public class ManHoraActi extends javax.swing.JFrame {
         ButtonGuardar.setBackground(new java.awt.Color(255, 193, 7));
         ButtonGuardar.setText("Guardar");
         ButtonGuardar.setBorderPainted(false);
+        ButtonGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButtonGuardarActionPerformed(evt);
+            }
+        });
 
         ButtonLimpiar.setBackground(new java.awt.Color(255, 193, 7));
         ButtonLimpiar.setText("Limpiar");
@@ -116,6 +155,8 @@ public class ManHoraActi extends javax.swing.JFrame {
         });
 
         etiqueta.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        jLabel7.setText("ID Sala");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -137,20 +178,24 @@ public class ManHoraActi extends javax.swing.JFrame {
                             .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel6)
-                            .addComponent(ButtonGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(ButtonGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(Text_ID)
-                                    .addComponent(TextDia)
-                                    .addComponent(TextHora)
-                                    .addComponent(Text_ID_Actividad, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(ButtonLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(ButtonSalir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(ButtonSalir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(6, 6, 6))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtIdSala, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(Text_ID, javax.swing.GroupLayout.DEFAULT_SIZE, 181, Short.MAX_VALUE)
+                                        .addComponent(TextDia)
+                                        .addComponent(TextHora)
+                                        .addComponent(Text_ID_Actividad, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                         .addGap(54, 54, 54))))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
@@ -180,14 +225,18 @@ public class ManHoraActi extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Text_ID_Actividad, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6))
-                .addGap(40, 40, 40)
+                .addGap(16, 16, 16)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtIdSala, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7))
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(ButtonGuardar)
                     .addComponent(ButtonLimpiar)
                     .addComponent(ButtonSalir))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(etiqueta, javax.swing.GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE)
-                .addGap(15, 15, 15))
+                .addGap(18, 18, 18)
+                .addComponent(etiqueta, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -213,6 +262,10 @@ public class ManHoraActi extends javax.swing.JFrame {
         Limpiar();
     }//GEN-LAST:event_ButtonLimpiarActionPerformed
 
+    private void ButtonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonGuardarActionPerformed
+        guardarHorario();
+    }//GEN-LAST:event_ButtonGuardarActionPerformed
+
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -230,7 +283,9 @@ public class ManHoraActi extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JTextField txtIdSala;
     // End of variables declaration//GEN-END:variables
 }

@@ -106,6 +106,7 @@ public class MenuPrincipalFrame extends javax.swing.JFrame {
 
         mItemLocalizacion.setBackground(new java.awt.Color(255, 193, 7));
         mItemLocalizacion.setForeground(new java.awt.Color(0, 0, 0));
+        mItemLocalizacion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/find_search_locate_6201.png"))); // NOI18N
         mItemLocalizacion.setText("Localizacion");
         mItemLocalizacion.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 193, 7)));
         mItemLocalizacion.setPreferredSize(new java.awt.Dimension(123, 35));
@@ -118,6 +119,7 @@ public class MenuPrincipalFrame extends javax.swing.JFrame {
 
         mItemSalas.setBackground(new java.awt.Color(255, 193, 7));
         mItemSalas.setForeground(new java.awt.Color(0, 0, 0));
+        mItemSalas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/living_room_sofa_home_house_icon_231050.png"))); // NOI18N
         mItemSalas.setText("Salas");
         mItemSalas.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 193, 7)));
         mItemSalas.setPreferredSize(new java.awt.Dimension(123, 35));
@@ -130,6 +132,7 @@ public class MenuPrincipalFrame extends javax.swing.JFrame {
 
         mItemActividades.setBackground(new java.awt.Color(255, 193, 7));
         mItemActividades.setForeground(new java.awt.Color(0, 0, 0));
+        mItemActividades.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/foldergreenactivities_92929.png"))); // NOI18N
         mItemActividades.setText("Actividades");
         mItemActividades.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 193, 7)));
         mItemActividades.setPreferredSize(new java.awt.Dimension(123, 35));
@@ -142,6 +145,7 @@ public class MenuPrincipalFrame extends javax.swing.JFrame {
 
         mItemHorarios.setBackground(new java.awt.Color(255, 193, 7));
         mItemHorarios.setForeground(new java.awt.Color(0, 0, 0));
+        mItemHorarios.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/calendar_clock_schedule_icon-icons.com_51085.png"))); // NOI18N
         mItemHorarios.setText("Horarios Actividades");
         mItemHorarios.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 193, 7)));
         mItemHorarios.setPreferredSize(new java.awt.Dimension(169, 35));
@@ -154,6 +158,7 @@ public class MenuPrincipalFrame extends javax.swing.JFrame {
 
         mItemClientes.setBackground(new java.awt.Color(255, 193, 7));
         mItemClientes.setForeground(new java.awt.Color(0, 0, 0));
+        mItemClientes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/customer_person_people_man_user_client_1629.png"))); // NOI18N
         mItemClientes.setText("Clientes");
         mItemClientes.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 193, 7)));
         mItemClientes.setPreferredSize(new java.awt.Dimension(167, 35));

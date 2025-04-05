@@ -3,6 +3,13 @@ package prototipogym.view;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import prototipogym.controller.ActividadController;
+import prototipogym.model.Actividad;
+import javax.swing.*;
+import java.awt.event.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 
 public class ManActividades extends javax.swing.JFrame {
     
@@ -34,6 +41,67 @@ public class ManActividades extends javax.swing.JFrame {
         TextLocalizacion.setText("");
         TextEntrenador.setText("");
         etiqueta.setText("");
+    }
+
+    private void configurarEventos() {
+        Text_ID.addFocusListener(new FocusAdapter() {
+            public void focusLost(FocusEvent e) {
+                autocompletarCampos();
+            }
+        });
+
+        ButtonGuardar.addActionListener(e -> guardarActividad());
+    }
+
+    private void autocompletarCampos() {
+        try {
+            int id = Integer.parseInt(Text_ID.getText());
+            try (BufferedReader br = new BufferedReader(new FileReader("data/actividades.txt"))) {
+                String linea;
+                while ((linea = br.readLine()) != null) {
+                    if (linea.startsWith(id + ";")) {
+                        String[] datos = linea.split(";");
+                        TextNombre.setText(datos[1]);
+                        TextDescripcion.setText(datos[2]);
+                        TextLocalizacion.setText(datos[3]);
+                        TextEntrenador.setText(datos[4]);
+                        return;
+                    }
+                }
+                Limpiar();
+            }
+        } catch (IOException | NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage());
+        }
+    }
+
+    private void guardarActividad() {
+        try {
+            int id = Integer.parseInt(Text_ID.getText());
+            String nombre = TextNombre.getText().trim();
+            String descripcion = TextDescripcion.getText().trim();
+            int idLocalizacion = Integer.parseInt(TextLocalizacion.getText());
+            int idEntrenador = Integer.parseInt(TextEntrenador.getText());
+
+            if (nombre.isEmpty() || descripcion.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Nombre y Descripción son obligatorios");
+                return;
+            }
+
+            if (!ActividadController.validarRelaciones(idLocalizacion, idEntrenador)) {
+                JOptionPane.showMessageDialog(this, "Localización o Entrenador no existen");
+                return;
+            }
+
+            Actividad actividad = new Actividad(id, nombre, descripcion, idLocalizacion, idEntrenador);
+            ActividadController.guardarActividad(actividad);
+            JOptionPane.showMessageDialog(this, "Actividad guardada!");
+
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "IDs deben ser numéricos");
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
+        }
     }
     
     @SuppressWarnings("unchecked")
@@ -108,6 +176,11 @@ public class ManActividades extends javax.swing.JFrame {
         ButtonGuardar.setBackground(new java.awt.Color(255, 193, 7));
         ButtonGuardar.setText("Guardar");
         ButtonGuardar.setBorderPainted(false);
+        ButtonGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButtonGuardarActionPerformed(evt);
+            }
+        });
 
         ButtonSalir.setBackground(new java.awt.Color(255, 193, 7));
         ButtonSalir.setText("Volver");
@@ -150,9 +223,8 @@ public class ManActividades extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 55, Short.MAX_VALUE)
-                                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -235,6 +307,10 @@ public class ManActividades extends javax.swing.JFrame {
     private void ButtonLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonLimpiarActionPerformed
         Limpiar();
     }//GEN-LAST:event_ButtonLimpiarActionPerformed
+
+    private void ButtonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonGuardarActionPerformed
+        guardarActividad();
+    }//GEN-LAST:event_ButtonGuardarActionPerformed
 
     
    

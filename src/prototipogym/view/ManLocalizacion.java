@@ -1,14 +1,24 @@
 
 package prototipogym.view;
 
+import prototipogym.controller.LocalizacionController;
+import prototipogym.model.Localizacion;
+
+import javax.swing.*;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 
 public class ManLocalizacion extends javax.swing.JFrame {
 
     private static ManLocalizacion instanciass;
     public ManLocalizacion() {
         initComponents();
+        configurarEventos();
         setLocationRelativeTo(null);
         addWindowListener(new WindowAdapter() {
         @Override
@@ -32,7 +42,58 @@ public class ManLocalizacion extends javax.swing.JFrame {
         TextTipo.setText("");
         etiqueta.setText("");
      }
-    
+
+    private void configurarEventos() {
+        Text_ID.addFocusListener(new FocusAdapter() {
+            public void focusLost(FocusEvent e) {
+                autocompletarCampos();
+            }
+        });
+
+        ButtonGuardar.addActionListener(e -> guardarLocalizacion());
+        ButtonLimpiar.addActionListener(e -> Limpiar());
+    }
+
+    private void autocompletarCampos() {
+        try {
+            int id = Integer.parseInt(Text_ID.getText().trim());
+            try (BufferedReader br = new BufferedReader(new FileReader("data/localizaciones.txt"))) {
+                String linea;
+                while ((linea = br.readLine()) != null) {
+                    if (linea.startsWith(id + ";")) {
+                        TextTipo.setText(linea.split(";")[1]);
+                        return;
+                    }
+                }
+                TextTipo.setText("");
+            }
+        } catch (NumberFormatException | IOException ex) {
+            JOptionPane.showMessageDialog(this, "ID debe ser numérico");
+        }
+    }
+
+    private void guardarLocalizacion() {
+        try {
+            int id = Integer.parseInt(Text_ID.getText().trim());
+            String tipo = TextTipo.getText().trim();
+
+            if (tipo.isEmpty() || TextTipo.getText().trim().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Campos sin completar");
+                return;
+            }
+
+            Localizacion loc = new Localizacion(id, tipo);
+            if (LocalizacionController.guardarLocalizacion(loc)) {
+                JOptionPane.showMessageDialog(this, "Localización guardada!");
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "ID inválido: Debe ser número");
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
+        }
+    }
+
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -76,6 +137,11 @@ public class ManLocalizacion extends javax.swing.JFrame {
         ButtonGuardar.setText("Guardar");
         ButtonGuardar.setToolTipText("Guardar");
         ButtonGuardar.setBorderPainted(false);
+        ButtonGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButtonGuardarActionPerformed(evt);
+            }
+        });
 
         ButtonLimpiar.setBackground(new java.awt.Color(255, 193, 7));
         ButtonLimpiar.setText("Limpiar");
@@ -182,6 +248,10 @@ public class ManLocalizacion extends javax.swing.JFrame {
         instanciass = null;
         dispose();
     }//GEN-LAST:event_ButtonSalirActionPerformed
+
+    private void ButtonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonGuardarActionPerformed
+        guardarLocalizacion();
+    }//GEN-LAST:event_ButtonGuardarActionPerformed
 
     
 

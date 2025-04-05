@@ -2,7 +2,6 @@ package prototipogym.util.auth;
 import prototipogym.model.Usuario;
 
 import java.io.*;
-import java.util.List;
 
 public class AuthManager {
     private static Usuario usuarioLoquedo;

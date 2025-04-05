@@ -1,8 +1,13 @@
 
 package prototipogym.view;
 
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import prototipogym.controller.SalaController;
+import prototipogym.model.Sala;
+
+import javax.swing.*;
+import java.awt.event.*;
+import java.io.IOException;
+import java.util.List;
 
 
 public class ManSalas extends javax.swing.JFrame {
@@ -10,6 +15,7 @@ public class ManSalas extends javax.swing.JFrame {
     private static ManSalas instanciass;
     public ManSalas() {
         initComponents();
+        configurarEventos();
         setLocationRelativeTo(null);
         addWindowListener(new WindowAdapter() {
         @Override
@@ -29,11 +35,67 @@ public class ManSalas extends javax.swing.JFrame {
     }
     
     public void Limpiar(){
-        Text_ID.setText("");
         TextNombreSala.setText("");
         TextDescripcion.setText("");
         TextLocalizacion.setText("");
-        etiqueta.setText("");
+    }
+
+    private void configurarEventos() {
+        Text_ID.addFocusListener(new FocusAdapter() {
+            public void focusLost(FocusEvent e) {
+                autocompletarCampos();
+            }
+        });
+
+        ButtonGuardar.addActionListener(e -> guardarSala());
+    }
+
+    private void autocompletarCampos() {
+        try {
+            int id = Integer.parseInt(Text_ID.getText());
+            List<String> lineas = SalaController.leerTodasLasSalas();
+            for (String linea : lineas) {
+                String[] datos = linea.split(";");
+                if (Integer.parseInt(datos[0]) == id) {
+                    TextNombreSala.setText(datos[1]);
+                    TextDescripcion.setText(datos[2]);
+                    TextLocalizacion.setText(datos[3]);
+                    return;
+                }
+            }
+            Limpiar();
+        } catch (NumberFormatException | IOException ex) {
+            JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage());
+        }
+    }
+
+    private void guardarSala() {
+        try {
+            int id = Integer.parseInt(Text_ID.getText());
+            String nombre = TextNombreSala.getText().trim();
+            String descripcion = TextDescripcion.getText().trim();
+            int idLocalizacion = Integer.parseInt(TextLocalizacion.getText());
+
+            if (nombre.isEmpty() || descripcion.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Nombre y Descripción son obligatorios");
+                return;
+            }
+
+            if (!SalaController.existeLocalizacion(idLocalizacion)) {
+                JOptionPane.showMessageDialog(this, "Localización no existe");
+                return;
+            }
+
+            Sala sala = new Sala(id, nombre, descripcion, idLocalizacion);
+            SalaController.guardarSala(sala);
+            JOptionPane.showMessageDialog(this, "Sala guardada!");
+
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "ID debe ser numérico");
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
+        }
+        Limpiar();
     }
     
     @SuppressWarnings("unchecked")

@@ -340,7 +340,6 @@ public class ManUsuario extends javax.swing.JFrame {
     }
     
     private void buscarUsuario() {
-        
         boolean encontrado = false;
         Scanner s = null;
         String user = TextUsuario.getText().trim();
