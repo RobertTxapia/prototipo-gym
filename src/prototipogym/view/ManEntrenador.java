@@ -1,5 +1,7 @@
 package prototipogym.view;
 
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import prototipogym.controller.EntrenadorController;
 import prototipogym.model.Entrenador;
 
@@ -7,14 +9,26 @@ import javax.swing.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.*;
+import java.util.Scanner;
 
 
 public class ManEntrenador extends javax.swing.JFrame {
     private static ManEntrenador instancias;
-    
+    private static String antiguaLinea=""; 
     public ManEntrenador() {
         initComponents();
         setLocationRelativeTo(null);
+        KeyAdapter enterListener = new KeyAdapter() {
+            
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    buscarUsuario();
+                }
+            }
+        };
+        Text_ID.addKeyListener(enterListener);
+
         addWindowListener(new WindowAdapter() {
         @Override
         public void windowClosing(WindowEvent e) {
@@ -30,6 +44,56 @@ public class ManEntrenador extends javax.swing.JFrame {
         }
         return instancias;
     }
+     private void buscarUsuario(){
+        boolean encontrado = false;
+        Scanner s = null;
+        int cod;
+        
+        cod = Integer.parseInt(Text_ID.getText());
+        
+        try{
+            File f = new File("data/entrenadores.txt"); 
+            s = new Scanner(f);
+             while (s.hasNextLine() && !encontrado){
+                String linea = s.nextLine().trim();
+                Scanner sl = new Scanner(linea);
+                sl.useDelimiter("\\s*;\\s*");
+                try{
+                    
+                    if (cod==Integer.parseInt(sl.next())){
+                         encontrado = true;
+                        etiqueta.setText("Modificando");
+                        
+                        String nombre = sl.hasNext() ? sl.next().trim() : "";
+                        String apellido = sl.hasNext() ? sl.next().trim() : "";
+                        String correo = sl.hasNext() ? sl.next().trim() : "";
+                        String telefono = sl.hasNext() ? sl.next().trim() : "";
+                        TextNombre.setText(nombre);
+                        TextApellidos.setText(apellido);
+                        TextTelefono.setText(telefono);
+                        TextCorreo.setText(correo);
+                        
+                        antiguaLinea = cod + ";" + nombre + ";" + apellido + ";" + correo + ";" + telefono;
+                    }
+                    
+                }catch (Exception e) {
+                    System.out.println("Error al leer linea: " + e.getMessage());
+                }
+                
+             }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al leer el archivo: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }finally {
+            if (s != null) {
+                s.close();
+            }
+        }
+        
+        if (!encontrado) {
+            etiqueta.setText("Creando");
+        }
+    }
+
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -237,12 +301,14 @@ public class ManEntrenador extends javax.swing.JFrame {
         }
 
         EntrenadorController ec = new EntrenadorController();
-        Entrenador  entrenador = new Entrenador(id, nombre, apellido, telefono, correo);
+        Entrenador entrenador = new Entrenador(id, nombre, apellido, telefono, correo);
 
         if (EntrenadorController.guardarEntrenador(entrenador)) {
             JOptionPane.showMessageDialog(this, "Entrenador guardado");
         }else {
-            JOptionPane.showMessageDialog(this, "Error al guardar entrenador");
+            String Snuevalinea = ( id + ";" + nombre + ";" + apellido + ";" +telefono + ";" + correo);
+            ec.ModificaDatos(antiguaLinea, Snuevalinea);
+           
         }
         Limpiar();
     }//GEN-LAST:event_ButtonGuardarActionPerformed
