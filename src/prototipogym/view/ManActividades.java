@@ -6,9 +6,7 @@ import java.awt.event.WindowEvent;
 import prototipogym.controller.ActividadController;
 import prototipogym.model.Actividad;
 import javax.swing.*;
-import java.awt.event.*;
-import java.io.BufferedReader;
-import java.io.FileReader;
+
 import java.io.IOException;
 
 public class ManActividades extends javax.swing.JFrame {
@@ -43,37 +41,7 @@ public class ManActividades extends javax.swing.JFrame {
         etiqueta.setText("");
     }
 
-    private void configurarEventos() {
-        Text_ID.addFocusListener(new FocusAdapter() {
-            public void focusLost(FocusEvent e) {
-                autocompletarCampos();
-            }
-        });
 
-        ButtonGuardar.addActionListener(e -> guardarActividad());
-    }
-
-    private void autocompletarCampos() {
-        try {
-            int id = Integer.parseInt(Text_ID.getText());
-            try (BufferedReader br = new BufferedReader(new FileReader("data/actividades.txt"))) {
-                String linea;
-                while ((linea = br.readLine()) != null) {
-                    if (linea.startsWith(id + ";")) {
-                        String[] datos = linea.split(";");
-                        TextNombre.setText(datos[1]);
-                        TextDescripcion.setText(datos[2]);
-                        TextLocalizacion.setText(datos[3]);
-                        TextEntrenador.setText(datos[4]);
-                        return;
-                    }
-                }
-                Limpiar();
-            }
-        } catch (IOException | NumberFormatException ex) {
-            JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage());
-        }
-    }
 
     private void guardarActividad() {
         try {
