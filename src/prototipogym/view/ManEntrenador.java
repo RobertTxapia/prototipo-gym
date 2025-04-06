@@ -133,15 +133,35 @@ public class ManEntrenador extends javax.swing.JFrame {
 
         Text_ID.setBackground(new java.awt.Color(200, 200, 200));
         Text_ID.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        Text_ID.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                Text_IDKeyTyped(evt);
+            }
+        });
 
         TextNombre.setBackground(new java.awt.Color(200, 200, 200));
         TextNombre.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        TextNombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                TextNombreKeyTyped(evt);
+            }
+        });
 
         TextApellidos.setBackground(new java.awt.Color(200, 200, 200));
         TextApellidos.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        TextApellidos.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                TextApellidosKeyTyped(evt);
+            }
+        });
 
         TextTelefono.setBackground(new java.awt.Color(200, 200, 200));
         TextTelefono.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        TextTelefono.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                TextTelefonoKeyTyped(evt);
+            }
+        });
 
         TextCorreo.setBackground(new java.awt.Color(200, 200, 200));
         TextCorreo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -157,8 +177,6 @@ public class ManEntrenador extends javax.swing.JFrame {
 
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("Correo");
-
-        etiqueta.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         ButtonGuardar.setBackground(new java.awt.Color(255, 193, 7));
         ButtonGuardar.setText("Guardar");
@@ -331,6 +349,58 @@ public class ManEntrenador extends javax.swing.JFrame {
     private void ButtonLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonLimpiarActionPerformed
         Limpiar();
     }//GEN-LAST:event_ButtonLimpiarActionPerformed
+
+    private void TextTelefonoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TextTelefonoKeyTyped
+       try {
+           char letra = evt.getKeyChar();
+            // Permite solo números
+           if (!Character.isDigit(letra)) {
+               throw new Exception("Solo se permiten numeros");
+           }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Advertencia", JOptionPane.WARNING_MESSAGE);
+            evt.consume();
+        }
+    }//GEN-LAST:event_TextTelefonoKeyTyped
+
+    private void TextNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TextNombreKeyTyped
+        try {
+            char letra = evt.getKeyChar();
+            // Permite todo excepto numeros
+            if (Character.isDigit(letra)) {
+                throw new Exception("No se permiten numeros");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Advertencia", JOptionPane.WARNING_MESSAGE);
+            evt.consume();
+        }
+    }//GEN-LAST:event_TextNombreKeyTyped
+
+    private void TextApellidosKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TextApellidosKeyTyped
+        try {
+            char letra = evt.getKeyChar();
+            // Permite todo excepto numeros
+            if (Character.isDigit(letra)) {
+                throw new Exception("No se permiten numeros");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Advertencia", JOptionPane.WARNING_MESSAGE);
+            evt.consume();
+        }
+    }//GEN-LAST:event_TextApellidosKeyTyped
+
+    private void Text_IDKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Text_IDKeyTyped
+        try {
+           char letra = evt.getKeyChar();
+            // Permite solo números
+           if (!Character.isDigit(letra)) {
+               throw new Exception("Solo se permiten numeros");
+           }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Advertencia", JOptionPane.WARNING_MESSAGE);
+            evt.consume();
+        }
+    }//GEN-LAST:event_Text_IDKeyTyped
 
 
 

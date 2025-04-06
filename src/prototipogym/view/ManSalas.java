@@ -175,6 +175,11 @@ public class ManSalas extends javax.swing.JFrame {
 
         Text_ID.setBackground(new java.awt.Color(200, 200, 200));
         Text_ID.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        Text_ID.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                Text_IDKeyTyped(evt);
+            }
+        });
 
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Nombre de la sala");
@@ -196,6 +201,11 @@ public class ManSalas extends javax.swing.JFrame {
         TextLocalizacion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 TextLocalizacionActionPerformed(evt);
+            }
+        });
+        TextLocalizacion.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                TextLocalizacionKeyTyped(evt);
             }
         });
 
@@ -340,6 +350,32 @@ public class ManSalas extends javax.swing.JFrame {
     private void ButtonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonGuardarActionPerformed
         guardarSala();
     }//GEN-LAST:event_ButtonGuardarActionPerformed
+
+    private void Text_IDKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Text_IDKeyTyped
+       try {
+           char letra = evt.getKeyChar();
+            // Permite solo números
+           if (!Character.isDigit(letra)) {
+               throw new Exception("Solo se permiten numeros");
+           }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Advertencia", JOptionPane.WARNING_MESSAGE);
+            evt.consume();
+        }
+    }//GEN-LAST:event_Text_IDKeyTyped
+
+    private void TextLocalizacionKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TextLocalizacionKeyTyped
+         try {
+           char letra = evt.getKeyChar();
+            // Permite solo números
+           if (!Character.isDigit(letra)) {
+               throw new Exception("Solo se permiten numeros");
+           }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Advertencia", JOptionPane.WARNING_MESSAGE);
+            evt.consume();
+        }
+    }//GEN-LAST:event_TextLocalizacionKeyTyped
 
    
 

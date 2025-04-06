@@ -1,20 +1,34 @@
 
 package prototipogym.view;
 
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
 import prototipogym.controller.ActividadController;
 import prototipogym.model.Actividad;
 import javax.swing.*;
 
 import java.io.IOException;
+import java.util.Scanner;
 
 public class ManActividades extends javax.swing.JFrame {
-    
+    private static String antiguaLinea="";
     private static ManActividades instanciass;
     public ManActividades() {
         initComponents();
         setLocationRelativeTo(null);
+        KeyAdapter enterListener = new KeyAdapter() {
+            
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    buscarUsuario();
+                }
+            }
+        };
+        Text_ID.addKeyListener(enterListener);
         addWindowListener(new WindowAdapter() {
         @Override
         public void windowClosing(WindowEvent e) {
@@ -30,6 +44,58 @@ public class ManActividades extends javax.swing.JFrame {
             getInstancia().setVisible(true);
         }
         return instanciass;
+    }
+    
+    private void buscarUsuario(){
+        boolean encontrado = false;
+        Scanner s = null;
+        int cod;
+        
+        cod = Integer.parseInt(Text_ID.getText());
+        
+        try{
+            File f = new File("data/actividades.txt"); 
+            s = new Scanner(f);
+             while (s.hasNextLine() && !encontrado){
+                String linea = s.nextLine().trim();
+                Scanner sl = new Scanner(linea);
+                sl.useDelimiter("\\s*;\\s*");
+                try{
+                    
+                    if (cod==Integer.parseInt(sl.next())){
+                         encontrado = true;
+                        etiqueta.setText("Modificando");
+                        
+                        String nombre = sl.hasNext() ? sl.next().trim() : "";
+                        String descripcion= sl.hasNext() ? sl.next().trim() : "";
+                        String id_localizacion = sl.hasNext() ? sl.next().trim() : "";
+                        String id_entrenador = sl.hasNext() ? sl.next().trim() : "";
+                        
+                        TextNombre.setText(nombre);
+                        TextDescripcion.setText(descripcion);
+                        TextLocalizacion.setText(id_localizacion);
+                        TextEntrenador.setText(id_entrenador);
+                        
+                        
+                        antiguaLinea = cod + ";" + nombre + ";" + descripcion + ";" + id_localizacion + ";" + id_entrenador;
+                    }
+                    
+                }catch (Exception e) {
+                    System.out.println("Error al leer linea: " + e.getMessage());
+                }
+                
+             }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al leer el archivo: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }finally {
+            if (s != null) {
+                s.close();
+            }
+        }
+        
+        if (!encontrado) {
+            etiqueta.setText("Creando");
+        }
     }
     
     public void Limpiar(){
@@ -64,7 +130,7 @@ public class ManActividades extends javax.swing.JFrame {
             Actividad actividad = new Actividad(id, nombre, descripcion, idLocalizacion, idEntrenador);
             ActividadController.guardarActividad(actividad);
             JOptionPane.showMessageDialog(this, "Actividad guardada!");
-
+            Limpiar();
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "IDs deben ser numéricos");
         } catch (IOException e) {
@@ -116,12 +182,22 @@ public class ManActividades extends javax.swing.JFrame {
                 Text_IDActionPerformed(evt);
             }
         });
+        Text_ID.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                Text_IDKeyTyped(evt);
+            }
+        });
 
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Nombre");
 
         TextNombre.setBackground(new java.awt.Color(200, 200, 200));
         TextNombre.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        TextNombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                TextNombreKeyTyped(evt);
+            }
+        });
 
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Descripcion");
@@ -134,12 +210,22 @@ public class ManActividades extends javax.swing.JFrame {
 
         TextLocalizacion.setBackground(new java.awt.Color(200, 200, 200));
         TextLocalizacion.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        TextLocalizacion.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                TextLocalizacionKeyTyped(evt);
+            }
+        });
 
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("ID Entrenador");
 
         TextEntrenador.setBackground(new java.awt.Color(200, 200, 200));
         TextEntrenador.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        TextEntrenador.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                TextEntrenadorKeyTyped(evt);
+            }
+        });
 
         ButtonGuardar.setBackground(new java.awt.Color(255, 193, 7));
         ButtonGuardar.setText("Guardar");
@@ -279,6 +365,58 @@ public class ManActividades extends javax.swing.JFrame {
     private void ButtonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonGuardarActionPerformed
         guardarActividad();
     }//GEN-LAST:event_ButtonGuardarActionPerformed
+
+    private void Text_IDKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Text_IDKeyTyped
+         try {
+           char letra = evt.getKeyChar();
+            // Permite solo números
+           if (!Character.isDigit(letra)) {
+               throw new Exception("Solo se permiten numeros");
+           }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Advertencia", JOptionPane.WARNING_MESSAGE);
+            evt.consume();
+        }
+    }//GEN-LAST:event_Text_IDKeyTyped
+
+    private void TextNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TextNombreKeyTyped
+        try {
+            char letra = evt.getKeyChar();
+            // Permite todo excepto numeros
+            if (Character.isDigit(letra)) {
+                throw new Exception("No se permiten numeros");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Advertencia", JOptionPane.WARNING_MESSAGE);
+            evt.consume();
+        }
+    }//GEN-LAST:event_TextNombreKeyTyped
+
+    private void TextLocalizacionKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TextLocalizacionKeyTyped
+        try {
+           char letra = evt.getKeyChar();
+            // Permite solo números
+           if (!Character.isDigit(letra)) {
+               throw new Exception("Solo se permiten numeros");
+           }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Advertencia", JOptionPane.WARNING_MESSAGE);
+            evt.consume();
+        }
+    }//GEN-LAST:event_TextLocalizacionKeyTyped
+
+    private void TextEntrenadorKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TextEntrenadorKeyTyped
+       try {
+           char letra = evt.getKeyChar();
+            // Permite solo números
+           if (!Character.isDigit(letra)) {
+               throw new Exception("Solo se permiten numeros");
+           }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Advertencia", JOptionPane.WARNING_MESSAGE);
+            evt.consume();
+        }
+    }//GEN-LAST:event_TextEntrenadorKeyTyped
 
     
    

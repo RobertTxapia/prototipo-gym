@@ -3,6 +3,7 @@ package prototipogym.view;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import javax.swing.JOptionPane;
 
 public class ManReserva extends javax.swing.JFrame {
 
@@ -77,6 +78,11 @@ public class ManReserva extends javax.swing.JFrame {
 
         Text_ID.setBackground(new java.awt.Color(200, 200, 200));
         Text_ID.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        Text_ID.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                Text_IDKeyTyped(evt);
+            }
+        });
 
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("ID Sala");
@@ -84,12 +90,25 @@ public class ManReserva extends javax.swing.JFrame {
         TextSala.setBackground(new java.awt.Color(200, 200, 200));
         TextSala.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         TextSala.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        TextSala.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                TextSalaKeyTyped(evt);
+            }
+        });
 
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("ID Cliente");
 
         TextCliente.setBackground(new java.awt.Color(200, 200, 200));
         TextCliente.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        TextCliente.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                TextClienteKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                TextClienteKeyTyped(evt);
+            }
+        });
 
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("Fecha");
@@ -102,6 +121,11 @@ public class ManReserva extends javax.swing.JFrame {
 
         TextHorario.setBackground(new java.awt.Color(200, 200, 200));
         TextHorario.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        TextHorario.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                TextHorarioKeyTyped(evt);
+            }
+        });
 
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
         jLabel7.setText("ID Estado");
@@ -111,6 +135,11 @@ public class ManReserva extends javax.swing.JFrame {
         TextEstado.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 TextEstadoActionPerformed(evt);
+            }
+        });
+        TextEstado.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                TextEstadoKeyTyped(evt);
             }
         });
 
@@ -186,7 +215,6 @@ public class ManReserva extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(Text_ID, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -248,6 +276,75 @@ public class ManReserva extends javax.swing.JFrame {
         instanciass = null;
         dispose();
     }//GEN-LAST:event_ButtonVolverActionPerformed
+
+    private void Text_IDKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Text_IDKeyTyped
+       try {
+           char letra = evt.getKeyChar();
+            // Permite solo números
+           if (!Character.isDigit(letra)) {
+               throw new Exception("Solo se permiten numeros");
+           }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Advertencia", JOptionPane.WARNING_MESSAGE);
+            evt.consume();
+        }
+    }//GEN-LAST:event_Text_IDKeyTyped
+
+    private void TextSalaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TextSalaKeyTyped
+      try {
+           char letra = evt.getKeyChar();
+            // Permite solo números
+           if (!Character.isDigit(letra)) {
+               throw new Exception("Solo se permiten numeros");
+           }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Advertencia", JOptionPane.WARNING_MESSAGE);
+            evt.consume();
+        }
+    }//GEN-LAST:event_TextSalaKeyTyped
+
+    private void TextClienteKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TextClienteKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_TextClienteKeyReleased
+
+    private void TextClienteKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TextClienteKeyTyped
+        try {
+           char letra = evt.getKeyChar();
+            // Permite solo números
+           if (!Character.isDigit(letra)) {
+               throw new Exception("Solo se permiten numeros");
+           }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Advertencia", JOptionPane.WARNING_MESSAGE);
+            evt.consume();
+        }
+    }//GEN-LAST:event_TextClienteKeyTyped
+
+    private void TextHorarioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TextHorarioKeyTyped
+       try {
+           char letra = evt.getKeyChar();
+            // Permite solo números
+           if (!Character.isDigit(letra)) {
+               throw new Exception("Solo se permiten numeros");
+           }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Advertencia", JOptionPane.WARNING_MESSAGE);
+            evt.consume();
+        }
+    }//GEN-LAST:event_TextHorarioKeyTyped
+
+    private void TextEstadoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TextEstadoKeyTyped
+        try {
+           char letra = evt.getKeyChar();
+            // Permite solo números
+           if (!Character.isDigit(letra)) {
+               throw new Exception("Solo se permiten numeros");
+           }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Advertencia", JOptionPane.WARNING_MESSAGE);
+            evt.consume();
+        }
+    }//GEN-LAST:event_TextEstadoKeyTyped
 
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
