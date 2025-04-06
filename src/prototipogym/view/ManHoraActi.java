@@ -53,7 +53,7 @@ public class ManHoraActi extends javax.swing.JFrame {
         cod = Integer.parseInt(Text_ID.getText());
         
         try{
-            File f = new File("data/horarios_activades.txt"); 
+            File f = new File("data/horarios_actividades.txt"); 
             s = new Scanner(f);
              while (s.hasNextLine() && !encontrado){
                 String linea = s.nextLine().trim();
