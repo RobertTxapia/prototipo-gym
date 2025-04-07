@@ -1,7 +1,7 @@
 package prototipogym.model;
 
 public class ReservaActividad {
-    private int idReservaActividad;
+    private String id;
     private String fechaReserva;
     private String fechaBaja;
     private String idEstadoReserva;
@@ -10,10 +10,10 @@ public class ReservaActividad {
     private String idHorarioActividad;
 
     // Constructor
-    public ReservaActividad(int idReservaActividad, String fechaReserva, String fechaBaja,
+    public ReservaActividad(String id, String fechaReserva, String fechaBaja,
                             String idEstadoReserva, String idCliente, String idActividad,
                             String idHorarioActividad) {
-        this.idReservaActividad = idReservaActividad;
+        this.id = id;
         this.fechaReserva = fechaReserva;
         this.fechaBaja = fechaBaja;
         this.idEstadoReserva = idEstadoReserva;
@@ -22,9 +22,11 @@ public class ReservaActividad {
         this.idHorarioActividad = idHorarioActividad;
     }
 
+   
+
     // Getters y Setters
-    public int getIdReservaActividad() { return idReservaActividad; }
-    public void setIdReservaActividad(int idReservaActividad) { this.idReservaActividad = idReservaActividad; }
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
 
     public String getFechaReserva() { return fechaReserva; }
     public void setFechaReserva(String fechaReserva) { this.fechaReserva = fechaReserva; }

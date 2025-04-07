@@ -1,5 +1,5 @@
 
-package prototipogym.view;
+package prototipogym.view.mantenimientos;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -226,7 +226,7 @@ public class ManHoraActi extends javax.swing.JFrame {
             }
         });
 
-        etiqueta.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        etiqueta.setForeground(new java.awt.Color(255, 255, 255));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -330,16 +330,7 @@ public class ManHoraActi extends javax.swing.JFrame {
     }//GEN-LAST:event_Text_IDKeyTyped
 
     private void Text_ID_ActividadKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Text_ID_ActividadKeyTyped
-        try {
-           char letra = evt.getKeyChar();
-            // Permite solo números
-           if (!Character.isDigit(letra)) {
-               throw new Exception("Solo se permiten numeros");
-           }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage(), "Advertencia", JOptionPane.WARNING_MESSAGE);
-            evt.consume();
-        }
+      
     }//GEN-LAST:event_Text_ID_ActividadKeyTyped
 
     

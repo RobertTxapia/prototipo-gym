@@ -90,7 +90,7 @@ public class UsuarioController {
                     
                 }
             } 
-        } catch (Exception e) {
+        } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "Error al modificar: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }

@@ -1,5 +1,5 @@
 
-package prototipogym.view;
+package prototipogym.view.mantenimientos;
 
 import prototipogym.controller.EstadoReservaController;
 import prototipogym.model.EstadoReserva;
@@ -14,20 +14,21 @@ import javax.swing.JOptionPane;
 
 
 public class ManEstadoReserva extends javax.swing.JFrame {
-    
+    private static String antiguaLinea="";
     private static ManEstadoReserva instanciass;
     public ManEstadoReserva() {
         initComponents();
         setLocationRelativeTo(null);
         KeyAdapter enterListener = new KeyAdapter() {
-
+            
             @Override
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    //buscarUsuario();
+                    buscarUsuario();
                 }
             }
         };
+        Text_ID.addKeyListener(enterListener);
         addWindowListener(new WindowAdapter() {
         @Override
         public void windowClosing(WindowEvent e) {
@@ -46,33 +47,91 @@ public class ManEstadoReserva extends javax.swing.JFrame {
         return instanciass;
     }
 
-
+    private void buscarUsuario(){
+        boolean encontrado = false;
+        Scanner s = null;
+        int cod;
+        
+        cod = Integer.parseInt(Text_ID.getText());
+        
+        try{
+            File f = new File("data/estado_reservas.txt"); 
+            s = new Scanner(f);
+             while (s.hasNextLine() && !encontrado){
+                String linea = s.nextLine().trim();
+                Scanner sl = new Scanner(linea);
+                sl.useDelimiter("\\s*;\\s*");
+                try{
+                    
+                    if (cod==Integer.parseInt(sl.next())){
+                        encontrado = true;
+                        etiqueta.setText("Modificando");
+                        
+                        String Estado = sl.hasNext() ? sl.next().trim() : "";
+                        TextEstado.setText(Estado);
+                        antiguaLinea = cod + ";" +Estado ;
+                    }
+                    
+                }catch (Exception e) {
+                    System.out.println("Error al leer linea: " + e.getMessage());
+                }
+                
+             }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al leer el archivo: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }finally {
+            if (s != null) {
+                s.close();
+            }
+        }
+        
+        if (!encontrado) {
+            etiqueta.setText("Creando");
+        }
+    }
 
     private void guardarEstadoReserva() {
         try {
             String id = Text_ID.getText().trim();
             String estado = TextEstado.getText().trim();
 
-            EstadoReserva estadoReserva = new EstadoReserva(id, estado);
-
-            if (EstadoReservaController.existeEstado(Text_ID.getText())){
-                JOptionPane.showMessageDialog(this, "Error: El ID ya existe");
-                return;
-            }
-
-            if (id.isEmpty() || estado.isEmpty()){
-                JOptionPane.showMessageDialog(null, "Por favor, introduzca un ID");
-                return;
-            }
-
-            if(EstadoReservaController.guardarEstado(estadoReserva)) {
-                JOptionPane.showMessageDialog(null, "Estado reserva guardada");
-                Limpiar();
-            }
-        }catch(Exception e){
-            JOptionPane.showMessageDialog(this, "Error al guardar");
+        if (id.isEmpty() || estado.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Por favor, introduzca un ID y estado.");
+            return;
         }
+
+        EstadoReserva estadoReserva = new EstadoReserva(id, estado);
+        EstadoReservaController ERC = new EstadoReservaController();
+        String nuevaLinea = id + ";" + estado;
+
+        if (EstadoReservaController.existeEstado(id)) {
+        // Aquí va la modificación si ya existe
+        if (antiguaLinea == null || antiguaLinea.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "No se puede modificar: línea antigua no definida.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        ERC.ModificaDatos(antiguaLinea, nuevaLinea);
+        JOptionPane.showMessageDialog(null, "Estado de reserva modificado correctamente.");
+        } else {
+        // Guardar si no existe
+        if (EstadoReservaController.guardarEstado(estadoReserva)) {
+            JOptionPane.showMessageDialog(null, "Estado de reserva guardado.");
+        } else {
+            JOptionPane.showMessageDialog(this, "Error al guardar el estado.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        }
+
+        Limpiar();
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error al guardar o modificar.");
+        e.printStackTrace(); // útil para debugging en consola
     }
+    }
+    
+    
+
     
     public void Limpiar(){
         Text_ID.setText("");
@@ -159,6 +218,8 @@ public class ManEstadoReserva extends javax.swing.JFrame {
             }
         });
 
+        etiqueta.setForeground(new java.awt.Color(255, 255, 255));
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -244,16 +305,7 @@ public class ManEstadoReserva extends javax.swing.JFrame {
     }//GEN-LAST:event_ButtonLimpiarActionPerformed
 
     private void Text_IDKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Text_IDKeyTyped
-        try {
-           char letra = evt.getKeyChar();
-            // Permite solo números
-           if (!Character.isDigit(letra)) {
-               throw new Exception("Solo se permiten numeros");
-           }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage(), "Advertencia", JOptionPane.WARNING_MESSAGE);
-            evt.consume();
-        }
+       
     }//GEN-LAST:event_Text_IDKeyTyped
 
     private void ButtonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonGuardarActionPerformed

@@ -5,13 +5,18 @@
         <group>
             <file>file:/C:/Users/ramon/workspace/prototipo-gym/src/prototipogym/view/mantenimientos/ManReserva.java</file>
             <file>file:/C:/Users/ramon/workspace/prototipo-gym/src/prototipogym/PrototipoGym.java</file>
+            <file>file:/C:/Users/ramon/workspace/prototipo-gym/src/prototipogym/view/mantenimientos/ManUsuario.java</file>
             <file>file:/C:/Users/ramon/workspace/prototipo-gym/src/prototipogym/model/Cliente.java</file>
             <file>file:/C:/Users/ramon/workspace/prototipo-gym/src/prototipogym/view/mantenimientos/ManClientes.java</file>
+            <file>file:/C:/Users/ramon/workspace/prototipo-gym/src/prototipogym/view/mantenimientos/ManLocalizacion.java</file>
+            <file>file:/C:/Users/ramon/workspace/prototipo-gym/src/prototipogym/view/mantenimientos/ManEntrenador.java</file>
+            <file>file:/C:/Users/ramon/workspace/prototipo-gym/src/prototipogym/view/mantenimientos/ManSalas.java</file>
+            <file>file:/C:/Users/ramon/workspace/prototipo-gym/src/prototipogym/view/mantenimientos/ManActividades.java</file>
             <file>file:/C:/Users/ramon/workspace/prototipo-gym/src/prototipogym/view/mantenimientos/ManReservaActividades.java</file>
+            <file>file:/C:/Users/ramon/workspace/prototipo-gym/src/prototipogym/view/mantenimientos/ManEstadoReserva.java</file>
             <file>file:/C:/Users/ramon/workspace/prototipo-gym/src/prototipogym/view/MenuPrincipalFrame.java</file>
-            <file>file:/C:/Users/ramon/workspace/prototipo-gym/src/prototipogym/controller/ReservaController.java</file>
-            <file>file:/C:/Users/ramon/workspace/prototipo-gym/src/prototipogym/controller/EstadoReservaController.java</file>
             <file>file:/C:/Users/ramon/workspace/prototipo-gym/src/prototipogym/controller/ClienteController.java</file>
+            <file>file:/C:/Users/ramon/workspace/prototipo-gym/src/prototipogym/view/mantenimientos/ManHoraActi.java</file>
         </group>
     </open-files>
 </project-private>

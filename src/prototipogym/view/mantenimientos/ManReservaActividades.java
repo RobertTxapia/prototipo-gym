@@ -1,17 +1,21 @@
 
 package prototipogym.view.mantenimientos;
 
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import prototipogym.controller.*;
 import prototipogym.model.ReservaActividad;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Scanner;
 import javax.swing.JOptionPane;
 
 public class ManReservaActividades extends javax.swing.JFrame {
-
+private static String antiguaLinea=""; 
     private static ManReservaActividades instanciass;
     public ManReservaActividades() {
         initComponents();
@@ -30,7 +34,16 @@ public class ManReservaActividades extends javax.swing.JFrame {
             TextFechaBaja.setText(fecha);
         }
         });
-        
+        KeyAdapter enterListener = new KeyAdapter() {
+            
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    buscarUsuario();
+                }
+            }
+        };
+        Text_ID.addKeyListener(enterListener);
         setLocationRelativeTo(null);
         addWindowListener(new WindowAdapter() {
         @Override
@@ -60,9 +73,77 @@ public class ManReservaActividades extends javax.swing.JFrame {
         Chooser.setDate(null);
         chooser.setDate(null);
     }
+    
+    private void buscarUsuario(){
+        boolean encontrado = false;
+        Scanner s = null;
+        int cod;
+        
+        cod = Integer.parseInt(Text_ID.getText());
+        
+        try{
+            File f = new File("data/reservaActividades.txt"); 
+            s = new Scanner(f);
+             while (s.hasNextLine() && !encontrado){
+                String linea = s.nextLine().trim();
+                Scanner sl = new Scanner(linea);
+                sl.useDelimiter("\\s*;\\s*");
+                try{
+                    
+                    if (cod==Integer.parseInt(sl.next())){
+                         encontrado = true;
+                        etiqueta.setText("Modificando");
+                        
+                        
+                        String fechaReserva = sl.hasNext() ? sl.next().trim() : "";
+                        String FechaBaja = sl.hasNext() ? sl.next().trim() : "";
+                        String IDestado = sl.hasNext() ? sl.next().trim() : "";
+                        String cliente = sl.hasNext() ? sl.next().trim() : "";
+                        String Actividad = sl.hasNext() ? sl.next().trim() : "";
+                        String Horario = sl.hasNext() ? sl.next().trim() : "";
+                        
+                        
+                       TextFechaReserva.setText(fechaReserva);
+                        TextFechaBaja.setText(FechaBaja);
+                       Text_IDEstadoReserva.setText(IDestado);
+                        Text_IDCliente.setText(cliente);
+                        Text_IDActividad.setText(Actividad);
+                        Text_IDHorarioActividad.setText(Horario);
+                        
+                        antiguaLinea = cod + ";" + fechaReserva + ";" + FechaBaja + ";" + IDestado + ";" + cliente+ ";" +Actividad+ ";" +Horario;
+                    }
+                    
+                }catch (Exception e) {
+                    System.out.println("Error al leer linea: " + e.getMessage());
+                }
+                
+             }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al leer el archivo: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }finally {
+            if (s != null) {
+                s.close();
+            }
+        }
+        
+        if (!encontrado) {
+            etiqueta.setText("Creando");
+        }
+    }
 
-    private void guardarReservaActividad() {
+    
+
+    /*private void guardarReservaActividad() {
         try {
+            
+            String id = Text_ID.getText().trim();
+            String Fecha = TextFechaReserva.getText().trim();
+            String fechaaBaja = TextFechaBaja.getText().trim();
+            String estado = Text_IDEstadoReserva.getText().trim();
+            String cliente = Text_IDCliente.getText().trim();
+            String actividad =  Text_IDActividad.getText().trim();
+            String horario = Text_IDHorarioActividad.getText().trim();
+            
             // Validar campos obligatorios
             if (Text_ID.getText().isEmpty() ||
                     Text_IDCliente.getText().isEmpty() ||
@@ -79,7 +160,7 @@ public class ManReservaActividades extends javax.swing.JFrame {
             }
 
             // Crear objeto ReservaActividad
-            ReservaActividad reserva = new ReservaActividad(
+            /*ReservaActividad reserva = new ReservaActividad(
                     Integer.parseInt(Text_ID.getText()),
                     TextFechaReserva.getText(),
                     TextFechaBaja.getText(),
@@ -88,21 +169,69 @@ public class ManReservaActividades extends javax.swing.JFrame {
                     Text_IDActividad.getText(),
                     Text_IDHorarioActividad.getText()
             );
-
+            ReservaActividad rs = new ReservaActividad(id,Fecha,fechaaBaja, estado,cliente,actividad,horario);
+            ReservaActividadController rac = new ReservaActividadController();
             // Guardar en archivo
-            if (ReservaActividadController.guardarReserva(reserva)) {
+            if (ReservaActividadController.guardarReserva(rs)) {
                 JOptionPane.showMessageDialog(this, "Reserva guardada exitosamente!", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-                Limpiar();
+                
             } else {
-                JOptionPane.showMessageDialog(this, "Error al guardar la reserva", "Error", JOptionPane.ERROR_MESSAGE);
+                String Snuevalinea = ( id + ";" + Fecha + ";" +fechaaBaja + ";" + estado + ";" + cliente + ";" + actividad + ";" + horario);
+                rac.ModificaDatos(antiguaLinea, Snuevalinea);
             }
-
-        } catch (NumberFormatException ex) {
+            Limpiar();
+        } catch (NumberFormatException ex) {JOptionPane.showMessageDialog(this, "Error al guardar la reserva", "Error", JOptionPane.ERROR_MESSAGE);
             JOptionPane.showMessageDialog(this, "ID debe ser numérico!", "Error", JOptionPane.ERROR_MESSAGE);
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(this, "Error de acceso a archivos: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
+    }*/
+    
+    private void guardarReservaActividad() {
+    try {
+        String id = Text_ID.getText().trim();
+        String fecha = TextFechaReserva.getText().trim();
+        String fechaBaja = TextFechaBaja.getText().trim();
+        String estado = Text_IDEstadoReserva.getText().trim();
+        String cliente = Text_IDCliente.getText().trim();
+        String actividad = Text_IDActividad.getText().trim();
+        String horario = Text_IDHorarioActividad.getText().trim();
+
+        // Validar campos vacíos
+        if (id.isEmpty() || fecha.isEmpty() || estado.isEmpty() || cliente.isEmpty() || actividad.isEmpty() || horario.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos obligatorios.");
+            return;
+        }
+
+        ReservaActividad reserva = new ReservaActividad(id, fecha, fechaBaja, estado, cliente, actividad, horario);
+        ReservaActividadController rac = new ReservaActividadController();
+        String nuevaLinea = id + ";" + fecha + ";" + fechaBaja + ";" + estado + ";" + cliente + ";" + actividad + ";" + horario;
+
+        if (ReservaActividadController.existeReserva(id)) {
+            // Modificar si ya existe
+            if (antiguaLinea == null || antiguaLinea.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "No se puede modificar: línea antigua no definida.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            rac.ModificaDatos(antiguaLinea, nuevaLinea);
+            JOptionPane.showMessageDialog(this, "Reserva modificada correctamente.");
+        } else {
+            // Guardar si no existe
+            if (ReservaActividadController.guardarReserva(reserva)) {
+                JOptionPane.showMessageDialog(this, "Reserva guardada.");
+            } else {
+                JOptionPane.showMessageDialog(this, "Error al guardar la reserva.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+
+        Limpiar();
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error al guardar o modificar la reserva.", "Error", JOptionPane.ERROR_MESSAGE);
+        e.printStackTrace();
     }
+}
+
 
     private boolean validarRelaciones() throws IOException {
         return ClienteController.existeCliente(Text_IDCliente.getText()) &&
@@ -251,9 +380,7 @@ public class ManReservaActividades extends javax.swing.JFrame {
             }
         });
 
-        Chooser.setBackground(new java.awt.Color(200, 200, 200));
-
-        chooser.setBackground(new java.awt.Color(200, 200, 200));
+        etiqueta.setForeground(new java.awt.Color(255, 255, 255));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -295,10 +422,10 @@ public class ManReservaActividades extends javax.swing.JFrame {
                                             .addComponent(Text_IDHorarioActividad, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addGap(0, 96, Short.MAX_VALUE))
                                     .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(chooser, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
-                                            .addComponent(Chooser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(Chooser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(chooser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addGap(18, 18, 18)
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                             .addComponent(TextFechaBaja, javax.swing.GroupLayout.DEFAULT_SIZE, 88, Short.MAX_VALUE)
                                             .addComponent(TextFechaReserva)))))
@@ -324,9 +451,9 @@ public class ManReservaActividades extends javax.swing.JFrame {
                     .addComponent(jLabel2))
                 .addGap(24, 24, 24)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel3)
-                        .addComponent(TextFechaReserva, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(TextFechaReserva, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel3))
                     .addComponent(Chooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -390,68 +517,23 @@ public class ManReservaActividades extends javax.swing.JFrame {
     }//GEN-LAST:event_ButtonLimpiarActionPerformed
 
     private void Text_IDKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Text_IDKeyTyped
-       try {
-           char letra = evt.getKeyChar();
-            // Permite solo números
-           if (!Character.isDigit(letra)) {
-               throw new Exception("Solo se permiten numeros");
-           }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage(), "Advertencia", JOptionPane.WARNING_MESSAGE);
-            evt.consume();
-        }
+       
     }//GEN-LAST:event_Text_IDKeyTyped
 
     private void Text_IDEstadoReservaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Text_IDEstadoReservaKeyTyped
-       try {
-           char letra = evt.getKeyChar();
-            // Permite solo números
-           if (!Character.isDigit(letra)) {
-               throw new Exception("Solo se permiten numeros");
-           }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage(), "Advertencia", JOptionPane.WARNING_MESSAGE);
-            evt.consume();
-        }
+       
     }//GEN-LAST:event_Text_IDEstadoReservaKeyTyped
 
     private void Text_IDClienteKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Text_IDClienteKeyTyped
-        try {
-           char letra = evt.getKeyChar();
-            // Permite solo números
-           if (!Character.isDigit(letra)) {
-               throw new Exception("Solo se permiten numeros");
-           }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage(), "Advertencia", JOptionPane.WARNING_MESSAGE);
-            evt.consume();
-        }
+        
     }//GEN-LAST:event_Text_IDClienteKeyTyped
 
     private void Text_IDActividadKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Text_IDActividadKeyTyped
-       try {
-           char letra = evt.getKeyChar();
-            // Permite solo números
-           if (!Character.isDigit(letra)) {
-               throw new Exception("Solo se permiten numeros");
-           }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage(), "Advertencia", JOptionPane.WARNING_MESSAGE);
-            evt.consume();
-        }
+       
     }//GEN-LAST:event_Text_IDActividadKeyTyped
 
     private void Text_IDHorarioActividadKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Text_IDHorarioActividadKeyTyped
-        try {
-           char letra = evt.getKeyChar();
-            // Permite solo números
-           if (!Character.isDigit(letra)) {
-               throw new Exception("Solo se permiten numeros");
-           }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage(), "Advertencia", JOptionPane.WARNING_MESSAGE);
-            evt.consume();
-        }
+       
     }//GEN-LAST:event_Text_IDHorarioActividadKeyTyped
 
     private void ButtonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonGuardarActionPerformed

@@ -1,4 +1,4 @@
-package prototipogym.view;
+package prototipogym.view.mantenimientos;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
@@ -239,7 +239,7 @@ public class ManUsuario extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(1, 1, 1)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(etiqueta, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(etiqueta, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(ButtonGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(18, 18, 18)
@@ -456,31 +456,13 @@ public class ManUsuario extends javax.swing.JFrame {
     
     //no permite escribir numeros en la caja de nombres
     private void TextNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TextNombreKeyTyped
-        try {
-            char letra = evt.getKeyChar();
-            // Permite todo excepto numeros
-            if (Character.isDigit(letra)) {
-                throw new Exception("No se permiten numeros");
-            }
-        }catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage(), "Advertencia", JOptionPane.WARNING_MESSAGE);
-            evt.consume();
-        }
+        
         
     }//GEN-LAST:event_TextNombreKeyTyped
     
     //no permite escribir numeros en la caja de apellidos
     private void TextApellidoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TextApellidoKeyTyped
-        try {
-            char letra = evt.getKeyChar();
-            // Permite todo excepto numeros
-            if (Character.isDigit(letra)) {
-                throw new Exception("No se permiten numeros");
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage(), "Advertencia", JOptionPane.WARNING_MESSAGE);
-            evt.consume();
-        }
+       
     }//GEN-LAST:event_TextApellidoKeyTyped
 
     private void txtPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPasswordActionPerformed
@@ -515,5 +497,5 @@ public class ManUsuario extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JPasswordField txtPassword;
     // End of variables declaration//GEN-END:variables
-  
+
 }

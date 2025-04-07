@@ -1,2 +1,2 @@
 H001;Lunes;16;1;1
-1;jueves;5:00;1
+1;miercoless;5:00;1

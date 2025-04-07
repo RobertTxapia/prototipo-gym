@@ -1,5 +1,5 @@
 
-package prototipogym.view;
+package prototipogym.view.mantenimientos;
 
 import prototipogym.controller.SalaController;
 import prototipogym.model.Sala;
@@ -352,29 +352,11 @@ public class ManSalas extends javax.swing.JFrame {
     }//GEN-LAST:event_ButtonGuardarActionPerformed
 
     private void Text_IDKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Text_IDKeyTyped
-       try {
-           char letra = evt.getKeyChar();
-            // Permite solo números
-           if (!Character.isDigit(letra)) {
-               throw new Exception("Solo se permiten numeros");
-           }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage(), "Advertencia", JOptionPane.WARNING_MESSAGE);
-            evt.consume();
-        }
+       
     }//GEN-LAST:event_Text_IDKeyTyped
 
     private void TextLocalizacionKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TextLocalizacionKeyTyped
-         try {
-           char letra = evt.getKeyChar();
-            // Permite solo números
-           if (!Character.isDigit(letra)) {
-               throw new Exception("Solo se permiten numeros");
-           }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage(), "Advertencia", JOptionPane.WARNING_MESSAGE);
-            evt.consume();
-        }
+        
     }//GEN-LAST:event_TextLocalizacionKeyTyped
 
    

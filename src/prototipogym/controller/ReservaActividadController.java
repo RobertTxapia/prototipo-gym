@@ -4,6 +4,7 @@ import prototipogym.model.ReservaActividad;
 
 import java.io.*;
 import java.util.*;
+import javax.swing.JOptionPane;
 
 public class ReservaActividadController {
     private static final String ARCHIVO = "data/reservaActividades.txt";
@@ -21,18 +22,21 @@ public class ReservaActividadController {
     }
 
     // Verificar si existe la reserva
-    public static boolean existeReserva(int idReserva) throws IOException {
-        File file = new File(ARCHIVO);
-        if (!file.exists()) return false;
+    public static boolean existeReserva(String idReserva) throws IOException {
+    File file = new File(ARCHIVO);
+    if (!file.exists()) return false;
 
-        try (Scanner scanner = new Scanner(file)) {
-            while (scanner.hasNextLine()) {
-                String[] datos = scanner.nextLine().split(";");
-                if (Integer.parseInt(datos[0]) == idReserva) return true;
+    try (Scanner scanner = new Scanner(file)) {
+        while (scanner.hasNextLine()) {
+            String[] datos = scanner.nextLine().split(";");
+            if (datos.length > 0 && datos[0].equals(idReserva)) {
+                return true;
             }
         }
-        return false;
     }
+    return false;
+}
+
 
     // Validar relaciones con otras tablas
     public static boolean validarRelaciones(String idCliente, String idActividad,
@@ -46,7 +50,7 @@ public class ReservaActividadController {
     // Convertir objeto a CSV
     private static String reservaToCSV(ReservaActividad r) {
         return String.join(";",
-                String.valueOf(r.getIdReservaActividad()),
+                String.valueOf(r.getId()),
                 r.getFechaReserva(),
                 r.getFechaBaja(),
                 r.getIdEstadoReserva(),
@@ -55,4 +59,47 @@ public class ReservaActividadController {
                 r.getIdHorarioActividad()
         );
     }
+
+    
+    
+    public void ModificaDatos(String LineaAntigua, String nuevaLinea) {
+        boolean encontrado = false;
+        File fNuevo = new File("data/aaaArchivo.txt"); 
+        File fAntiguo = new File("data/reservaActividades.txt"); 
+
+        try {
+            if (fAntiguo.exists()) {
+                BufferedWriter bw;
+                try (BufferedReader br = new BufferedReader(new FileReader(fAntiguo))) {
+                    bw = new BufferedWriter(new FileWriter(fNuevo));
+                    String linea;
+                    while ((linea = br.readLine()) != null) {
+                        System.out.println("Leyendo linea: " + linea);
+                        // Si encontramos la linea antigua, escribimos la nueva
+                        if (linea.trim().equals(LineaAntigua.trim())) {
+                            encontrado = true;
+                            bw.write(nuevaLinea);
+                        } else {
+                            bw.write(linea); 
+                        }
+                        bw.newLine();
+                    }
+                }
+                bw.close();
+
+                // Si se encontró la línea, reemplazamos el archivo original
+                if (encontrado) {
+                    fAntiguo.delete(); 
+                    fNuevo.renameTo(fAntiguo);
+                } else {
+                    fNuevo.delete(); 
+                    
+                }
+            } 
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Error al modificar: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    
 }

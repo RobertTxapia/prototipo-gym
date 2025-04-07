@@ -1,26 +1,48 @@
 package prototipogym.view.mantenimientos;
 
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import javax.swing.JOptionPane;
 import java.text.SimpleDateFormat;
 import prototipogym.controller.ActividadController;
 import prototipogym.controller.ReservaController;
 import prototipogym.model.Reserva;
 import java.io.IOException;
+import java.util.Scanner;
 
 public class ManReserva extends javax.swing.JFrame {
-
-   private static ManReserva instanciass;
+    private static String antiguaLinea=""; 
+    private static ManReserva instanciass;
     public ManReserva() {
         initComponents();
+        
         Chooser.getDateEditor().addPropertyChangeListener("date", evt -> {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-    if (Chooser.getDate() != null) {
-        String fecha = sdf.format(Chooser.getDate());
-        TextFecha.setText(fecha);
-    }
-});
+        if (Chooser.getDate() != null) {
+            String fecha = sdf.format(Chooser.getDate());
+            TextFecha.setText(fecha);
+        }
+        });
+        
+        setLocationRelativeTo(null);
+        KeyAdapter enterListener = new KeyAdapter() {
+            
+        @Override
+        public void keyPressed(KeyEvent e) {
+            if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                buscarUsuario();
+            }
+        }
+        };
+        
+        Text_ID.addKeyListener(enterListener);
 
         setLocationRelativeTo(null);
         addWindowListener(new WindowAdapter() {
@@ -38,6 +60,55 @@ public class ManReserva extends javax.swing.JFrame {
             getInstancia().setVisible(true);
         }
         return instanciass;
+    }
+     private void buscarUsuario(){
+        boolean encontrado = false;
+        Scanner s = null;
+        int cod;
+        
+        cod = Integer.parseInt(Text_ID.getText());
+        
+        try{
+            File f = new File("data/reservas.txt"); 
+            s = new Scanner(f);
+             while (s.hasNextLine() && !encontrado){
+                String linea = s.nextLine().trim();
+                Scanner sl = new Scanner(linea);
+                sl.useDelimiter("\\s*;\\s*");
+                try{
+                    
+                    if (cod==Integer.parseInt(sl.next())){
+                        encontrado = true;
+                        etiqueta.setText("Modificando");
+                        String Sala = sl.hasNext() ? sl.next().trim() : "";
+                        String Cliente = sl.hasNext() ? sl.next().trim() : "";
+                        String fecha = sl.hasNext() ? sl.next().trim() : "";
+                        String Horario = sl.hasNext() ? sl.next().trim() : "";
+                        String Estado = sl.hasNext() ? sl.next().trim() : "";
+                        TextSala.setText(Sala);
+                        TextCliente.setText(Cliente);
+                        TextFecha.setText(fecha);
+                        TextHorario.setText(Horario);
+                        TextEstado.setText(Estado);
+                        antiguaLinea = cod + ";" + Sala + ";" + Cliente + ";" +fecha + ";" + Horario + ";" +Estado;
+                    }
+                    
+                }catch (Exception e) {
+                    System.out.println("Error al leer linea: " + e.getMessage());
+                }
+                
+             }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al leer el archivo: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }finally {
+            if (s != null) {
+                s.close();
+            }
+        }
+        
+        if (!encontrado) {
+            etiqueta.setText("Creando");
+        }
     }
 
     private void guardarReserva() {
@@ -71,7 +142,8 @@ public class ManReserva extends javax.swing.JFrame {
 
             boolean exito = ReservaController.guardarReserva(reserva);
             JOptionPane.showMessageDialog(this, exito ? "Éxito" : "Error");
-
+            
+            Limpiar();
         } catch (IOException e) {
             JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
         }
@@ -217,8 +289,9 @@ public class ManReserva extends javax.swing.JFrame {
             }
         });
 
-        etiqueta.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        etiqueta.setForeground(new java.awt.Color(255, 255, 255));
 
+        TextFecha.setEditable(false);
         TextFecha.setBackground(new java.awt.Color(200, 200, 200));
         TextFecha.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
@@ -236,13 +309,6 @@ public class ManReserva extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(30, 30, 30)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(ButtonGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(ButtonLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(ButtonVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(etiqueta, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                             .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -262,7 +328,15 @@ public class ManReserva extends javax.swing.JFrame {
                                             .addGroup(jPanel1Layout.createSequentialGroup()
                                                 .addComponent(Chooser, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addGap(18, 18, 18)
-                                                .addComponent(TextFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                                .addComponent(TextFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                            .addComponent(etiqueta, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(ButtonGuardar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 82, Short.MAX_VALUE))
+                                        .addGap(18, 18, 18)
+                                        .addComponent(ButtonLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(ButtonVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(111, 111, 111)
                                 .addComponent(jLabel1)))
@@ -340,29 +414,11 @@ public class ManReserva extends javax.swing.JFrame {
     }//GEN-LAST:event_ButtonVolverActionPerformed
 
     private void Text_IDKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Text_IDKeyTyped
-       try {
-           char letra = evt.getKeyChar();
-            // Permite solo números
-           if (!Character.isDigit(letra)) {
-               throw new Exception("Solo se permiten numeros");
-           }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage(), "Advertencia", JOptionPane.WARNING_MESSAGE);
-            evt.consume();
-        }
+       
     }//GEN-LAST:event_Text_IDKeyTyped
 
     private void TextSalaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TextSalaKeyTyped
-      try {
-           char letra = evt.getKeyChar();
-            // Permite solo números
-           if (!Character.isDigit(letra)) {
-               throw new Exception("Solo se permiten numeros");
-           }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage(), "Advertencia", JOptionPane.WARNING_MESSAGE);
-            evt.consume();
-        }
+      
     }//GEN-LAST:event_TextSalaKeyTyped
 
     private void TextClienteKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TextClienteKeyReleased
@@ -370,42 +426,15 @@ public class ManReserva extends javax.swing.JFrame {
     }//GEN-LAST:event_TextClienteKeyReleased
 
     private void TextClienteKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TextClienteKeyTyped
-        try {
-           char letra = evt.getKeyChar();
-            // Permite solo números
-           if (!Character.isDigit(letra)) {
-               throw new Exception("Solo se permiten numeros");
-           }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage(), "Advertencia", JOptionPane.WARNING_MESSAGE);
-            evt.consume();
-        }
+        
     }//GEN-LAST:event_TextClienteKeyTyped
 
     private void TextHorarioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TextHorarioKeyTyped
-       try {
-           char letra = evt.getKeyChar();
-            // Permite solo números
-           if (!Character.isDigit(letra)) {
-               throw new Exception("Solo se permiten numeros");
-           }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage(), "Advertencia", JOptionPane.WARNING_MESSAGE);
-            evt.consume();
-        }
+       
     }//GEN-LAST:event_TextHorarioKeyTyped
 
     private void TextEstadoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TextEstadoKeyTyped
-        try {
-           char letra = evt.getKeyChar();
-            // Permite solo números
-           if (!Character.isDigit(letra)) {
-               throw new Exception("Solo se permiten numeros");
-           }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage(), "Advertencia", JOptionPane.WARNING_MESSAGE);
-            evt.consume();
-        }
+        
     }//GEN-LAST:event_TextEstadoKeyTyped
 
     private void ButtonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonGuardarActionPerformed

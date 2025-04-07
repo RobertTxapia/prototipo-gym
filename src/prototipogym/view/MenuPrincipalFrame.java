@@ -1,9 +1,15 @@
 package prototipogym.view;
 
+import prototipogym.view.mantenimientos.ManActividades;
 import prototipogym.view.mantenimientos.ManClientes;
 import prototipogym.view.mantenimientos.ManEntrenador;
+import prototipogym.view.mantenimientos.ManEstadoReserva;
+import prototipogym.view.mantenimientos.ManHoraActi;
+import prototipogym.view.mantenimientos.ManLocalizacion;
 import prototipogym.view.mantenimientos.ManReserva;
 import prototipogym.view.mantenimientos.ManReservaActividades;
+import prototipogym.view.mantenimientos.ManSalas;
+import prototipogym.view.mantenimientos.ManUsuario;
 
 public class MenuPrincipalFrame extends javax.swing.JFrame {
     public MenuPrincipalFrame(int nivelAcceso) {
@@ -183,6 +189,7 @@ public class MenuPrincipalFrame extends javax.swing.JFrame {
 
         mItemEstado.setBackground(new java.awt.Color(255, 193, 7));
         mItemEstado.setForeground(new java.awt.Color(0, 0, 0));
+        mItemEstado.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/backup_29169.png"))); // NOI18N
         mItemEstado.setText("Estado Reserva");
         mItemEstado.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 193, 7)));
         mItemEstado.setPreferredSize(new java.awt.Dimension(167, 35));
@@ -195,6 +202,7 @@ public class MenuPrincipalFrame extends javax.swing.JFrame {
 
         mItemReserva.setBackground(new java.awt.Color(255, 193, 7));
         mItemReserva.setForeground(new java.awt.Color(0, 0, 0));
+        mItemReserva.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/calendar_clock_schedule_icon-icons.com_51085.png"))); // NOI18N
         mItemReserva.setText("Reservas");
         mItemReserva.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 193, 7)));
         mItemReserva.setPreferredSize(new java.awt.Dimension(167, 35));
@@ -207,6 +215,7 @@ public class MenuPrincipalFrame extends javax.swing.JFrame {
 
         mItemReservaActividades.setBackground(new java.awt.Color(255, 193, 7));
         mItemReservaActividades.setForeground(new java.awt.Color(0, 0, 0));
+        mItemReservaActividades.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/calendar_clock_schedule_icon-icons.com_51085.png"))); // NOI18N
         mItemReservaActividades.setText("Reserva Actividades");
         mItemReservaActividades.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 193, 7), 1, true));
         mItemReservaActividades.setPreferredSize(new java.awt.Dimension(167, 35));

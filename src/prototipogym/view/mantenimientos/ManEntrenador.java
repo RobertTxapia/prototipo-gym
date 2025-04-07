@@ -178,6 +178,8 @@ public class ManEntrenador extends javax.swing.JFrame {
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("Correo");
 
+        etiqueta.setForeground(new java.awt.Color(255, 255, 255));
+
         ButtonGuardar.setBackground(new java.awt.Color(255, 193, 7));
         ButtonGuardar.setText("Guardar");
         ButtonGuardar.setToolTipText("Guardar");
@@ -351,55 +353,19 @@ public class ManEntrenador extends javax.swing.JFrame {
     }//GEN-LAST:event_ButtonLimpiarActionPerformed
 
     private void TextTelefonoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TextTelefonoKeyTyped
-       try {
-           char letra = evt.getKeyChar();
-            // Permite solo números
-           if (!Character.isDigit(letra)) {
-               throw new Exception("Solo se permiten numeros");
-           }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage(), "Advertencia", JOptionPane.WARNING_MESSAGE);
-            evt.consume();
-        }
+      
     }//GEN-LAST:event_TextTelefonoKeyTyped
 
     private void TextNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TextNombreKeyTyped
-        try {
-            char letra = evt.getKeyChar();
-            // Permite todo excepto numeros
-            if (Character.isDigit(letra)) {
-                throw new Exception("No se permiten numeros");
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage(), "Advertencia", JOptionPane.WARNING_MESSAGE);
-            evt.consume();
-        }
+       
     }//GEN-LAST:event_TextNombreKeyTyped
 
     private void TextApellidosKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TextApellidosKeyTyped
-        try {
-            char letra = evt.getKeyChar();
-            // Permite todo excepto numeros
-            if (Character.isDigit(letra)) {
-                throw new Exception("No se permiten numeros");
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage(), "Advertencia", JOptionPane.WARNING_MESSAGE);
-            evt.consume();
-        }
+      
     }//GEN-LAST:event_TextApellidosKeyTyped
 
     private void Text_IDKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Text_IDKeyTyped
-        try {
-           char letra = evt.getKeyChar();
-            // Permite solo números
-           if (!Character.isDigit(letra)) {
-               throw new Exception("Solo se permiten numeros");
-           }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage(), "Advertencia", JOptionPane.WARNING_MESSAGE);
-            evt.consume();
-        }
+      
     }//GEN-LAST:event_Text_IDKeyTyped
 
 
