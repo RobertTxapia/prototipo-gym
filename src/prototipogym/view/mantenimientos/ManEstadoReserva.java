@@ -19,15 +19,15 @@ public class ManEstadoReserva extends javax.swing.JFrame {
     public ManEstadoReserva() {
         initComponents();
         setLocationRelativeTo(null);
-//        KeyAdapter enterListener = new KeyAdapter() {
-//
-//            @Override
-//            public void keyPressed(KeyEvent e) {
-//                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-//                    buscarUsuario();
-//                }
-//            }
-//        };
+        KeyAdapter enterListener = new KeyAdapter() {
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    //buscarUsuario();
+                }
+            }
+        };
         addWindowListener(new WindowAdapter() {
         @Override
         public void windowClosing(WindowEvent e) {

@@ -1,3 +1,2 @@
-prototipogym.model.EstadoReserva@368cac03
-prototipogym.model.EstadoReserva@41375d5a
-prototipogym.model.EstadoReserva@61e9b2ce
+1;ocupado
+2;Disponible

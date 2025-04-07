@@ -17,7 +17,7 @@ public class ReservaController {
     }
 
     private static String reservaToCSV(Reserva r) {
-        return String.join(",",
+        return String.join(";",
                 r.getIdReserva(),
                 r.getIdSala(), // Campo añadido
                 r.getIdCliente(),
