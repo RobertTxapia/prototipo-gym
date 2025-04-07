@@ -1,8 +1,19 @@
 
-package prototipogym.view;
+package prototipogym.view.consultas;
 
+import prototipogym.model.Entrenador;
+
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
+import prototipogym.controller.consultas.ConsultaControllerEntrenador;
+
+import static java.util.Arrays.stream;
 
 public class ConEntrenador extends javax.swing.JFrame {
 private static ConEntrenador instanciass;
@@ -24,6 +35,44 @@ private static ConEntrenador instanciass;
             getInstancia().setVisible(true);
         }
         return instanciass;
+    }
+
+    private void buscarEntrenadores(ActionEvent e) {
+        try {
+            String busqueda = jTextField1.getText().trim().toLowerCase();
+
+            // Corrección: Punto y coma eliminado y encadenamiento correcto
+            List<Entrenador> entrenadores = ConsultaControllerEntrenador.getTodosEntrenadores()
+                    .stream() // <-- Ahora se aplica a la lista devuelta por getTodosEntrenadores()
+                    .filter(entrenador ->
+                            (entrenador.getNombre().toLowerCase() + " " + entrenador.getApellido().toLowerCase())
+                                    .contains(busqueda)
+                    )
+                    .collect(Collectors.toList());
+
+            actualizarTabla(entrenadores);
+
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(this, "Error al cargar entrenadores", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    // ========== [ACTUALIZAR TABLA] ========== //
+    private void actualizarTabla(List<Entrenador> entrenadores) {
+        String[] columnas = {"ID", "Nombre", "Apellido", "Teléfono", "Correo"};
+        DefaultTableModel model = new DefaultTableModel(columnas, 0);
+
+        for (Entrenador e : entrenadores) {
+            model.addRow(new Object[]{
+                    e.getId(),
+                    e.getNombre(),
+                    e.getApellido(),
+                    e.getTelefono(),
+                    e.getCorreo()
+            });
+        }
+
+        jTable1.setModel(model);
     }
 
     @SuppressWarnings("unchecked")
@@ -60,6 +109,11 @@ private static ConEntrenador instanciass;
         jButton1.setBackground(new java.awt.Color(255, 193, 7));
         jButton1.setText("Consultar");
         jButton1.setBorderPainted(false);
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -154,6 +208,10 @@ private static ConEntrenador instanciass;
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        buscarEntrenadores(evt);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

@@ -22,7 +22,6 @@ public class ActividadReserva {
         this.idEstado = idEstado;
     }
 
-    // Getters y Setters (validar campos)
     public String getIdReservaActividad() { return idReservaActividad; }
     public void setIdReservaActividad(String idReservaActividad) {
         if (idReservaActividad.matches("RA-\\d{3}")) {
@@ -36,8 +35,6 @@ public class ActividadReserva {
             this.idActividad = idActividad;
         }
     }
-
-    // ... Implementar setters similares para otros campos
 
     @Override
     public String toString() {

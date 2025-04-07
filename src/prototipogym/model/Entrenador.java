@@ -1,11 +1,11 @@
 package prototipogym.model;
 
 public class Entrenador {
-    String id;
-    String nombre;
-    String apellido;
-    String telefono;
-    String correo;
+    private String id;
+    private String nombre;
+    private String apellido;
+    private String telefono;
+    private String correo;
 
     public Entrenador(String id, String nombre, String apellidos, String telefono, String correo){
         this.id = id;
@@ -14,6 +14,8 @@ public class Entrenador {
         this.telefono = telefono;
         this.correo = correo;
     }
+
+    public Entrenador() {}
 
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }

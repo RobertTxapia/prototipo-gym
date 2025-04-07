@@ -1,7 +1,15 @@
 package prototipogym.view;
 
+import prototipogym.controller.consultas.ConsultaControllerSala;
+import prototipogym.model.Sala;
+
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 public class ConSalas extends javax.swing.JFrame {
@@ -24,6 +32,43 @@ private static ConSalas instanciass;
         }
         return instanciass;
     }
+
+    private void buscarSalas(java.awt.event.ActionEvent evt) {
+        try {
+            String busqueda = jTextField1.getText().trim().toLowerCase();
+
+            List<Sala> salas = ConsultaControllerSala.getTodasSalas()
+                    .stream()
+                    .filter(sala ->
+                            String.valueOf(sala.getId()).contains(busqueda) ||
+                                    sala.getNombre().toLowerCase().contains(busqueda) ||
+                                    sala.getDescripcion().toLowerCase().contains(busqueda)
+                    ) // Cierre correcto del filter
+                    .collect(Collectors.toList());
+
+            actualizarTabla(salas);
+
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(this, "Error al cargar salas", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void actualizarTabla(List<Sala> salas) {
+        String[] columnas = {"ID", "Nombre", "Descripción", "ID Localización"};
+        DefaultTableModel model = new DefaultTableModel(columnas, 0);
+
+        for (Sala sala : salas) {
+            model.addRow(new Object[]{
+                    sala.getId(),
+                    sala.getNombre(),
+                    sala.getDescripcion(),
+                    sala.getIdLocalizacion()
+            });
+        }
+
+        jTable1.setModel(model);
+    }
+
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -58,6 +103,11 @@ private static ConSalas instanciass;
         jButton2.setBackground(new java.awt.Color(255, 193, 7));
         jButton2.setText("Consultar");
         jButton2.setBorderPainted(false);
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -145,6 +195,10 @@ private static ConSalas instanciass;
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        buscarSalas(evt);
+    }//GEN-LAST:event_jButton2ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

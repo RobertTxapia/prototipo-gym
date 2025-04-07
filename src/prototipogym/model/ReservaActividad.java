@@ -22,7 +22,6 @@ public class ReservaActividad {
         this.idHorarioActividad = idHorarioActividad;
     }
 
-    // Getters y Setters
     public int getIdReservaActividad() { return idReservaActividad; }
     public void setIdReservaActividad(int idReservaActividad) { this.idReservaActividad = idReservaActividad; }
 

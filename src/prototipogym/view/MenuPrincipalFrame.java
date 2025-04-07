@@ -1,5 +1,6 @@
 package prototipogym.view;
 
+import prototipogym.view.consultas.ConHorariosActividades;
 import prototipogym.view.mantenimientos.ManClientes;
 import prototipogym.view.mantenimientos.ManEntrenador;
 import prototipogym.view.mantenimientos.ManReserva;
@@ -338,7 +339,7 @@ public class MenuPrincipalFrame extends javax.swing.JFrame {
     
     //agregue la ventana de usuario
     private void mItemUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mItemUsuarioActionPerformed
-        ManUsuario.getInstancia();
+        prototipogym.view.ManUsuario.getInstancia();
     }//GEN-LAST:event_mItemUsuarioActionPerformed
 
     private void mItemEntrenadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mItemEntrenadorActionPerformed
@@ -350,19 +351,19 @@ public class MenuPrincipalFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_mItemReservaActionPerformed
 
     private void mItemLocalizacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mItemLocalizacionActionPerformed
-        ManLocalizacion.getInstancia();
+        prototipogym.view.ManLocalizacion.getInstancia();
     }//GEN-LAST:event_mItemLocalizacionActionPerformed
 
     private void mItemSalasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mItemSalasActionPerformed
-        ManSalas.getInstancia();
+        prototipogym.view.ManSalas.getInstancia();
     }//GEN-LAST:event_mItemSalasActionPerformed
 
     private void mItemActividadesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mItemActividadesActionPerformed
-        ManActividades.getInstancia();
+        prototipogym.view.ManActividades.getInstancia();
     }//GEN-LAST:event_mItemActividadesActionPerformed
 
     private void mItemHorariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mItemHorariosActionPerformed
-        ManHoraActi.getInstancia();
+        prototipogym.view.ManHoraActi.getInstancia();
     }//GEN-LAST:event_mItemHorariosActionPerformed
 
     private void mItemClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mItemClientesActionPerformed
@@ -370,7 +371,7 @@ public class MenuPrincipalFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_mItemClientesActionPerformed
 
     private void mItemEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mItemEstadoActionPerformed
-        ManEstadoReserva.getInstancia();
+        prototipogym.view.ManEstadoReserva.getInstancia();
     }//GEN-LAST:event_mItemEstadoActionPerformed
 
     private void mItemReservaActividadesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mItemReservaActividadesActionPerformed
@@ -378,23 +379,23 @@ public class MenuPrincipalFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_mItemReservaActividadesActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        ConUsuario.getInstancia();
+        prototipogym.view.consultas.ConUsuario.getInstancia();
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
-       ConEntrenador.getInstancia();
+       prototipogym.view.consultas.ConEntrenador.getInstancia();
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void jMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem11ActionPerformed
-        ConLocalizacion.getInstancia();
+        prototipogym.view.consultas.ConLocalizacion.getInstancia();
     }//GEN-LAST:event_jMenuItem11ActionPerformed
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
-       ConSalas.getInstancia();
+       prototipogym.view.ConSalas.getInstancia();
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
-        ConActividades.getInstancia();
+        prototipogym.view.consultas.ConActividades.getInstancia();
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
     private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
@@ -402,7 +403,7 @@ public class MenuPrincipalFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem8ActionPerformed
 
     private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
-        ConCliente.getInstancia();
+        prototipogym.view.consultas.ConCliente.getInstancia();
     }//GEN-LAST:event_jMenuItem9ActionPerformed
 
     private void configurarMenu(int nivelAcceso) {
