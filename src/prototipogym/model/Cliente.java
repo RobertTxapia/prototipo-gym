@@ -2,27 +2,27 @@ package prototipogym.model;
 import java.util.Date;
 
 public class Cliente {
-    private String id;
+    private String idCliente;
     private String nombre;
     private String apellidoPat;
     private String apellidoMat;
     private String direccion;
-    private Date fechaNac;
+    private String fechaNac;
     private String telefono;
     private String celular;
-    private Date fechaIngreso;
+    private String fechaIngreso;
     private boolean status;
     private int tipoCliente;
     private String correo;
     private double balance;
     private double valorCuota;
 
-    // Constructor
-    public Cliente(String id, String nombre, String apellidoPat, String apellidoMat,
-                   String direccion, Date fechaNac, String telefono, String celular,
-                   Date fechaIngreso, boolean status, int tipoCliente, String correo,
+    // Constructor completo
+    public Cliente(String idCliente, String nombre, String apellidoPat, String apellidoMat,
+                   String direccion, String fechaNac, String telefono, String celular,
+                   String fechaIngreso, boolean status, int tipoCliente, String correo,
                    double balance, double valorCuota) {
-        this.id = id;
+        this.idCliente = idCliente;
         this.nombre = nombre;
         this.apellidoPat = apellidoPat;
         this.apellidoMat = apellidoMat;
@@ -38,8 +38,9 @@ public class Cliente {
         this.valorCuota = valorCuota;
     }
 
-    public String getId() { return id; }
-    public void setId(String id) { this.id = id; }
+    // Getters y Setters
+    public String getIdCliente() { return idCliente; }
+    public void setIdCliente(String idCliente) { this.idCliente = idCliente; }
 
     public String getNombre() { return nombre; }
     public void setNombre(String nombre) { this.nombre = nombre; }
@@ -53,8 +54,8 @@ public class Cliente {
     public String getDireccion() { return direccion; }
     public void setDireccion(String direccion) { this.direccion = direccion; }
 
-    public Date getFechaNac() { return fechaNac; }
-    public void setFechaNac(Date fechaNac) { this.fechaNac = fechaNac; }
+    public String getFechaNac() { return fechaNac; }
+    public void setFechaNac(String fechaNac) { this.fechaNac = fechaNac; }
 
     public String getTelefono() { return telefono; }
     public void setTelefono(String telefono) { this.telefono = telefono; }
@@ -62,8 +63,8 @@ public class Cliente {
     public String getCelular() { return celular; }
     public void setCelular(String celular) { this.celular = celular; }
 
-    public Date getFechaIngreso() { return fechaIngreso; }
-    public void setFechaIngreso(Date fechaIngreso) { this.fechaIngreso = fechaIngreso; }
+    public String getFechaIngreso() { return fechaIngreso; }
+    public void setFechaIngreso(String fechaIngreso) { this.fechaIngreso = fechaIngreso; }
 
     public boolean isStatus() { return status; }
     public void setStatus(boolean status) { this.status = status; }
@@ -79,5 +80,4 @@ public class Cliente {
 
     public double getValorCuota() { return valorCuota; }
     public void setValorCuota(double valorCuota) { this.valorCuota = valorCuota; }
-
 }

@@ -1,8 +1,12 @@
 
 package prototipogym.view;
 
+import prototipogym.controller.*;
+import prototipogym.model.ReservaActividad;
+
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
 import javax.swing.JOptionPane;
 
 public class ManReservaActividades extends javax.swing.JFrame {
@@ -37,8 +41,59 @@ public class ManReservaActividades extends javax.swing.JFrame {
         Text_IDActividad.setText("");
         Text_IDHorarioActividad.setText("");
     }
-    
-   
+
+    private void guardarReservaActividad() {
+        try {
+            // Validar campos obligatorios
+            if (Text_ID.getText().isEmpty() ||
+                    Text_IDCliente.getText().isEmpty() ||
+                    Text_IDActividad.getText().isEmpty() ||
+                    Text_IDHorarioActividad.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Campos obligatorios faltantes!", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // Validar relaciones con otras tablas
+            if (!validarRelaciones()) {
+                JOptionPane.showMessageDialog(this, "Error en relaciones con otras tablas!", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // Crear objeto ReservaActividad
+            ReservaActividad reserva = new ReservaActividad(
+                    Integer.parseInt(Text_ID.getText()),
+                    TextFechaReserva.getText(),
+                    TextFechaBaja.getText(),
+                    Text_IDEstadoReserva.getText(),
+                    Text_IDCliente.getText(),
+                    Text_IDActividad.getText(),
+                    Text_IDHorarioActividad.getText()
+            );
+
+            // Guardar en archivo
+            if (ReservaActividadController.guardarReserva(reserva)) {
+                JOptionPane.showMessageDialog(this, "Reserva guardada exitosamente!", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                Limpiar();
+            } else {
+                JOptionPane.showMessageDialog(this, "Error al guardar la reserva", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "ID debe ser numérico!", "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(this, "Error de acceso a archivos: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private boolean validarRelaciones() throws IOException {
+        return ClienteController.existeCliente(Text_IDCliente.getText()) &&
+                ActividadController.existeActividad(Text_IDActividad.getText()) &&
+                HorarioActividadController.existeHorario(Text_IDHorarioActividad.getText()) &&
+                EstadoReservaController.existeEstado(Text_IDEstadoReserva.getText());
+    }
+
+
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -146,6 +201,11 @@ public class ManReservaActividades extends javax.swing.JFrame {
         ButtonGuardar.setBackground(new java.awt.Color(255, 193, 7));
         ButtonGuardar.setText("Guardar");
         ButtonGuardar.setBorderPainted(false);
+        ButtonGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButtonGuardarActionPerformed(evt);
+            }
+        });
 
         ButtonLimpiar.setBackground(new java.awt.Color(255, 193, 7));
         ButtonLimpiar.setText("Limpiar");
@@ -346,6 +406,10 @@ public class ManReservaActividades extends javax.swing.JFrame {
             evt.consume();
         }
     }//GEN-LAST:event_Text_IDHorarioActividadKeyTyped
+
+    private void ButtonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonGuardarActionPerformed
+        guardarReservaActividad();
+    }//GEN-LAST:event_ButtonGuardarActionPerformed
 
    
     // Variables declaration - do not modify//GEN-BEGIN:variables

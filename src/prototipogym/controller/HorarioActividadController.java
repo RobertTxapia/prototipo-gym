@@ -1,6 +1,7 @@
 package prototipogym.controller;
 import prototipogym.model.HorarioActividad;
 import java.io.*;
+import java.util.Scanner;
 import javax.swing.JOptionPane;
 
 public class HorarioActividadController {
@@ -41,6 +42,21 @@ public class HorarioActividadController {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(archivo))) {
             bw.write(contenido.toString());
         }
+    }
+
+    public static boolean existeHorario(String idHorario) throws IOException {
+        File file = new File("data/horarios_actividades.txt");
+        if (!file.exists()) return false;
+
+        try (Scanner scanner = new Scanner(file)) {
+            while (scanner.hasNextLine()) {
+                String[] datos = scanner.nextLine().split(";");
+                if (datos[0].equals(idHorario)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     // Validar referencias

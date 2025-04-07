@@ -1,9 +1,13 @@
-
 package prototipogym.view;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.JOptionPane;
+
+import prototipogym.controller.ActividadController;
+import prototipogym.controller.ReservaController;
+import prototipogym.model.Reserva;
+import java.io.IOException;
 
 public class ManReserva extends javax.swing.JFrame {
 
@@ -27,7 +31,44 @@ public class ManReserva extends javax.swing.JFrame {
         }
         return instanciass;
     }
-    
+
+    private void guardarReserva() {
+        int idECliente = Integer.parseInt(TextCliente.getText());
+        int idSala = Integer.parseInt(TextSala.getText());
+        int idHorario = Integer.parseInt(TextHorario.getText());
+        int idEstado = Integer.parseInt(TextEstado.getText());
+
+        try {
+            Reserva reserva = new Reserva(
+                    Text_ID.getText(),
+                    TextSala.getText(), // Campo añadido
+                    TextCliente.getText(),
+                    TextFecha.getText(),
+                    TextHorario.getText(),
+                    TextEstado.getText()
+            );
+
+            // Validaciones actualizadas
+            if (reserva.getIdReserva().isEmpty() ||
+                    reserva.getIdSala().isEmpty() ||
+                    reserva.getIdCliente().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Campos obligatorios faltantes!");
+                return;
+            }
+
+            if (!ReservaController.validarRelaciones(idECliente, idSala, idHorario, idEstado)) {
+                JOptionPane.showMessageDialog(this, "Error en relaciones con otras tablas!");
+                return;
+            }
+
+            boolean exito = ReservaController.guardarReserva(reserva);
+            JOptionPane.showMessageDialog(this, exito ? "Éxito" : "Error");
+
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
+        }
+    }
+
     public void Limpiar (){
         Text_ID.setText("");
         TextSala.setText("");
@@ -146,6 +187,11 @@ public class ManReserva extends javax.swing.JFrame {
         ButtonGuardar.setBackground(new java.awt.Color(255, 193, 7));
         ButtonGuardar.setText("Guarda");
         ButtonGuardar.setBorderPainted(false);
+        ButtonGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButtonGuardarActionPerformed(evt);
+            }
+        });
 
         ButtonLimpiar.setBackground(new java.awt.Color(255, 193, 7));
         ButtonLimpiar.setText("Limpiar");
@@ -345,6 +391,10 @@ public class ManReserva extends javax.swing.JFrame {
             evt.consume();
         }
     }//GEN-LAST:event_TextEstadoKeyTyped
+
+    private void ButtonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonGuardarActionPerformed
+        guardarReserva();
+    }//GEN-LAST:event_ButtonGuardarActionPerformed
 
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

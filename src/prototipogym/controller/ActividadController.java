@@ -1,6 +1,7 @@
 package prototipogym.controller;
 import prototipogym.model.Actividad;
 import java.io.*;
+import java.util.Scanner;
 import javax.swing.JOptionPane;
 
 public class ActividadController {
@@ -46,6 +47,21 @@ public class ActividadController {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(archivo))) {
             bw.write(contenido.toString());
         }
+    }
+
+    public static boolean existeActividad(String idActividad) throws IOException {
+        File file = new File("data/actividades.txt");
+        if (!file.exists()) return false;
+
+        try (Scanner scanner = new Scanner(file)) {
+            while (scanner.hasNextLine()) {
+                String[] datos = scanner.nextLine().split(";");
+                if (datos[0].equals(idActividad)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     // Validar existencia de IDs relacionados

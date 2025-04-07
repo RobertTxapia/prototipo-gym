@@ -3,33 +3,18 @@ import prototipogym.model.EstadoReserva;
 import java.io.*;
 
 public class EstadoReservaController {
+    public static boolean guardarEstado(EstadoReserva estado) {
+        try {
+            if (existeEstado(estado.getId())) return false;
 
-    // Guardar o actualizar estado
-    public static void guardarEstado(EstadoReserva estado) throws IOException {
-        File archivo = new File("data/estado_reservas.txt");
-        StringBuilder contenido = new StringBuilder();
-        boolean encontrado = false;
-
-        if (archivo.exists()) {
-            try (BufferedReader br = new BufferedReader(new FileReader(archivo))) {
-                String linea;
-                while ((linea = br.readLine()) != null) {
-                    if (linea.startsWith(estado.getId() + ";")) {
-                        contenido.append(estado.getId()).append(";").append(estado.getEstado()).append("\n");
-                        encontrado = true;
-                    } else {
-                        contenido.append(linea).append("\n");
-                    }
-                }
+            try (BufferedWriter bw = new BufferedWriter(new FileWriter("data/estado_reservas.txt", true))) {
+                bw.write(estado.toString());
+                bw.newLine();
+                return true;
             }
-        }
-
-        if (!encontrado) {
-            contenido.append(estado.getId()).append(";").append(estado.getEstado()).append("\n");
-        }
-
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(archivo))) {
-            bw.write(contenido.toString());
+        } catch (IOException e) {
+            System.err.println("Error: " + e.getMessage());
+            return false;
         }
     }
 

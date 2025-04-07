@@ -5,6 +5,7 @@ import prototipogym.model.Sala;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 import javax.swing.JOptionPane;
 
 public class SalaController {
@@ -38,6 +39,19 @@ public class SalaController {
             }
         }
         return true;
+    }
+
+    public static boolean existeSala(String idSala) throws IOException {
+        File file = new File("data/salas.txt");
+        if (!file.exists()) return false;
+
+        try (Scanner scanner = new Scanner(file)) {
+            while (scanner.hasNextLine()) {
+                String[] datos = scanner.nextLine().split(";");
+                if (datos[0].equals(idSala)) return true;
+            }
+        }
+        return false;
     }
 
     // Validar existencia de localización

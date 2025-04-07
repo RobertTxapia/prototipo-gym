@@ -1,6 +1,10 @@
 package prototipogym.view;
+import prototipogym.controller.*;
+import prototipogym.model.Cliente;
+
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -41,6 +45,53 @@ public class ManClientes extends javax.swing.JFrame {
             getInstancia().setVisible(true);
         }
         return instanciass;
+    }
+
+    private void guardarCliente() {
+        try {
+            // Validar campos obligatorios
+            if (Text_ID.getText().isEmpty() || TextNombre.getText().isEmpty() ||
+                    TextPapellido.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Campos obligatorios faltantes!", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // Crear objeto Cliente
+            Cliente cliente = new Cliente(
+                    Text_ID.getText(),
+                    TextNombre.getText(),
+                    TextPapellido.getText(),
+                    TextSapellido.getText(),
+                    TextDireccion.getText(),
+                    TextFechaNac.getText(),
+                    TextTelefono.getText(),
+                    TextCelular.getText(),
+                    TextFechaIngreso.getText(),
+                    Status.getSelectedItem().equals("Activo"),
+                    TipoCliente.getSelectedIndex(), // 0=Socio, 1=Invitado
+                    TextCorreo.getText(),
+                    Double.parseDouble(TextBalance.getText()),
+                    Double.parseDouble(TextCuota.getText())
+            );
+
+            // Validar si el cliente ya existe
+            if (ClienteController.existeCliente(cliente.getIdCliente())) {
+                JOptionPane.showMessageDialog(this, "¡El ID ya existe!", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // Guardar en archivo
+            boolean exito = ClienteController.guardarCliente(cliente);
+            if (exito) {
+                JOptionPane.showMessageDialog(this, "Cliente guardado!", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                Limpiar();
+            }
+
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "Balance/Valor Cuota deben ser numéricos!", "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(this, "Error al guardar: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
     
     public void Limpiar(){
@@ -245,6 +296,11 @@ public class ManClientes extends javax.swing.JFrame {
         ButtonGuardar.setBackground(new java.awt.Color(255, 193, 7));
         ButtonGuardar.setText("Guardar");
         ButtonGuardar.setBorderPainted(false);
+        ButtonGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButtonGuardarActionPerformed(evt);
+            }
+        });
 
         ButtonLimpiar.setBackground(new java.awt.Color(255, 193, 7));
         ButtonLimpiar.setText("Limpiar");
@@ -521,6 +577,10 @@ public class ManClientes extends javax.swing.JFrame {
     private void TextFechaNacActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TextFechaNacActionPerformed
         
     }//GEN-LAST:event_TextFechaNacActionPerformed
+
+    private void ButtonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonGuardarActionPerformed
+        guardarCliente();
+    }//GEN-LAST:event_ButtonGuardarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

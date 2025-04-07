@@ -1,8 +1,15 @@
 
 package prototipogym.view;
 
+import prototipogym.controller.EstadoReservaController;
+import prototipogym.model.EstadoReserva;
+
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
+import java.util.Scanner;
 import javax.swing.JOptionPane;
 
 
@@ -12,6 +19,15 @@ public class ManEstadoReserva extends javax.swing.JFrame {
     public ManEstadoReserva() {
         initComponents();
         setLocationRelativeTo(null);
+//        KeyAdapter enterListener = new KeyAdapter() {
+//
+//            @Override
+//            public void keyPressed(KeyEvent e) {
+//                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+//                    buscarUsuario();
+//                }
+//            }
+//        };
         addWindowListener(new WindowAdapter() {
         @Override
         public void windowClosing(WindowEvent e) {
@@ -28,6 +44,34 @@ public class ManEstadoReserva extends javax.swing.JFrame {
             getInstancia().setVisible(true);
         }
         return instanciass;
+    }
+
+
+
+    private void guardarEstadoReserva() {
+        try {
+            String id = Text_ID.getText().trim();
+            String estado = TextEstado.getText().trim();
+
+            EstadoReserva estadoReserva = new EstadoReserva(id, estado);
+
+            if (EstadoReservaController.existeEstado(Text_ID.getText())){
+                JOptionPane.showMessageDialog(this, "Error: El ID ya existe");
+                return;
+            }
+
+            if (id.isEmpty() || estado.isEmpty()){
+                JOptionPane.showMessageDialog(null, "Por favor, introduzca un ID");
+                return;
+            }
+
+            if(EstadoReservaController.guardarEstado(estadoReserva)) {
+                JOptionPane.showMessageDialog(null, "Estado reserva guardada");
+                Limpiar();
+            }
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(this, "Error al guardar");
+        }
     }
     
     public void Limpiar(){
@@ -91,6 +135,11 @@ public class ManEstadoReserva extends javax.swing.JFrame {
         ButtonGuardar.setBackground(new java.awt.Color(255, 193, 7));
         ButtonGuardar.setText("Guardar");
         ButtonGuardar.setBorderPainted(false);
+        ButtonGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButtonGuardarActionPerformed(evt);
+            }
+        });
 
         ButtonLimpiar.setBackground(new java.awt.Color(255, 193, 7));
         ButtonLimpiar.setText("Limpiar");
@@ -206,6 +255,10 @@ public class ManEstadoReserva extends javax.swing.JFrame {
             evt.consume();
         }
     }//GEN-LAST:event_Text_IDKeyTyped
+
+    private void ButtonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonGuardarActionPerformed
+        guardarEstadoReserva();
+    }//GEN-LAST:event_ButtonGuardarActionPerformed
 
     
 
