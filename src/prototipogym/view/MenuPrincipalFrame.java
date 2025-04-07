@@ -1,5 +1,10 @@
 package prototipogym.view;
 
+import prototipogym.view.mantenimientos.ManClientes;
+import prototipogym.view.mantenimientos.ManEntrenador;
+import prototipogym.view.mantenimientos.ManReserva;
+import prototipogym.view.mantenimientos.ManReservaActividades;
+
 public class MenuPrincipalFrame extends javax.swing.JFrame {
     public MenuPrincipalFrame(int nivelAcceso) {
         initComponents();

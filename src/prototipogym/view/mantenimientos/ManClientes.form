@@ -84,40 +84,48 @@
                               </Group>
                               <Component id="ButtonGuardar" min="-2" pref="90" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="87" max="32767" attributes="0"/>
+                          <EmptySpace pref="109" max="32767" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="1" attributes="0">
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                          <Component id="jLabel9" alignment="0" min="-2" pref="41" max="-2" attributes="0"/>
-                                          <Component id="jLabel10" alignment="0" max="32767" attributes="0"/>
-                                          <Component id="jLabel11" alignment="0" max="32767" attributes="0"/>
-                                      </Group>
-                                      <Component id="jLabel12" min="-2" max="-2" attributes="0"/>
-                                      <Group type="103" alignment="0" groupAlignment="1" attributes="0">
-                                          <Component id="jLabel14" min="-2" pref="48" max="-2" attributes="0"/>
-                                          <Component id="jLabel13" min="-2" pref="52" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Component id="ButtonLimpiar" alignment="0" min="-2" pref="78" max="-2" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace min="-2" pref="43" max="-2" attributes="0"/>
+                                  <Component id="ButtonLimpiar" min="-2" pref="78" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="110" max="-2" attributes="0"/>
+                                  <Component id="ButtonVolver" min="-2" pref="85" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="57" max="-2" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="1" attributes="0">
-                                  <Component id="jLabel15" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="68" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Group type="102" alignment="1" attributes="0">
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
+                                                  <Component id="jLabel9" alignment="0" min="-2" pref="41" max="-2" attributes="0"/>
+                                                  <Component id="jLabel10" alignment="0" max="32767" attributes="0"/>
+                                                  <Component id="jLabel11" alignment="0" min="-2" pref="90" max="-2" attributes="0"/>
+                                              </Group>
+                                              <Component id="jLabel12" min="-2" max="-2" attributes="0"/>
+                                              <Group type="103" alignment="0" groupAlignment="1" attributes="0">
+                                                  <Component id="jLabel14" min="-2" pref="48" max="-2" attributes="0"/>
+                                                  <Component id="jLabel13" min="-2" pref="52" max="-2" attributes="0"/>
+                                              </Group>
+                                          </Group>
+                                          <EmptySpace min="-2" pref="43" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Group type="102" alignment="1" attributes="0">
+                                          <Component id="jLabel15" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace min="-2" pref="68" max="-2" attributes="0"/>
+                                      </Group>
+                                  </Group>
+                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                      <Component id="TextBalance" max="32767" attributes="0"/>
+                                      <Component id="TipoCliente" max="32767" attributes="0"/>
+                                      <Component id="Status" max="32767" attributes="0"/>
+                                      <Component id="TextCelular" max="32767" attributes="0"/>
+                                      <Component id="TextCorreo" max="32767" attributes="0"/>
+                                      <Component id="TextCuota" pref="140" max="32767" attributes="0"/>
+                                      <Component id="TextFechaIngreso" max="32767" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace min="-2" pref="100" max="-2" attributes="0"/>
                               </Group>
                           </Group>
-                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="TextBalance" max="32767" attributes="0"/>
-                              <Component id="TipoCliente" max="32767" attributes="0"/>
-                              <Component id="Status" max="32767" attributes="0"/>
-                              <Component id="TextCelular" pref="140" max="32767" attributes="0"/>
-                              <Component id="TextFechaIngreso" max="32767" attributes="0"/>
-                              <Component id="TextCorreo" max="32767" attributes="0"/>
-                              <Component id="TextCuota" max="32767" attributes="0"/>
-                              <Component id="ButtonVolver" alignment="1" min="-2" pref="85" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace min="-2" pref="57" max="-2" attributes="0"/>
                       </Group>
                   </Group>
               </Group>

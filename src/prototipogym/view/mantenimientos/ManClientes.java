@@ -1,7 +1,7 @@
-package prototipogym.view;
+package prototipogym.view.mantenimientos;
 import prototipogym.controller.*;
 import prototipogym.model.Cliente;
-
+import java.text.SimpleDateFormat;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
@@ -14,19 +14,19 @@ import javax.swing.text.MaskFormatter;
 
 
 public class ManClientes extends javax.swing.JFrame {
-    public static final SimpleDateFormat FORMATO_FECHA= new SimpleDateFormat("dd/MM/yyyy");//sirve para la feccha
+   public static final SimpleDateFormat FORMATO_FECHA= new SimpleDateFormat("dd/MM/yyyy");//sirve para la feccha
     public static SimpleDateFormat clockFormat=new SimpleDateFormat("h:mm a");
     private static ManClientes instanciass;
     public ManClientes() {
         initComponents();
         try {
-    MaskFormatter formatoFecha = new MaskFormatter("##/##/####");
-    formatoFecha.setPlaceholderCharacter('_');
-    TextFechaNac = new JFormattedTextField(formatoFecha);
-    TextFechaNac.setColumns(10);
-} catch (ParseException e) {
-    e.printStackTrace();
-}
+            MaskFormatter formatoFecha = new MaskFormatter("##/##/####");
+            formatoFecha.setPlaceholderCharacter('_');
+            TextFechaNac = new JFormattedTextField(formatoFecha);
+            TextFechaNac.setColumns(10);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
         Status.setSelectedIndex(-1);
         TipoCliente.setSelectedIndex(-1);
         setLocationRelativeTo(null);
@@ -355,33 +355,38 @@ public class ManClientes extends javax.swing.JFrame {
                                 .addComponent(TextFechaNac)
                                 .addComponent(TextTelefono))
                             .addComponent(ButtonGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 87, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 109, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                    .addComponent(jLabel12)
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(ButtonLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(43, 43, 43))
+                                .addComponent(ButtonLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(110, 110, 110)
+                                .addComponent(ButtonVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(57, 57, 57))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel15)
-                                .addGap(68, 68, 68)))
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(TextBalance)
-                            .addComponent(TipoCliente, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(Status, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(TextCelular, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
-                            .addComponent(TextFechaIngreso)
-                            .addComponent(TextCorreo)
-                            .addComponent(TextCuota)
-                            .addComponent(ButtonVolver, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(57, 57, 57))))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addComponent(jLabel12)
+                                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addGap(43, 43, 43))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel15)
+                                        .addGap(68, 68, 68)))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(TextBalance)
+                                    .addComponent(TipoCliente, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(Status, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(TextCelular)
+                                    .addComponent(TextCorreo)
+                                    .addComponent(TextCuota, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
+                                    .addComponent(TextFechaIngreso))
+                                .addGap(100, 100, 100))))))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(243, 243, 243)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -480,7 +485,6 @@ public class ManClientes extends javax.swing.JFrame {
     private void Text_IDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Text_IDActionPerformed
         Text_ID.requestFocus();
         TextFechaIngreso.setText(FORMATO_FECHA.format(new Date()));
-          
     }//GEN-LAST:event_Text_IDActionPerformed
 
     private void ButtonLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonLimpiarActionPerformed
@@ -497,81 +501,27 @@ public class ManClientes extends javax.swing.JFrame {
     }//GEN-LAST:event_TextFechaIngresoActionPerformed
 
     private void Text_IDKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Text_IDKeyTyped
-       try {
-           char letra = evt.getKeyChar();
-            // Permite solo números
-           if (!Character.isDigit(letra)) {
-               throw new Exception("Solo se permiten numeros");
-           }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage(), "Advertencia", JOptionPane.WARNING_MESSAGE);
-            evt.consume();
-        }
+       
     }//GEN-LAST:event_Text_IDKeyTyped
 
     private void TextNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TextNombreKeyTyped
-        try {
-            char letra = evt.getKeyChar();
-            // Permite todo excepto numeros
-            if (Character.isDigit(letra)) {
-                throw new Exception("No se permiten numeros");
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage(), "Advertencia", JOptionPane.WARNING_MESSAGE);
-            evt.consume();
-        }
+        
     }//GEN-LAST:event_TextNombreKeyTyped
 
     private void TextPapellidoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TextPapellidoKeyTyped
-        try {
-            char letra = evt.getKeyChar();
-            // Permite todo excepto numeros
-            if (Character.isDigit(letra)) {
-                throw new Exception("No se permiten numeros");
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage(), "Advertencia", JOptionPane.WARNING_MESSAGE);
-            evt.consume();
-        }
+       
     }//GEN-LAST:event_TextPapellidoKeyTyped
 
     private void TextSapellidoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TextSapellidoKeyTyped
-        try {
-            char letra = evt.getKeyChar();
-            // Permite todo excepto numeros
-            if (Character.isDigit(letra)) {
-                throw new Exception("No se permiten numeros");
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage(), "Advertencia", JOptionPane.WARNING_MESSAGE);
-            evt.consume();
-        }
+        
     }//GEN-LAST:event_TextSapellidoKeyTyped
 
     private void TextTelefonoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TextTelefonoKeyTyped
-       try {
-           char letra = evt.getKeyChar();
-            // Permite solo números
-           if (!Character.isDigit(letra)) {
-               throw new Exception("Solo se permiten numeros");
-           }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage(), "Advertencia", JOptionPane.WARNING_MESSAGE);
-            evt.consume();
-        }
+       
     }//GEN-LAST:event_TextTelefonoKeyTyped
 
     private void TextCelularKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TextCelularKeyTyped
-        try {
-           char letra = evt.getKeyChar();
-            // Permite solo números
-           if (!Character.isDigit(letra)) {
-               throw new Exception("Solo se permiten numeros");
-           }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage(), "Advertencia", JOptionPane.WARNING_MESSAGE);
-            evt.consume();
-        }
+        
     }//GEN-LAST:event_TextCelularKeyTyped
 
     private void TextFechaNacActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TextFechaNacActionPerformed

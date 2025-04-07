@@ -94,4 +94,7 @@ public class ClienteController {
         Cliente cliente = obtenerCliente(idCliente);
         return cliente != null && cliente.getBalance() > 0;
     }
+    
+    
+    
 }
