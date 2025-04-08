@@ -20,6 +20,7 @@ private static ConLocalizacion instanciass;
     public ConLocalizacion() {
         initComponents();
         setLocationRelativeTo(null);
+        rootPane.setDefaultButton(jButton2);
         addWindowListener(new WindowAdapter() {
         @Override
         public void windowClosing(WindowEvent e) {

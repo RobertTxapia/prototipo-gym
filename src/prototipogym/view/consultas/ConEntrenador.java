@@ -20,6 +20,7 @@ private static ConEntrenador instanciass;
     public ConEntrenador() {
         initComponents();
         setLocationRelativeTo(null);
+        rootPane.setDefaultButton(jButton1);
         addWindowListener(new WindowAdapter() {
         @Override
         public void windowClosing(WindowEvent e) {

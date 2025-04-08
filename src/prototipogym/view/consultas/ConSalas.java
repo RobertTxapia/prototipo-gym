@@ -1,4 +1,4 @@
-package prototipogym.view;
+package prototipogym.view.consultas;
 
 import prototipogym.controller.consultas.ConsultaControllerSala;
 import prototipogym.model.Sala;
@@ -17,6 +17,7 @@ private static ConSalas instanciass;
     public ConSalas() {
         initComponents();
         setLocationRelativeTo(null);
+        rootPane.setDefaultButton(jButton2);
         addWindowListener(new WindowAdapter() {
         @Override
         public void windowClosing(WindowEvent e) {

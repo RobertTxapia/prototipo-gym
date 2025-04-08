@@ -18,6 +18,7 @@ private static ConActividades instanciass;
     public ConActividades() {
         initComponents();
         setLocationRelativeTo(null);
+        rootPane.setDefaultButton(jButton2);
         addWindowListener(new WindowAdapter() {
         @Override
         public void windowClosing(WindowEvent e) {

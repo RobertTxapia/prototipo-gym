@@ -18,6 +18,7 @@ private static ConUsuario instanciass;
     public ConUsuario() {
         initComponents();
         setLocationRelativeTo(null);
+        rootPane.setDefaultButton(jButton1);
         addWindowListener(new WindowAdapter() {
         @Override
         public void windowClosing(WindowEvent e) {
@@ -220,6 +221,7 @@ private static ConUsuario instanciass;
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         cargarUsuarios(evt);
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
 

@@ -162,6 +162,7 @@ public class ManClientes extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Debe ingresar una fecha de nacimiento válida!", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
+        
 
         // Validar formato de fecha
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -358,6 +359,7 @@ public class ManClientes extends javax.swing.JFrame {
         ButtonVolver = new javax.swing.JButton();
         etiqueta = new javax.swing.JLabel();
         CheckBox = new javax.swing.JCheckBox();
+        jLabel16 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -398,6 +400,7 @@ public class ManClientes extends javax.swing.JFrame {
         jLabel10.setText("Fecha de Ingreso");
 
         Text_ID.setBackground(new java.awt.Color(200, 200, 200));
+        Text_ID.setToolTipText("Ingrese el ID");
         Text_ID.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         Text_ID.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -411,6 +414,7 @@ public class ManClientes extends javax.swing.JFrame {
         });
 
         TextNombre.setBackground(new java.awt.Color(200, 200, 200));
+        TextNombre.setToolTipText("Ingrese el Nombre");
         TextNombre.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         TextNombre.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
@@ -419,6 +423,7 @@ public class ManClientes extends javax.swing.JFrame {
         });
 
         TextPapellido.setBackground(new java.awt.Color(200, 200, 200));
+        TextPapellido.setToolTipText("Ingrese el primer Apellido");
         TextPapellido.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         TextPapellido.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
@@ -427,6 +432,7 @@ public class ManClientes extends javax.swing.JFrame {
         });
 
         TextSapellido.setBackground(new java.awt.Color(200, 200, 200));
+        TextSapellido.setToolTipText("Ingrese el segundo Apellido");
         TextSapellido.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         TextSapellido.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
@@ -435,9 +441,11 @@ public class ManClientes extends javax.swing.JFrame {
         });
 
         TextDireccion.setBackground(new java.awt.Color(200, 200, 200));
+        TextDireccion.setToolTipText("Ingrese la Direccion");
         TextDireccion.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         TextFechaNac.setBackground(new java.awt.Color(200, 200, 200));
+        TextFechaNac.setToolTipText("Ingrese la Fecha de nacimiento");
         TextFechaNac.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         TextFechaNac.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -446,6 +454,7 @@ public class ManClientes extends javax.swing.JFrame {
         });
 
         TextTelefono.setBackground(new java.awt.Color(200, 200, 200));
+        TextTelefono.setToolTipText("Ingrese el numero de telefono");
         TextTelefono.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         TextTelefono.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
@@ -454,6 +463,7 @@ public class ManClientes extends javax.swing.JFrame {
         });
 
         TextCelular.setBackground(new java.awt.Color(200, 200, 200));
+        TextCelular.setToolTipText("Ingrese el numero de celular");
         TextCelular.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         TextCelular.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
@@ -483,9 +493,12 @@ public class ManClientes extends javax.swing.JFrame {
         jLabel13.setText("Correo");
 
         TextCorreo.setBackground(new java.awt.Color(200, 200, 200));
+        TextCorreo.setToolTipText("Ingrese el Correo");
         TextCorreo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
+        TextBalance.setEditable(false);
         TextBalance.setBackground(new java.awt.Color(200, 200, 200));
+        TextBalance.setToolTipText("Balence");
         TextBalance.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jLabel14.setForeground(new java.awt.Color(255, 255, 255));
@@ -495,6 +508,7 @@ public class ManClientes extends javax.swing.JFrame {
         jLabel15.setText("Valor Cuota");
 
         TextCuota.setBackground(new java.awt.Color(200, 200, 200));
+        TextCuota.setToolTipText("Ingrese el Valor de la cuota");
         TextCuota.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         ButtonGuardar.setBackground(new java.awt.Color(255, 193, 7));
@@ -527,6 +541,8 @@ public class ManClientes extends javax.swing.JFrame {
         etiqueta.setForeground(new java.awt.Color(255, 255, 255));
 
         CheckBox.setText("Activo");
+
+        jLabel16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/customer_person_people_man_user_client_1629.png"))); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -594,16 +610,20 @@ public class ManClientes extends javax.swing.JFrame {
                                         .addComponent(TextFechaIngreso))
                                     .addComponent(CheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(100, 100, 100))))))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(243, 243, 243)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(244, 244, 244))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(28, 28, 28)
-                .addComponent(jLabel1)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -666,7 +686,7 @@ public class ManClientes extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel15)
                             .addComponent(TextCuota, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 63, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(ButtonVolver)
                     .addComponent(ButtonLimpiar)
@@ -766,6 +786,7 @@ public class ManClientes extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
