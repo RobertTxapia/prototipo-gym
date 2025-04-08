@@ -421,7 +421,7 @@ public class ManReserva extends javax.swing.JFrame {
     }//GEN-LAST:event_TextEstadoActionPerformed
 
     private void ButtonLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonLimpiarActionPerformed
-        Limpiar();
+        Limpiar(); //Esto es un comentario
     }//GEN-LAST:event_ButtonLimpiarActionPerformed
 
     private void ButtonVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonVolverActionPerformed
