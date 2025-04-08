@@ -77,9 +77,9 @@
                                           <Component id="TextHorario" alignment="1" min="-2" pref="165" max="-2" attributes="0"/>
                                           <Component id="TextEstado" alignment="1" min="-2" pref="165" max="-2" attributes="0"/>
                                       </Group>
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <Component id="Chooser" min="-2" pref="130" max="-2" attributes="0"/>
-                                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                                      <Group type="102" attributes="0">
+                                          <Component id="Chooser" min="-2" pref="121" max="-2" attributes="0"/>
+                                          <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
                                           <Component id="TextFecha" min="-2" pref="100" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
@@ -144,10 +144,12 @@
                       </Group>
                   </Group>
                   <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                      <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
-                      <Component id="TextFecha" pref="32" max="32767" attributes="0"/>
-                      <Component id="Chooser" alignment="1" max="32767" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
+                          <Component id="TextFecha" min="-2" pref="32" max="-2" attributes="0"/>
+                      </Group>
+                      <Component id="Chooser" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
@@ -367,8 +369,6 @@
             </Property>
           </Properties>
         </Component>
-        <Component class="com.toedter.calendar.JDateChooser" name="Chooser">
-        </Component>
         <Component class="javax.swing.JTextField" name="TextFecha">
           <Properties>
             <Property name="editable" type="boolean" value="false"/>
@@ -389,6 +389,8 @@
               <Image iconType="3" name="/resources/icons/calendar_clock_schedule_icon-icons.com_51085.png"/>
             </Property>
           </Properties>
+        </Component>
+        <Component class="com.toedter.calendar.JDateChooser" name="Chooser">
         </Component>
       </SubComponents>
     </Container>
