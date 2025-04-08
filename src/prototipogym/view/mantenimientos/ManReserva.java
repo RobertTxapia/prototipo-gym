@@ -1,17 +1,11 @@
 package prototipogym.view.mantenimientos;
-
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
 import javax.swing.JOptionPane;
 import java.text.SimpleDateFormat;
-import prototipogym.controller.ActividadController;
 import prototipogym.controller.ReservaController;
 import prototipogym.model.Reserva;
 import java.io.IOException;
