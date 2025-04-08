@@ -23,7 +23,6 @@ public class Reserva {
         this.idEstado = idEstado;
     }
 
-    // Getters y Setters (sin setIdSala/getIdSala)
     public String getIdReserva() { return idReserva; }
     public void setIdReserva(String idReserva) { this.idReserva = idReserva; }
 

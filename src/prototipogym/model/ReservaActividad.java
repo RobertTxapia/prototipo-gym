@@ -22,11 +22,16 @@ public class ReservaActividad {
         this.idHorarioActividad = idHorarioActividad;
     }
 
+<<<<<<< HEAD
    
 
     // Getters y Setters
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }
+=======
+    public int getIdReservaActividad() { return idReservaActividad; }
+    public void setIdReservaActividad(int idReservaActividad) { this.idReservaActividad = idReservaActividad; }
+>>>>>>> 262b6e4621f9a65659002800a026bade7fa7917e
 
     public String getFechaReserva() { return fechaReserva; }
     public void setFechaReserva(String fechaReserva) { this.fechaReserva = fechaReserva; }

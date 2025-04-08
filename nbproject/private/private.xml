@@ -3,6 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
             <file>file:/C:/Users/ramon/workspace/prototipo-gym/src/prototipogym/view/mantenimientos/ManReserva.java</file>
             <file>file:/C:/Users/ramon/workspace/prototipo-gym/src/prototipogym/PrototipoGym.java</file>
             <file>file:/C:/Users/ramon/workspace/prototipo-gym/src/prototipogym/view/mantenimientos/ManUsuario.java</file>
@@ -17,6 +18,13 @@
             <file>file:/C:/Users/ramon/workspace/prototipo-gym/src/prototipogym/view/MenuPrincipalFrame.java</file>
             <file>file:/C:/Users/ramon/workspace/prototipo-gym/src/prototipogym/controller/ClienteController.java</file>
             <file>file:/C:/Users/ramon/workspace/prototipo-gym/src/prototipogym/view/mantenimientos/ManHoraActi.java</file>
+=======
+            <file>file:/C:/Users/Robert%20Tapia/workspace/prototipoGym/src/prototipogym/PrototipoGym.java</file>
+            <file>file:/C:/Users/Robert%20Tapia/workspace/prototipoGym/src/prototipogym/view/consultas/ConUsuario.java</file>
+            <file>file:/C:/Users/Robert%20Tapia/workspace/prototipoGym/src/prototipogym/view/consultas/ConCliente.java</file>
+            <file>file:/C:/Users/Robert%20Tapia/workspace/prototipoGym/src/prototipogym/view/consultas/ConHorariosActividades.java</file>
+            <file>file:/C:/Users/Robert%20Tapia/workspace/prototipoGym/src/prototipogym/view/consultas/ConEntrenador.java</file>
+>>>>>>> 262b6e4621f9a65659002800a026bade7fa7917e
         </group>
     </open-files>
 </project-private>

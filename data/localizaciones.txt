@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 1;primer pisoo
+=======
+1;primer pisox
+>>>>>>> 262b6e4621f9a65659002800a026bade7fa7917e
 2;Zona Cardio
 3;test
 13;noseef
