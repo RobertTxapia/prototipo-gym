@@ -60,11 +60,11 @@
                   <Component id="jLabel2" min="-2" pref="41" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="52" max="-2" attributes="0"/>
                   <Component id="jTextField1" min="-2" pref="200" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="53" max="-2" attributes="0"/>
-                  <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="79" max="-2" attributes="0"/>
+                  <Component id="jLabel3" min="-2" pref="34" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
                   <Component id="jComboBox1" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="353" max="32767" attributes="0"/>
+                  <EmptySpace pref="336" max="32767" attributes="0"/>
                   <Component id="jButton2" min="-2" pref="118" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="426" max="-2" attributes="0"/>
               </Group>
@@ -189,7 +189,7 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="jLabel3"/>
+            <Property name="text" type="java.lang.String" value="Filtro"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JComboBox" name="jComboBox1">
