@@ -3,7 +3,6 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import prototipogym.controller.*;
 import prototipogym.model.Cliente;
-import java.text.SimpleDateFormat;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
@@ -12,10 +11,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Scanner;
-import javax.swing.JComboBox;
-import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
-import javax.swing.text.MaskFormatter;
 
 
 public class ManClientes extends javax.swing.JFrame {
@@ -25,15 +21,6 @@ public class ManClientes extends javax.swing.JFrame {
     private static ManClientes instanciass;
     public ManClientes() {
         initComponents();
-        /*try {
-            MaskFormatter formatoFecha = new MaskFormatter("##/##/####");
-            formatoFecha.setPlaceholderCharacter('_');
-            TextFechaNac = new JFormattedTextField(formatoFecha);
-            TextFechaNac.setColumns(10);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }*/
-        //Status.setSelectedIndex(-1);
         TipoCliente.setSelectedIndex(-1);
         setLocationRelativeTo(null);
         KeyAdapter enterListener = new KeyAdapter() {
@@ -62,88 +49,6 @@ public class ManClientes extends javax.swing.JFrame {
         }
         return instanciass;
     }
-
-   /* private void guardarCliente() {
-        try {
-            // Validar campos obligatorios
-            if (Text_ID.getText().isEmpty() || TextNombre.getText().isEmpty() ||
-                    TextPapellido.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Campos obligatorios faltantes!", "Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-            String fechaNac = TextFechaNac.getText().trim();
-            if (fechaNac.isEmpty() || fechaNac.equals("__/__/____")) {
-                JOptionPane.showMessageDialog(this, "Debe ingresar una fecha de nacimiento válida!", "Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-                
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-            sdf.setLenient(false); 
-            try {
-                sdf.parse(fechaNac);
-            } catch (ParseException e) {
-                 JOptionPane.showMessageDialog(this, "La fecha de nacimiento no es válida!", "Error", JOptionPane.ERROR_MESSAGE);
-                 return;
-            }
-
-                
-
-            // Crear objeto Cliente
-            Cliente cliente = new Cliente(
-                    Text_ID.getText(),
-                    TextNombre.getText(),
-                    TextPapellido.getText(),
-                    TextSapellido.getText(),
-                    TextDireccion.getText(),
-                    TextFechaNac.getText(),
-                    TextTelefono.getText(),
-                    TextCelular.getText(),
-                    TextFechaIngreso.getText(),
-                    Status.getSelectedItem().equals("Activo"),
-                    TipoCliente.getSelectedIndex(), // 0=Socio, 1=Invitado
-                    TextCorreo.getText(),
-                    Double.parseDouble(TextBalance.getText()),
-                    Double.parseDouble(TextCuota.getText())
-            );
-
-            // Validar si el cliente ya existe
-            if (ClienteController.existeCliente(cliente.getIdCliente())) {
-                JOptionPane.showMessageDialog(this, "¡El ID ya existe!", "Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-            ClienteController cc = new ClienteController();
-            // Guardar en archivo
-            
-              if (ClienteController.guardarCliente(cliente)) {
-            JOptionPane.showMessageDialog(this, "Cliente guardado!", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-        } else {
-            // Si no se pudo guardar porque ya existe, se modifica la línea
-            String Snuevalinea = Text_ID.getText() + ";" +
-                                 TextNombre.getText() + ";" +
-                                 TextPapellido.getText() + ";" +
-                                 TextSapellido.getText() + ";" +
-                                 TextDireccion.getText() + ";" +
-                                 TextFechaNac.getText() + ";" +
-                                 TextTelefono.getText() + ";" +
-                                 TextCelular.getText() + ";" +
-                                 TextFechaIngreso.getText() + ";" +
-                                 (Status.getSelectedItem().equals("Activo") ? "Activo" : "Inactivo") + ";" +
-                                 TipoCliente.getSelectedIndex() + ";" +
-                                 TextCorreo.getText() + ";" +
-                                 TextBalance.getText() + ";" +
-                                 TextCuota.getText();
-
-            cc.ModificaDatos(antiguaLinea, Snuevalinea);
-            JOptionPane.showMessageDialog(this, "Cliente modificado!", "Modificación", JOptionPane.INFORMATION_MESSAGE);
-        }
-            
-            Limpiar();
-        } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(this, "Balance/Valor Cuota deben ser numéricos!", "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (IOException ex) {
-            JOptionPane.showMessageDialog(this, "Error al guardar: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }*/
     
     private void guardarCliente() {
     try {
@@ -711,7 +616,7 @@ public class ManClientes extends javax.swing.JFrame {
 
     private void Text_IDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Text_IDActionPerformed
         Text_ID.requestFocus();
-        TextFechaIngreso.setText(FORMATO_FECHA.format(new Date()));
+        TextFechaIngreso.setText(FORMATO_FECHA.format(new Date())); //arreglar esto 
     }//GEN-LAST:event_Text_IDActionPerformed
 
     private void ButtonLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonLimpiarActionPerformed
