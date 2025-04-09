@@ -10,7 +10,9 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Scanner;
 import javax.swing.JOptionPane;
 
@@ -92,8 +94,8 @@ private static String antiguaLinea="";
                     
                     if (cod==Integer.parseInt(sl.next())){
                          encontrado = true;
+                         
                         etiqueta.setText("Modificando");
-                        
                         
                         String fechaReserva = sl.hasNext() ? sl.next().trim() : "";
                         String FechaBaja = sl.hasNext() ? sl.next().trim() : "";
@@ -101,11 +103,14 @@ private static String antiguaLinea="";
                         String cliente = sl.hasNext() ? sl.next().trim() : "";
                         String Actividad = sl.hasNext() ? sl.next().trim() : "";
                         String Horario = sl.hasNext() ? sl.next().trim() : "";
+                        Date dateBaja = new SimpleDateFormat("dd/MM/yyyy").parse(FechaBaja);
+                        Date date = new SimpleDateFormat("dd/MM/yyyy").parse(fechaReserva);
                         
-                        
-                       TextFechaReserva.setText(fechaReserva);
+                        Chooser.setDate(date);  
+                        chooser.setDate(dateBaja); 
+                        TextFechaReserva.setText(fechaReserva);
                         TextFechaBaja.setText(FechaBaja);
-                       Text_IDEstadoReserva.setText(IDestado);
+                        Text_IDEstadoReserva.setText(IDestado);
                         Text_IDCliente.setText(cliente);
                         Text_IDActividad.setText(Actividad);
                         Text_IDHorarioActividad.setText(Horario);
@@ -130,62 +135,6 @@ private static String antiguaLinea="";
             etiqueta.setText("Creando");
         }
     }
-
-    
-
-    /*private void guardarReservaActividad() {
-        try {
-            
-            String id = Text_ID.getText().trim();
-            String Fecha = TextFechaReserva.getText().trim();
-            String fechaaBaja = TextFechaBaja.getText().trim();
-            String estado = Text_IDEstadoReserva.getText().trim();
-            String cliente = Text_IDCliente.getText().trim();
-            String actividad =  Text_IDActividad.getText().trim();
-            String horario = Text_IDHorarioActividad.getText().trim();
-            
-            // Validar campos obligatorios
-            if (Text_ID.getText().isEmpty() ||
-                    Text_IDCliente.getText().isEmpty() ||
-                    Text_IDActividad.getText().isEmpty() ||
-                    Text_IDHorarioActividad.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Campos obligatorios faltantes!", "Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-
-            // Validar relaciones con otras tablas
-            if (!validarRelaciones()) {
-                JOptionPane.showMessageDialog(this, "Error en relaciones con otras tablas!", "Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-
-            // Crear objeto ReservaActividad
-            /*ReservaActividad reserva = new ReservaActividad(
-                    Integer.parseInt(Text_ID.getText()),
-                    TextFechaReserva.getText(),
-                    TextFechaBaja.getText(),
-                    Text_IDEstadoReserva.getText(),
-                    Text_IDCliente.getText(),
-                    Text_IDActividad.getText(),
-                    Text_IDHorarioActividad.getText()
-            );
-            ReservaActividad rs = new ReservaActividad(id,Fecha,fechaaBaja, estado,cliente,actividad,horario);
-            ReservaActividadController rac = new ReservaActividadController();
-            // Guardar en archivo
-            if (ReservaActividadController.guardarReserva(rs)) {
-                JOptionPane.showMessageDialog(this, "Reserva guardada exitosamente!", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-                
-            } else {
-                String Snuevalinea = ( id + ";" + Fecha + ";" +fechaaBaja + ";" + estado + ";" + cliente + ";" + actividad + ";" + horario);
-                rac.ModificaDatos(antiguaLinea, Snuevalinea);
-            }
-            Limpiar();
-        } catch (NumberFormatException ex) {JOptionPane.showMessageDialog(this, "Error al guardar la reserva", "Error", JOptionPane.ERROR_MESSAGE);
-            JOptionPane.showMessageDialog(this, "ID debe ser numérico!", "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (IOException ex) {
-            JOptionPane.showMessageDialog(this, "Error de acceso a archivos: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }*/
     
     private void guardarReservaActividad() {
     try {
@@ -206,6 +155,11 @@ private static String antiguaLinea="";
         ReservaActividad reserva = new ReservaActividad(id, fecha, fechaBaja, estado, cliente, actividad, horario);
         ReservaActividadController rac = new ReservaActividadController();
         String nuevaLinea = id + ";" + fecha + ";" + fechaBaja + ";" + estado + ";" + cliente + ";" + actividad + ";" + horario;
+        
+         if (!ReservaActividadController.validarRelaciones(cliente, actividad, horario, estado)) {
+                JOptionPane.showMessageDialog(this, "El ID Estado Reserva, Cliente, Actividad, Horario Reserva no existe");
+                return;
+            }
 
         if (ReservaActividadController.existeReserva(id)) {
             // Modificar si ya existe

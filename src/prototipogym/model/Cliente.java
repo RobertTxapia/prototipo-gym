@@ -14,7 +14,7 @@ public class Cliente {
     private boolean status;
     private int tipoCliente;
     private String correo;
-    private double balance;
+   private double balance;
     private double valorCuota;
 
     // Constructor completo

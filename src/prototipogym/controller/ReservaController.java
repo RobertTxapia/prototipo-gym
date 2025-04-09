@@ -34,6 +34,23 @@ public class ReservaController {
                 && existeEnArchivo("data/horarios_actividades.txt", idHorario)
                 && existeEnArchivo("data/estado_reservas.txt", idEstado);
     }
+    
+    public static boolean existeReserva(String id) {
+    File archivo = new File(ARCHIVO);
+    if (!archivo.exists()) return false;
+
+    try (BufferedReader br = new BufferedReader(new FileReader(archivo))) {
+        String linea;
+        while ((linea = br.readLine()) != null) {
+            if (linea.startsWith(id + ";")) {
+                return true;
+            }
+        }
+    } catch (IOException e) {
+        System.err.println("Error al verificar existencia de reserva: " + e.getMessage());
+    }
+    return false;
+}
 
     private static boolean existeEnArchivo(String ruta, int id) throws IOException {
         try (BufferedReader br = new BufferedReader(new FileReader(ruta))) {
