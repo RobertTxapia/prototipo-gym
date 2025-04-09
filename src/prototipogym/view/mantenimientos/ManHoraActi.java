@@ -118,7 +118,7 @@ public class ManHoraActi extends javax.swing.JFrame {
             }
 
             if (!HorarioActividadController.validarRelaciones(idActividad)) {
-                JOptionPane.showMessageDialog(this, "Actividad o Sala no existen");
+                JOptionPane.showMessageDialog(this, "El ID Actividad no existe");
                 return;
             }
 

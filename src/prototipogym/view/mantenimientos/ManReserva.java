@@ -9,6 +9,8 @@ import java.text.SimpleDateFormat;
 import prototipogym.controller.ReservaController;
 import prototipogym.model.Reserva;
 import java.io.IOException;
+import java.text.ParseException;
+import java.util.Date;
 import java.util.Scanner;
 
 public class ManReserva extends javax.swing.JFrame {
@@ -79,6 +81,9 @@ public class ManReserva extends javax.swing.JFrame {
                         String fecha = sl.hasNext() ? sl.next().trim() : "";
                         String Horario = sl.hasNext() ? sl.next().trim() : "";
                         String Estado = sl.hasNext() ? sl.next().trim() : "";
+                        Date date = new SimpleDateFormat("dd/MM/yyyy").parse(fecha);
+                        
+                        Chooser.setDate(date);
                         TextSala.setText(Sala);
                         TextCliente.setText(Cliente);
                         TextFecha.setText(fecha);
@@ -105,45 +110,62 @@ public class ManReserva extends javax.swing.JFrame {
         }
     }
 
+  
+     
     private void guardarReserva() {
-        int idECliente = Integer.parseInt(TextCliente.getText());
-        int idSala = Integer.parseInt(TextSala.getText());
-        int idHorario = Integer.parseInt(TextHorario.getText());
-        int idEstado = Integer.parseInt(TextEstado.getText());
+    int idECliente = Integer.parseInt(TextCliente.getText());
+    int idSala = Integer.parseInt(TextSala.getText());
+    int idHorario = Integer.parseInt(TextHorario.getText());
+    int idEstado = Integer.parseInt(TextEstado.getText());
 
-        try {
-            Reserva reserva = new Reserva(
-                    Text_ID.getText(),
-                    TextSala.getText(), // Campo añadido
-                    TextCliente.getText(),
-                    TextFecha.getText(),
-                    TextHorario.getText(),
-                    TextEstado.getText()
-            );
+    try {
+        String id = Text_ID.getText().trim();
+        String sala = TextSala.getText().trim();
+        String cliente = TextCliente.getText().trim();
+        String fecha = TextFecha.getText().trim();
+        String horario = TextHorario.getText().trim();
+        String estado = TextEstado.getText().trim();
 
-            // Validaciones actualizadas
-            if (reserva.getIdReserva().isEmpty() ||
-                    reserva.getIdSala().isEmpty() ||
-                    reserva.getIdCliente().isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Campos obligatorios faltantes!");
-                return;
-            }
-
-            if (!ReservaController.validarRelaciones(idECliente, idSala, idHorario, idEstado)) {
-                JOptionPane.showMessageDialog(this, "Error en relaciones con otras tablas!");
-                return;
-            }
-
-            boolean exito = ReservaController.guardarReserva(reserva);
-            JOptionPane.showMessageDialog(this, exito ? "Éxito" : "Error");
-            
-            Limpiar();
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
+        // Validaciones
+        if (id.isEmpty() || sala.isEmpty() || cliente.isEmpty() || fecha.isEmpty() || horario.isEmpty() || estado.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Campos obligatorios faltantes!");
+            return;
         }
+
+        if (!ReservaController.validarRelaciones(idECliente, idSala, idHorario, idEstado)) {
+            JOptionPane.showMessageDialog(this, "Error en relaciones con otras tablas!");
+            return;
+        }
+
+        Reserva reserva = new Reserva(id, sala, cliente, fecha, horario, estado);
+        ReservaController rc = new ReservaController();
+        String nuevaLinea = id + ";" + sala + ";" + cliente + ";" + fecha + ";" + horario + ";" + estado;
+
+        if (ReservaController.existeReserva(id)) {
+            if (antiguaLinea == null || antiguaLinea.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "No se puede modificar: línea antigua no definida.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            rc.ModificaDatos(antiguaLinea, nuevaLinea);
+            JOptionPane.showMessageDialog(this, "Reserva modificada correctamente.");
+        } else {
+            boolean exito = ReservaController.guardarReserva(reserva);
+            JOptionPane.showMessageDialog(this, exito ? "Reserva guardada con éxito." : "Error al guardar la reserva.");
+        }
+
+        Limpiar();
+    } catch (IOException e) {
+        JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
+        e.printStackTrace();
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error inesperado: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        e.printStackTrace();
     }
+}
 
     public void Limpiar (){
+        etiqueta.setText("");
         Text_ID.setText("");
         TextSala.setText("");
         TextCliente.setText("");

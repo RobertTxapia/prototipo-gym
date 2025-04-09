@@ -25,15 +25,15 @@ public class ManClientes extends javax.swing.JFrame {
     private static ManClientes instanciass;
     public ManClientes() {
         initComponents();
-        /*try {
-            MaskFormatter formatoFecha = new MaskFormatter("##/##/####");
-            formatoFecha.setPlaceholderCharacter('_');
-            TextFechaNac = new JFormattedTextField(formatoFecha);
-            TextFechaNac.setColumns(10);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }*/
-        //Status.setSelectedIndex(-1);
+        Chooser.getDateEditor().addPropertyChangeListener("date", evt -> {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        if (Chooser.getDate() != null) {
+            String fecha = sdf.format(Chooser.getDate());
+            TextFechaNac.setText(fecha);
+            
+        }
+        });
+        
         TipoCliente.setSelectedIndex(-1);
         setLocationRelativeTo(null);
         KeyAdapter enterListener = new KeyAdapter() {
@@ -62,88 +62,6 @@ public class ManClientes extends javax.swing.JFrame {
         }
         return instanciass;
     }
-
-   /* private void guardarCliente() {
-        try {
-            // Validar campos obligatorios
-            if (Text_ID.getText().isEmpty() || TextNombre.getText().isEmpty() ||
-                    TextPapellido.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Campos obligatorios faltantes!", "Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-            String fechaNac = TextFechaNac.getText().trim();
-            if (fechaNac.isEmpty() || fechaNac.equals("__/__/____")) {
-                JOptionPane.showMessageDialog(this, "Debe ingresar una fecha de nacimiento válida!", "Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-                
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-            sdf.setLenient(false); 
-            try {
-                sdf.parse(fechaNac);
-            } catch (ParseException e) {
-                 JOptionPane.showMessageDialog(this, "La fecha de nacimiento no es válida!", "Error", JOptionPane.ERROR_MESSAGE);
-                 return;
-            }
-
-                
-
-            // Crear objeto Cliente
-            Cliente cliente = new Cliente(
-                    Text_ID.getText(),
-                    TextNombre.getText(),
-                    TextPapellido.getText(),
-                    TextSapellido.getText(),
-                    TextDireccion.getText(),
-                    TextFechaNac.getText(),
-                    TextTelefono.getText(),
-                    TextCelular.getText(),
-                    TextFechaIngreso.getText(),
-                    Status.getSelectedItem().equals("Activo"),
-                    TipoCliente.getSelectedIndex(), // 0=Socio, 1=Invitado
-                    TextCorreo.getText(),
-                    Double.parseDouble(TextBalance.getText()),
-                    Double.parseDouble(TextCuota.getText())
-            );
-
-            // Validar si el cliente ya existe
-            if (ClienteController.existeCliente(cliente.getIdCliente())) {
-                JOptionPane.showMessageDialog(this, "¡El ID ya existe!", "Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-            ClienteController cc = new ClienteController();
-            // Guardar en archivo
-            
-              if (ClienteController.guardarCliente(cliente)) {
-            JOptionPane.showMessageDialog(this, "Cliente guardado!", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-        } else {
-            // Si no se pudo guardar porque ya existe, se modifica la línea
-            String Snuevalinea = Text_ID.getText() + ";" +
-                                 TextNombre.getText() + ";" +
-                                 TextPapellido.getText() + ";" +
-                                 TextSapellido.getText() + ";" +
-                                 TextDireccion.getText() + ";" +
-                                 TextFechaNac.getText() + ";" +
-                                 TextTelefono.getText() + ";" +
-                                 TextCelular.getText() + ";" +
-                                 TextFechaIngreso.getText() + ";" +
-                                 (Status.getSelectedItem().equals("Activo") ? "Activo" : "Inactivo") + ";" +
-                                 TipoCliente.getSelectedIndex() + ";" +
-                                 TextCorreo.getText() + ";" +
-                                 TextBalance.getText() + ";" +
-                                 TextCuota.getText();
-
-            cc.ModificaDatos(antiguaLinea, Snuevalinea);
-            JOptionPane.showMessageDialog(this, "Cliente modificado!", "Modificación", JOptionPane.INFORMATION_MESSAGE);
-        }
-            
-            Limpiar();
-        } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(this, "Balance/Valor Cuota deben ser numéricos!", "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (IOException ex) {
-            JOptionPane.showMessageDialog(this, "Error al guardar: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }*/
     
     private void guardarCliente() {
     try {
@@ -158,21 +76,6 @@ public class ManClientes extends javax.swing.JFrame {
             return;
         }
 
-        if (fechaNac.isEmpty() || fechaNac.equals("__/__/____")) {
-            JOptionPane.showMessageDialog(this, "Debe ingresar una fecha de nacimiento válida!", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-        
-
-        // Validar formato de fecha
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        sdf.setLenient(false);
-        try {
-            sdf.parse(fechaNac);
-        } catch (ParseException e) {
-            JOptionPane.showMessageDialog(this, "La fecha de nacimiento no es válida!", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
         boolean status = CheckBox.isSelected();
         // Crear objeto Cliente
         Cliente cliente = new Cliente(
@@ -207,11 +110,11 @@ public class ManClientes extends javax.swing.JFrame {
             }
 
             cc.ModificaDatos(antiguaLinea, nuevaLinea);
-            JOptionPane.showMessageDialog(this, "Cliente modificado correctamente.", "Modificación", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Cliente modificado correctamente.", "Modificacion", JOptionPane.INFORMATION_MESSAGE);
         } else {
             // Guardar si no existe
             if (ClienteController.guardarCliente(cliente)) {
-                JOptionPane.showMessageDialog(this, "Cliente guardado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Cliente guardado correctamente.", "Exito", JOptionPane.INFORMATION_MESSAGE);
             } else {
                 JOptionPane.showMessageDialog(this, "Error al guardar el cliente.", "Error", JOptionPane.ERROR_MESSAGE);
             }
@@ -219,9 +122,9 @@ public class ManClientes extends javax.swing.JFrame {
 
         Limpiar();
 
-    } catch (NumberFormatException ex) {
-        JOptionPane.showMessageDialog(this, "Balance y Valor Cuota deben ser numéricos.", "Error", JOptionPane.ERROR_MESSAGE);
     } catch (IOException ex) {
+        JOptionPane.showMessageDialog(this, "Balance y Valor Cuota deben ser numéricos.", "Error", JOptionPane.ERROR_MESSAGE);
+    } catch (Exception ex) {
         JOptionPane.showMessageDialog(this, "Error al guardar o modificar: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
     }
 }
@@ -259,8 +162,10 @@ public class ManClientes extends javax.swing.JFrame {
                     String Correo = sl.hasNext() ? sl.next().trim() : "";
                     String Balance = sl.hasNext() ? sl.next().trim() : "";
                     String Valor = sl.hasNext() ? sl.next().trim() : "";
-
-                    // Asignar valores a campos
+                    String FechaNac = sl.hasNext() ? sl.next().trim() : "";
+                    Date fecha = FORMATO_FECHA.parse(FechaNa);
+                    
+                    Chooser.setDate(fecha);
                     TextNombre.setText(nombre);
                     TextPapellido.setText(Papellido);
                     TextSapellido.setText(Sapellido);
@@ -296,28 +201,29 @@ public class ManClientes extends javax.swing.JFrame {
         
         if (!encontrado) {
             etiqueta.setText("Creando");
+            TextFechaIngreso.setText(FORMATO_FECHA.format(new Date())); //Arreglar fecha si exite el cliente
         }
     }
 
     
     public void Limpiar() {
-    Text_ID.setText("");
-    TextNombre.setText("");
-    TextPapellido.setText("");
-    TextSapellido.setText("");
-    TextDireccion.setText("");
-    TextFechaNac.setText("");
-    TextTelefono.setText("");
-    TextCelular.setText("");
-    TextFechaIngreso.setText("");
-    CheckBox.setSelected(false);
-    
-    TipoCliente.setSelectedIndex(-1);
-    TextCorreo.setText("");
-    TextBalance.setText("");
-    TextCuota.setText("");
-    etiqueta.setText("");
-}
+        Text_ID.setText("");
+        TextNombre.setText("");
+        TextPapellido.setText("");
+        TextSapellido.setText("");
+        TextDireccion.setText("");
+        TextFechaNac.setText("");
+        TextTelefono.setText("");
+        TextCelular.setText("");
+        TextFechaIngreso.setText("");
+        CheckBox.setSelected(false);
+        Chooser.setDate(null);
+        TipoCliente.setSelectedIndex(-1);
+        TextCorreo.setText("");
+        TextBalance.setText("");
+        TextCuota.setText("");
+        etiqueta.setText("");
+    }
 
 
     @SuppressWarnings("unchecked")
@@ -360,6 +266,7 @@ public class ManClientes extends javax.swing.JFrame {
         etiqueta = new javax.swing.JLabel();
         CheckBox = new javax.swing.JCheckBox();
         jLabel16 = new javax.swing.JLabel();
+        Chooser = new com.toedter.calendar.JDateChooser();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -444,6 +351,7 @@ public class ManClientes extends javax.swing.JFrame {
         TextDireccion.setToolTipText("Ingrese la Direccion");
         TextDireccion.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
+        TextFechaNac.setEditable(false);
         TextFechaNac.setBackground(new java.awt.Color(200, 200, 200));
         TextFechaNac.setToolTipText("Ingrese la Fecha de nacimiento");
         TextFechaNac.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -567,17 +475,19 @@ public class ManClientes extends javax.swing.JFrame {
                             .addComponent(jLabel7)
                             .addComponent(etiqueta, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(43, 43, 43)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(Text_ID, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
-                                .addComponent(TextNombre)
-                                .addComponent(TextPapellido)
-                                .addComponent(TextSapellido)
-                                .addComponent(TextDireccion)
-                                .addComponent(TextFechaNac)
-                                .addComponent(TextTelefono))
-                            .addComponent(ButtonGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 71, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(Text_ID)
+                            .addComponent(TextNombre)
+                            .addComponent(TextPapellido)
+                            .addComponent(TextSapellido)
+                            .addComponent(TextDireccion)
+                            .addComponent(TextTelefono)
+                            .addComponent(ButtonGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(Chooser, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(TextFechaNac, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 123, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                 .addComponent(ButtonLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -608,14 +518,14 @@ public class ManClientes extends javax.swing.JFrame {
                                         .addComponent(TextCorreo)
                                         .addComponent(TextCuota)
                                         .addComponent(TextFechaIngreso))
-                                    .addComponent(CheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(CheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(100, 100, 100))))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(244, 244, 244))
+                .addGap(282, 282, 282))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -669,12 +579,12 @@ public class ManClientes extends javax.swing.JFrame {
                     .addComponent(TextCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(34, 34, 34)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(TextFechaNac, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel7))
+                    .addComponent(jLabel7)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(TextBalance, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel14)))
+                        .addComponent(jLabel14)
+                        .addComponent(TextFechaNac, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(Chooser, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(32, 32, 32)
@@ -711,7 +621,7 @@ public class ManClientes extends javax.swing.JFrame {
 
     private void Text_IDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Text_IDActionPerformed
         Text_ID.requestFocus();
-        TextFechaIngreso.setText(FORMATO_FECHA.format(new Date()));
+        
     }//GEN-LAST:event_Text_IDActionPerformed
 
     private void ButtonLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonLimpiarActionPerformed
@@ -765,6 +675,7 @@ public class ManClientes extends javax.swing.JFrame {
     private javax.swing.JButton ButtonLimpiar;
     private javax.swing.JButton ButtonVolver;
     private javax.swing.JCheckBox CheckBox;
+    private com.toedter.calendar.JDateChooser Chooser;
     private javax.swing.JTextField TextBalance;
     private javax.swing.JTextField TextCelular;
     private javax.swing.JTextField TextCorreo;

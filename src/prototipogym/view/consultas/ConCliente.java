@@ -70,7 +70,7 @@ public class ConCliente extends javax.swing.JFrame {
                     c.getCelular(),
                     c.getFechaIngreso(),
                     c.isStatus() ? "Activo" : "Pasivo",
-                    c.getTipoCliente() == 1 ? "Socio" : "Invitado",
+                    c.getTipoCliente() == 1 ? "Invitado":"Socio"  ,
                     c.getCorreo(),
                     c.getBalance(),
                     c.getValorCuota()
