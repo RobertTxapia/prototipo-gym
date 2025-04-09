@@ -70,7 +70,7 @@ public class ConCliente extends javax.swing.JFrame {
                     c.getCelular(),
                     c.getFechaIngreso(),
                     c.isStatus() ? "Activo" : "Pasivo",
-                    c.getTipoCliente() == 1 ? "Invitado":"Socio"  ,
+                    c.getTipoCliente() == 1 ? "Socio":"Invitado"  ,
                     c.getCorreo(),
                     c.getBalance(),
                     c.getValorCuota()
@@ -135,7 +135,7 @@ public class ConCliente extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTable1);
 
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setText("jLabel3");
+        jLabel3.setText("Filtro");
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Socio Activo", "Invitado", "Activo", "Pasivo" }));
 
@@ -152,11 +152,11 @@ public class ConCliente extends javax.swing.JFrame {
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(52, 52, 52)
                 .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(53, 53, 53)
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(79, 79, 79)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 353, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 336, Short.MAX_VALUE)
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(426, 426, 426))
             .addGroup(jPanel1Layout.createSequentialGroup()

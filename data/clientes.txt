@@ -1,4 +1,4 @@
 1;Ramon Alexander;suarez;perez;Los Prados;__/__/____;829 291 8785;3253332;07/04/2025;true;0;fewesa;34231.0;32432.0
 2;ramon;addds;dsa;dada;07/04/2025;342334;3424;08/04/2025;false;1;fdsgfgfd;87897.0;8987.0
 3;ramon;ddf;sfasd;sdfs;20/05/2005;32342;324324;07/04/2025;false;1;fddgfg;453.0;35243.0
-13;jose;perez;del carmen;cien fuego adentro;03/02/2005;89999999;89999999;08/04/2025;true;1;juanperez@gmail.com;120.0;300.0
+13;jose;perez;del carmen;cien fuego adentro;03/02/2005;89999999;89999999;08/04/2025;true;0;juanperez@gmail.com;120.0;300.0

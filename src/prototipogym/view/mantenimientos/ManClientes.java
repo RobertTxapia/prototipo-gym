@@ -129,7 +129,7 @@ public class ManClientes extends javax.swing.JFrame {
     }
 }
     
-    private void buscarUsuario(){
+     private void buscarUsuario(){
         boolean encontrado = false;
         Scanner s = null;
         int cod;
@@ -204,6 +204,7 @@ public class ManClientes extends javax.swing.JFrame {
             TextFechaIngreso.setText(FORMATO_FECHA.format(new Date())); //Arreglar fecha si exite el cliente
         }
     }
+
 
     
     public void Limpiar() {
@@ -392,7 +393,12 @@ public class ManClientes extends javax.swing.JFrame {
         jLabel11.setText("Status");
 
         TipoCliente.setBackground(new java.awt.Color(200, 200, 200));
-        TipoCliente.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Socio Activo", "Invitado" }));
+        TipoCliente.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Invitado", "Socio Activo" }));
+        TipoCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TipoClienteActionPerformed(evt);
+            }
+        });
 
         jLabel12.setForeground(new java.awt.Color(255, 255, 255));
         jLabel12.setText("Tipo Cliente");
@@ -668,6 +674,10 @@ public class ManClientes extends javax.swing.JFrame {
     private void ButtonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonGuardarActionPerformed
         guardarCliente();
     }//GEN-LAST:event_ButtonGuardarActionPerformed
+
+    private void TipoClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TipoClienteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_TipoClienteActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

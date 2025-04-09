@@ -113,55 +113,56 @@ public class ManReserva extends javax.swing.JFrame {
   
      
     private void guardarReserva() {
-    int idECliente = Integer.parseInt(TextCliente.getText());
-    int idSala = Integer.parseInt(TextSala.getText());
-    int idHorario = Integer.parseInt(TextHorario.getText());
-    int idEstado = Integer.parseInt(TextEstado.getText());
+        
+        int idECliente = Integer.parseInt(TextCliente.getText());
+        int idSala = Integer.parseInt(TextSala.getText());
+        int idHorario = Integer.parseInt(TextHorario.getText());
+        int idEstado = Integer.parseInt(TextEstado.getText());
 
-    try {
-        String id = Text_ID.getText().trim();
-        String sala = TextSala.getText().trim();
-        String cliente = TextCliente.getText().trim();
-        String fecha = TextFecha.getText().trim();
-        String horario = TextHorario.getText().trim();
-        String estado = TextEstado.getText().trim();
+        try {
+            String id = Text_ID.getText().trim();
+            String sala = TextSala.getText().trim();
+            String cliente = TextCliente.getText().trim();
+            String fecha = TextFecha.getText().trim();
+            String horario = TextHorario.getText().trim();
+            String estado = TextEstado.getText().trim();
 
-        // Validaciones
-        if (id.isEmpty() || sala.isEmpty() || cliente.isEmpty() || fecha.isEmpty() || horario.isEmpty() || estado.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Campos obligatorios faltantes!");
-            return;
-        }
-
-        if (!ReservaController.validarRelaciones(idECliente, idSala, idHorario, idEstado)) {
-            JOptionPane.showMessageDialog(this, "Error en relaciones con otras tablas!");
-            return;
-        }
-
-        Reserva reserva = new Reserva(id, sala, cliente, fecha, horario, estado);
-        ReservaController rc = new ReservaController();
-        String nuevaLinea = id + ";" + sala + ";" + cliente + ";" + fecha + ";" + horario + ";" + estado;
-
-        if (ReservaController.existeReserva(id)) {
-            if (antiguaLinea == null || antiguaLinea.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "No se puede modificar: línea antigua no definida.", "Error", JOptionPane.ERROR_MESSAGE);
+            // Validaciones
+            if (id.isEmpty() || sala.isEmpty() || cliente.isEmpty() || fecha.isEmpty() || horario.isEmpty() || estado.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Campos obligatorios faltantes!");
                 return;
             }
 
-            rc.ModificaDatos(antiguaLinea, nuevaLinea);
-            JOptionPane.showMessageDialog(this, "Reserva modificada correctamente.");
-        } else {
-            boolean exito = ReservaController.guardarReserva(reserva);
-            JOptionPane.showMessageDialog(this, exito ? "Reserva guardada con éxito." : "Error al guardar la reserva.");
-        }
+            if (!ReservaController.validarRelaciones(idECliente, idSala, idHorario, idEstado)) {
+                JOptionPane.showMessageDialog(this, "Error en relaciones con otras tablas!");
+                return;
+            }
 
-        Limpiar();
-    } catch (IOException e) {
-        JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
-        e.printStackTrace();
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Error inesperado: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        e.printStackTrace();
-    }
+            Reserva reserva = new Reserva(id, sala, cliente, fecha, horario, estado);
+            ReservaController rc = new ReservaController();
+            String nuevaLinea = id + ";" + sala + ";" + cliente + ";" + fecha + ";" + horario + ";" + estado;
+
+            if (ReservaController.existeReserva(id)) {
+                if (antiguaLinea == null || antiguaLinea.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "No se puede modificar: línea antigua no definida.", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                rc.ModificaDatos(antiguaLinea, nuevaLinea);
+                JOptionPane.showMessageDialog(this, "Reserva modificada correctamente.");
+            } else {
+                boolean exito = ReservaController.guardarReserva(reserva);
+                JOptionPane.showMessageDialog(this, exito ? "Reserva guardada con éxito." : "Error al guardar la reserva.");
+            }
+
+            Limpiar();
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
+            e.printStackTrace();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error inesperado: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
 }
 
     public void Limpiar (){
