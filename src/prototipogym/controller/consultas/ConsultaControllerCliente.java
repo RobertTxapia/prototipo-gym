@@ -42,26 +42,27 @@ public class ConsultaControllerCliente {
         return clientes;
     }
 
-    // Filtrar por nombre/ID y tipo de cliente
-    public static List<Cliente> filtrarClientes(String busqueda, String tipoFiltro) throws IOException {
-        List<Cliente> clientes = getTodosClientes();
+public static List<Cliente> filtrarClientes(String busqueda, String tipoFiltro) throws IOException {
+    List<Cliente> clientes = getTodosClientes();
 
-        return clientes.stream()
-                .filter(c ->
-                        (c.getIdCliente().toLowerCase().contains(busqueda) ||
-                                c.getNombre().toLowerCase().contains(busqueda)) &&
-                                cumpleFiltroTipo(c, tipoFiltro)
-                )
-                .collect(Collectors.toList());
-    }
+    return clientes.stream()
+            .filter(c ->
+                (busqueda.isEmpty() || // Si no hay búsqueda, incluir todos
+                 c.getIdCliente().toLowerCase().contains(busqueda) ||
+                 c.getNombre().toLowerCase().contains(busqueda)) &&
+                (tipoFiltro.equals("Todos") || cumpleFiltroTipo(c, tipoFiltro))
+            )
+            .collect(Collectors.toList());
+}
 
-    private static boolean cumpleFiltroTipo(Cliente cliente, String tipoFiltro) {
-        return switch (tipoFiltro) {
-            case "Socio Activo" -> cliente.getTipoCliente() == 1 && cliente.isStatus();
-            case "Invitado" -> cliente.getTipoCliente() == 0;
-            case "Activo" -> cliente.isStatus();
-            case "Pasivo" -> !cliente.isStatus();
-            default -> true; // Todos los tipos
-        };
-    }
+private static boolean cumpleFiltroTipo(Cliente cliente, String tipoFiltro) {
+    return switch (tipoFiltro) {
+        case "Socio Activo" -> cliente.getTipoCliente() == 1 && cliente.isStatus();
+        case "Invitado" -> cliente.getTipoCliente() == 0;
+        case "Activo" -> cliente.isStatus();
+        case "Pasivo" -> !cliente.isStatus();
+        case "Todos" -> true; // Caso explícito para "Todos"
+        default -> false;
+    };
+}
 }

@@ -35,7 +35,7 @@ public class LocalizacionController {
             String linea;
             while ((linea = br.readLine()) != null) {
                 if (linea.startsWith(loc.getId() + ";")) {
-                    linea = loc.getId() + ";" + loc.getTipo(); // Actualizar línea
+                    linea = loc.getId() + ";" + loc.getTipo(); 
                 }
                 lineas.add(linea);
             }

@@ -10,25 +10,37 @@ import java.util.stream.Collectors;
 
 public class ConsultaController {
 
-    public static List<Usuario> getUsuariosPorNivel(int nivel) throws IOException {
-        return getTodosUsuarios().stream()
-                .filter(u -> u.getNivelAcceso() == nivel)
-                .collect(Collectors.toList());
+
+    // Método unificado para filtrar por nivel (incluyendo "Todos")
+    public static List<Usuario> getUsuariosFiltrados(String filtro) throws IOException {
+        List<Usuario> usuarios = getTodosUsuarios();
+        
+        if (filtro.equalsIgnoreCase("Todos")) {
+            return usuarios; // Retorna todos sin filtrar
+        } else {
+            int nivel = Integer.parseInt(filtro); // Convierte el filtro a nivel
+            return usuarios.stream()
+                    .filter(u -> u.getNivelAcceso() == nivel)
+                    .collect(Collectors.toList());
+        }
     }
 
+    // Método existente para obtener todos los usuarios
     public static List<Usuario> getTodosUsuarios() throws IOException {
         List<Usuario> usuarios = new ArrayList<>();
         List<String> lineas = FileManager.leerArchivo(new File("data/usuarios.txt"));
 
         for (String linea : lineas) {
             String[] datos = linea.split(";");
-            Usuario u = new Usuario();
-            u.setLogin(datos[0]);
-            u.setNombre(datos[3]);
-            u.setApellidos(datos[4]);
-            u.setCorreo(datos[5]);
-            u.setNivelAcceso(Integer.parseInt(datos[2]));
-            usuarios.add(u);
+            if (datos.length >= 6) { // Validar que la línea tenga suficientes datos
+                Usuario u = new Usuario();
+                u.setLogin(datos[0].trim());
+                u.setNombre(datos[3].trim());
+                u.setApellidos(datos[4].trim());
+                u.setCorreo(datos[5].trim());
+                u.setNivelAcceso(Integer.parseInt(datos[2].trim()));
+                usuarios.add(u);
+            }
         }
         return usuarios;
     }

@@ -58,22 +58,37 @@ public class ManClientes extends javax.swing.JFrame {
         return instanciass;
     }
     
-    private void guardarCliente() {
-    try {
-        String id = Text_ID.getText().trim();
-        String nombre = TextNombre.getText().trim();
-        String papellido = TextPapellido.getText().trim();
-        String fechaNac = TextFechaNac.getText().trim();
+        private void guardarCliente() {
+        try {
+            String id = Text_ID.getText().trim();
+            String nombre = TextNombre.getText().trim();
+            String papellido = TextPapellido.getText().trim();
+            String fechaNac = TextFechaNac.getText().trim();
 
-        // Validar campos obligatorios
-        if (id.isEmpty() || nombre.isEmpty() || papellido.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Campos obligatorios faltantes!", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
+            // Validar campos obligatorios
+            if (id.isEmpty() || nombre.isEmpty() || papellido.isEmpty() ||
+                TextDireccion.getText().trim().isEmpty() ||
+                TextTelefono.getText().trim().isEmpty() ||
+                TextCelular.getText().trim().isEmpty() ||
+                TextCorreo.getText().trim().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios excepto el balance.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
 
-        boolean status = CheckBox.isSelected();
-        // Crear objeto Cliente
-        Cliente cliente = new Cliente(
+            // Validar números
+            if (!TextTelefono.getText().trim().matches("\\d+")) {
+                JOptionPane.showMessageDialog(this, "El teléfono solo puede contener números.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            if (!TextCelular.getText().trim().matches("\\d+")) {
+                JOptionPane.showMessageDialog(this, "El celular solo puede contener números.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            boolean status = CheckBox.isSelected();
+
+            Cliente cliente = new Cliente(
                 id,
                 nombre,
                 papellido,
@@ -83,46 +98,44 @@ public class ManClientes extends javax.swing.JFrame {
                 TextTelefono.getText().trim(),
                 TextCelular.getText().trim(),
                 TextFechaIngreso.getText().trim(),
-                status, // Usando JCheckBox
+                status,
                 TipoCliente.getSelectedIndex(),
                 TextCorreo.getText().trim(),
-                Double.parseDouble(TextBalance.getText().trim()),
+                TextBalance.getText().trim().isEmpty() ? 0 : Double.parseDouble(TextBalance.getText().trim()),
                 Double.parseDouble(TextCuota.getText().trim())
-        );
+            );
 
-        ClienteController cc = new ClienteController();
-        String nuevaLinea = id + ";" + nombre + ";" + papellido + ";" + TextSapellido.getText().trim() + ";" +
-                TextDireccion.getText().trim() + ";" + fechaNac + ";" + TextTelefono.getText().trim() + ";" +
-                TextCelular.getText().trim() + ";" + TextFechaIngreso.getText().trim() + ";" +
-                (CheckBox.isSelected() ? "true" : "false") + ";" + TipoCliente.getSelectedIndex() + ";" +
-                TextCorreo.getText().trim() + ";" + TextBalance.getText().trim() + ";" + TextCuota.getText().trim();
+            ClienteController cc = new ClienteController();
+            String nuevaLinea = id + ";" + nombre + ";" + papellido + ";" + TextSapellido.getText().trim() + ";" +
+                    TextDireccion.getText().trim() + ";" + fechaNac + ";" + TextTelefono.getText().trim() + ";" +
+                    TextCelular.getText().trim() + ";" + TextFechaIngreso.getText().trim() + ";" +
+                    (CheckBox.isSelected() ? "true" : "false") + ";" + TipoCliente.getSelectedIndex() + ";" +
+                    TextCorreo.getText().trim() + ";" + TextBalance.getText().trim() + ";" + TextCuota.getText().trim();
 
-        if (ClienteController.existeCliente(id)) {
-            // Modificar si ya existe
-            if (antiguaLinea == null || antiguaLinea.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "No se puede modificar: línea antigua no definida.", "Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
+            if (ClienteController.existeCliente(id)) {
+                if (antiguaLinea == null || antiguaLinea.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "No se puede modificar: línea antigua no definida.", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
 
-            cc.ModificaDatos(antiguaLinea, nuevaLinea);
-            JOptionPane.showMessageDialog(this, "Cliente modificado correctamente.", "Modificacion", JOptionPane.INFORMATION_MESSAGE);
-        } else {
-            // Guardar si no existe
-            if (ClienteController.guardarCliente(cliente)) {
-                JOptionPane.showMessageDialog(this, "Cliente guardado correctamente.", "Exito", JOptionPane.INFORMATION_MESSAGE);
+                cc.ModificaDatos(antiguaLinea, nuevaLinea);
+                JOptionPane.showMessageDialog(this, "Cliente modificado correctamente.", "Modificacion", JOptionPane.INFORMATION_MESSAGE);
             } else {
-                JOptionPane.showMessageDialog(this, "Error al guardar el cliente.", "Error", JOptionPane.ERROR_MESSAGE);
+                if (ClienteController.guardarCliente(cliente)) {
+                    JOptionPane.showMessageDialog(this, "Cliente guardado correctamente.", "Exito", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(this, "Error al guardar el cliente.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
             }
+
+            Limpiar();
+
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "Balance y Valor Cuota deben ser numéricos.", "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Error al guardar o modificar: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
-
-        Limpiar();
-
-    } catch (IOException ex) {
-        JOptionPane.showMessageDialog(this, "Balance y Valor Cuota deben ser numéricos.", "Error", JOptionPane.ERROR_MESSAGE);
-    } catch (Exception ex) {
-        JOptionPane.showMessageDialog(this, "Error al guardar o modificar: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
     }
-}
     
     private void buscarUsuario(){
         boolean encontrado = false;

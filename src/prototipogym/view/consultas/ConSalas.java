@@ -44,7 +44,7 @@ private static ConSalas instanciass;
                             String.valueOf(sala.getId()).contains(busqueda) ||
                                     sala.getNombre().toLowerCase().contains(busqueda) ||
                                     sala.getDescripcion().toLowerCase().contains(busqueda)
-                    ) // Cierre correcto del filter
+                    )
                     .collect(Collectors.toList());
 
             actualizarTabla(salas);

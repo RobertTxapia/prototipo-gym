@@ -38,65 +38,54 @@ private static ConHorariosActividades instanciass;
         return instanciass;
     }
 
-    private void buscarHorarios() {
-        try {
-            String diaSeleccionado = comboDia.getSelectedItem().toString().trim();
+private void buscarHorarios() {
+    try {
+        String diaSeleccionado = comboDia.getSelectedItem().toString().trim();
 
-            // 1. Obtener horarios filtrados por día
-            List<HorarioActividad> horarios = ConsultaControllerHorarioActividad.getTodosHorarios()
-                    .stream()
-                    .filter(horario -> horario.getDia().equalsIgnoreCase(diaSeleccionado))
-                    .collect(Collectors.toList());
+        // 1. Obtener todos los horarios (con o sin filtro por día)
+        List<HorarioActividad> horarios = ConsultaControllerHorarioActividad.getTodosHorarios()
+                .stream()
+                .filter(horario -> 
+                    diaSeleccionado.equals("Todos") || // Si es "Todos", no filtrar
+                    horario.getDia().equalsIgnoreCase(diaSeleccionado)
+                )
+                .collect(Collectors.toList());
 
-            // 2. Obtener actividades correspondientes
-            List<Actividad> actividades = new ArrayList<>();
-            for (HorarioActividad horario : horarios) {
-                Actividad actividad = ConsultaControllerActividad.getActividadPorId(horario.getIdActividad());
-                if (actividad != null) {
-                    actividades.add(actividad);
-                }
-            }
-
-
-            actualizarTabla(horarios, actividades);
-
-        } catch (IOException ex) {
-            JOptionPane.showMessageDialog(this, "Error al cargar datos", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
-
-    public class ConsultaControllerActividad {
-        public static Actividad getActividadPorId(String id) throws IOException {
-            return getTodasActividades()
-                    .stream()
-                    .filter(a -> String.valueOf(a.getId()).equals(id))
-                    .findFirst()
-                    .orElse(null);
-        }
-    }
-
-    // Corregir el método actualizarTabla:
-    private void actualizarTabla(List<HorarioActividad> horarios, List<Actividad> actividades) {
-        String[] columnas = {"ID Horario", "Dia", "Hora", "ID Actividad", "Nombre Actividad", "Descripción"};
-        DefaultTableModel model = new DefaultTableModel(columnas, 0);
-
-        for (int i = 0; i < horarios.size(); i++) {
-            HorarioActividad h = horarios.get(i);
-            Actividad a = actividades.get(i); // Obtener actividad correspondiente
-
-            model.addRow(new Object[]{
-                    h.getId(),
-                    h.getDia(),
-                    h.getHora(),
-                    h.getIdActividad(),
-                    a != null ? a.getNombre() : "N/A", // Manejar actividades no encontradas
-                    a != null ? a.getDescripcion() : "N/A"
-            });
+        // 2. Obtener actividades correspondientes a los horarios
+        List<Actividad> actividades = new ArrayList<>();
+        for (HorarioActividad horario : horarios) {
+            Actividad actividad = ConsultaControllerHorarioActividad.getActividadPorId(horario.getIdActividad()); // Nombre correcto
+            actividades.add(actividad != null ? actividad : new Actividad()); // Usar "!=" en lugar de "≠"
         }
 
-        jTable1.setModel(model);
+        actualizarTabla(horarios, actividades);
+
+    } catch (IOException ex) {
+        JOptionPane.showMessageDialog(this, "Error al cargar datos", "Error", JOptionPane.ERROR_MESSAGE);
     }
+}
+
+// Método actualizado para mostrar datos en la tabla
+private void actualizarTabla(List<HorarioActividad> horarios, List<Actividad> actividades) {
+    String[] columnas = {"ID Horario", "Día", "Hora", "ID Actividad", "Nombre Actividad", "Descripción"};
+    DefaultTableModel model = new DefaultTableModel(columnas, 0);
+
+    for (int i = 0; i < horarios.size(); i++) {
+        HorarioActividad h = horarios.get(i);
+        Actividad a = actividades.get(i);
+
+        model.addRow(new Object[]{
+            h.getId(),
+            h.getDia(),
+            h.getHora(),
+            h.getIdActividad(),
+            a.getNombre() != null ? a.getNombre() : "N/A", // Manejar actividades no encontradas
+            a.getDescripcion() != null ? a.getDescripcion() : "N/A"
+        });
+    }
+
+    jTable1.setModel(model);
+}
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -171,7 +160,7 @@ private static ConHorariosActividades instanciass;
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Filtar");
 
-        comboDia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo" }));
+        comboDia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Todos", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo" }));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);

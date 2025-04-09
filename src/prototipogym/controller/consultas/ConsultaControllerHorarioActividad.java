@@ -1,18 +1,29 @@
 package prototipogym.controller.consultas;
 
-import prototipogym.controller.consultas.ConsultaControllerActividad;
 import prototipogym.model.Actividad;
 import prototipogym.model.HorarioActividad;
 import prototipogym.util.mantenimientos.FileManager;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors; // Importación necesaria
 
 import static prototipogym.controller.consultas.ConsultaControllerActividad.getTodasActividades;
 
 public class ConsultaControllerHorarioActividad {
+
+    public static List<HorarioActividad> filtrarHorarios(String dia, String idActividad) throws IOException {
+        List<HorarioActividad> horarios = getTodosHorarios();
+
+        return horarios.stream()
+                .filter(h ->
+                        (dia.equals("Todos") || h.getDia().equalsIgnoreCase(dia)) &&
+                                (idActividad.equals("Todos") || h.getIdActividad().equals(idActividad))
+                )
+                .collect(Collectors.toList()); // Usa Collectors correctamente
+    }
+
     public static List<HorarioActividad> getTodosHorarios() throws IOException {
         List<HorarioActividad> horarios = new ArrayList<>();
         File archivo = new File("data/horarios_actividades.txt");
@@ -21,12 +32,12 @@ public class ConsultaControllerHorarioActividad {
 
         for (String linea : lineas) {
             String[] datos = linea.split(";");
-            if (datos.length >= 4) {
+            if (datos.length >= 4) { // Validar formato
                 HorarioActividad horario = new HorarioActividad(
-                        datos[0].trim(),
-                        datos[1].trim(),
-                        datos[2].trim(),
-                        datos[3].trim()
+                        datos[0].trim(), // ID
+                        datos[1].trim(), // Día
+                        datos[2].trim(), // Hora
+                        datos[3].trim()  // ID Actividad
                 );
                 horarios.add(horario);
             }
@@ -39,6 +50,6 @@ public class ConsultaControllerHorarioActividad {
                 .stream()
                 .filter(a -> String.valueOf(a.getId()).equals(id))
                 .findFirst()
-                .orElse(null);
+                .orElse(null); // Retorna null si no se encuentra
     }
 }

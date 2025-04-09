@@ -185,14 +185,15 @@
         <Component class="javax.swing.JComboBox" name="comboDia">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="7">
-                <StringItem index="0" value="Lunes"/>
-                <StringItem index="1" value="Martes"/>
-                <StringItem index="2" value="Miercoles"/>
-                <StringItem index="3" value="Jueves"/>
-                <StringItem index="4" value="Viernes"/>
-                <StringItem index="5" value="Sabado"/>
-                <StringItem index="6" value="Domingo"/>
+              <StringArray count="8">
+                <StringItem index="0" value="Todos"/>
+                <StringItem index="1" value="Lunes"/>
+                <StringItem index="2" value="Martes"/>
+                <StringItem index="3" value="Miercoles"/>
+                <StringItem index="4" value="Jueves"/>
+                <StringItem index="5" value="Viernes"/>
+                <StringItem index="6" value="Sabado"/>
+                <StringItem index="7" value="Domingo"/>
               </StringArray>
             </Property>
           </Properties>
