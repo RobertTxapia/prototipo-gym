@@ -423,8 +423,10 @@ public class MenuPrincipalFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem9ActionPerformed
 
     private void configurarMenu(int nivelAcceso) {
-        mMantenimientos.setVisible(nivelAcceso == 0);
-        mMovimientos.setVisible(nivelAcceso == 0);
+    boolean esAdmin = (nivelAcceso == 0);
+    mMantenimientos.setVisible(true);
+    mItemUsuario.setEnabled(esAdmin);
+    mMovimientos.setVisible(esAdmin);
     }
 
 
