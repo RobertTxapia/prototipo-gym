@@ -8,6 +8,7 @@ import prototipogym.view.consultas.ConHorariosActividades;
 import prototipogym.view.consultas.ConLocalizacion;
 import prototipogym.view.consultas.ConSalas;
 import prototipogym.view.consultas.ConUsuario;
+import prototipogym.view.mantenimientos.Cobros;
 
 import prototipogym.view.mantenimientos.ManClientes;
 import prototipogym.view.mantenimientos.ManEntrenador;
@@ -59,6 +60,7 @@ public class MenuPrincipalFrame extends javax.swing.JFrame {
         mMovimientos = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         mProcesos = new javax.swing.JMenu();
+        jMenuItem12 = new javax.swing.JMenuItem();
         mConsulta = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
@@ -252,6 +254,15 @@ public class MenuPrincipalFrame extends javax.swing.JFrame {
         mProcesos.setBackground(new java.awt.Color(255, 193, 7));
         mProcesos.setForeground(new java.awt.Color(255, 255, 255));
         mProcesos.setText("Procesos");
+
+        jMenuItem12.setText("jMenuItem12");
+        jMenuItem12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem12ActionPerformed(evt);
+            }
+        });
+        mProcesos.add(jMenuItem12);
+
         menuBar.add(mProcesos);
 
         mConsulta.setBackground(new java.awt.Color(255, 193, 7));
@@ -422,6 +433,10 @@ public class MenuPrincipalFrame extends javax.swing.JFrame {
         ConCliente.getInstancia();
     }//GEN-LAST:event_jMenuItem9ActionPerformed
 
+    private void jMenuItem12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem12ActionPerformed
+        Cobros.getInstancia();
+    }//GEN-LAST:event_jMenuItem12ActionPerformed
+
     private void configurarMenu(int nivelAcceso) {
         boolean esAdmin = (nivelAcceso == 0);
         mMantenimientos.setVisible(true);
@@ -437,6 +452,7 @@ public class MenuPrincipalFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem10;
     private javax.swing.JMenuItem jMenuItem11;
+    private javax.swing.JMenuItem jMenuItem12;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;

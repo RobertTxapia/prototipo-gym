@@ -489,16 +489,16 @@ public class ManClientes extends javax.swing.JFrame {
                             .addComponent(jLabel7)
                             .addComponent(etiqueta, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(43, 43, 43)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(Text_ID)
-                            .addComponent(TextNombre)
-                            .addComponent(TextPapellido)
-                            .addComponent(TextSapellido)
-                            .addComponent(TextDireccion)
-                            .addComponent(TextTelefono)
-                            .addComponent(ButtonGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(Chooser, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(Text_ID, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
+                            .addComponent(TextNombre, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(TextPapellido, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(TextSapellido, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(TextDireccion, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(TextTelefono, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(ButtonGuardar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(Chooser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(TextFechaNac, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 123, Short.MAX_VALUE)
@@ -635,7 +635,7 @@ public class ManClientes extends javax.swing.JFrame {
 
     private void Text_IDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Text_IDActionPerformed
         Text_ID.requestFocus();
-        TextFechaIngreso.setText(FORMATO_FECHA.format(new Date())); //arreglar esto 
+        
 
     }//GEN-LAST:event_Text_IDActionPerformed
 
