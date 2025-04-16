@@ -5,8 +5,11 @@
         <group>
             <file>file:/C:/Users/ramon/workspace/prototipo-gym/src/prototipogym/PrototipoGym.java</file>
             <file>file:/C:/Users/ramon/workspace/prototipo-gym/src/prototipogym/view/mantenimientos/Cobros.java</file>
+            <file>file:/C:/Users/ramon/workspace/prototipo-gym/src/prototipogym/view/mantenimientos/ActualizarCobro.java</file>
             <file>file:/C:/Users/ramon/workspace/prototipo-gym/src/prototipogym/view/mantenimientos/ManClientes.java</file>
             <file>file:/C:/Users/ramon/workspace/prototipo-gym/src/prototipogym/view/MenuPrincipalFrame.java</file>
+            <file>file:/C:/Users/ramon/workspace/prototipo-gym/src/prototipogym/view/mantenimientos/ManEntrenador.java</file>
+            <file>file:/C:/Users/ramon/workspace/prototipo-gym/src/prototipogym/view/LoginFrame.java</file>
         </group>
     </open-files>
 </project-private>

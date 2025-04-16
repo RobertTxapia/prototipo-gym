@@ -10,6 +10,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.*;
 import java.util.Scanner;
+import prototipogym.view.LoginFrame;
 
 
 public class ManEntrenador extends javax.swing.JFrame {
@@ -379,6 +380,8 @@ public class ManEntrenador extends javax.swing.JFrame {
     private void Text_IDKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Text_IDKeyTyped
       
     }//GEN-LAST:event_Text_IDKeyTyped
+
+    
 
 
 

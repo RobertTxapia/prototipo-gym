@@ -3,13 +3,12 @@ import prototipogym.view.consultas.ConActividades;
 import prototipogym.view.consultas.ConCliente;
 import prototipogym.view.consultas.ConEntrenador;
 import prototipogym.view.mantenimientos.ManActividades;
-
 import prototipogym.view.consultas.ConHorariosActividades;
 import prototipogym.view.consultas.ConLocalizacion;
 import prototipogym.view.consultas.ConSalas;
 import prototipogym.view.consultas.ConUsuario;
+import prototipogym.view.mantenimientos.ActualizarCobro;
 import prototipogym.view.mantenimientos.Cobros;
-
 import prototipogym.view.mantenimientos.ManClientes;
 import prototipogym.view.mantenimientos.ManEntrenador;
 import prototipogym.view.mantenimientos.ManEstadoReserva;
@@ -61,6 +60,7 @@ public class MenuPrincipalFrame extends javax.swing.JFrame {
         jMenuItem1 = new javax.swing.JMenuItem();
         mProcesos = new javax.swing.JMenu();
         jMenuItem12 = new javax.swing.JMenuItem();
+        jMenuItem13 = new javax.swing.JMenuItem();
         mConsulta = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
@@ -247,6 +247,11 @@ public class MenuPrincipalFrame extends javax.swing.JFrame {
         jMenuItem1.setForeground(new java.awt.Color(0, 0, 0));
         jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/business-color_handout_icon-icons.com_53455.png"))); // NOI18N
         jMenuItem1.setText("Cobros");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
         mMovimientos.add(jMenuItem1);
 
         menuBar.add(mMovimientos);
@@ -255,13 +260,27 @@ public class MenuPrincipalFrame extends javax.swing.JFrame {
         mProcesos.setForeground(new java.awt.Color(255, 255, 255));
         mProcesos.setText("Procesos");
 
-        jMenuItem12.setText("jMenuItem12");
+        jMenuItem12.setBackground(new java.awt.Color(255, 193, 7));
+        jMenuItem12.setForeground(new java.awt.Color(0, 0, 0));
+        jMenuItem12.setText("Cobros");
+        jMenuItem12.setPreferredSize(new java.awt.Dimension(115, 35));
         jMenuItem12.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem12ActionPerformed(evt);
             }
         });
         mProcesos.add(jMenuItem12);
+
+        jMenuItem13.setBackground(new java.awt.Color(255, 193, 7));
+        jMenuItem13.setForeground(new java.awt.Color(0, 0, 0));
+        jMenuItem13.setText("Actualizar");
+        jMenuItem13.setPreferredSize(new java.awt.Dimension(115, 35));
+        jMenuItem13.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem13ActionPerformed(evt);
+            }
+        });
+        mProcesos.add(jMenuItem13);
 
         menuBar.add(mProcesos);
 
@@ -433,9 +452,17 @@ public class MenuPrincipalFrame extends javax.swing.JFrame {
         ConCliente.getInstancia();
     }//GEN-LAST:event_jMenuItem9ActionPerformed
 
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+       
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
     private void jMenuItem12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem12ActionPerformed
-        Cobros.getInstancia();
+         Cobros.getInstancia();
     }//GEN-LAST:event_jMenuItem12ActionPerformed
+
+    private void jMenuItem13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem13ActionPerformed
+       ActualizarCobro.getInstancia();
+    }//GEN-LAST:event_jMenuItem13ActionPerformed
 
     private void configurarMenu(int nivelAcceso) {
         boolean esAdmin = (nivelAcceso == 0);
@@ -443,8 +470,11 @@ public class MenuPrincipalFrame extends javax.swing.JFrame {
         mItemUsuario.setEnabled(esAdmin);
         mMovimientos.setVisible(esAdmin);
     }
+    
+   
+    
 
-
+ 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
@@ -453,6 +483,7 @@ public class MenuPrincipalFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem10;
     private javax.swing.JMenuItem jMenuItem11;
     private javax.swing.JMenuItem jMenuItem12;
+    private javax.swing.JMenuItem jMenuItem13;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
