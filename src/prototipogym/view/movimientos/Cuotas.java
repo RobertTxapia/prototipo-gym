@@ -1,4 +1,4 @@
-package prototipogym.view.mantenimientos;
+package prototipogym.view.movimientos;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.text.SimpleDateFormat;
