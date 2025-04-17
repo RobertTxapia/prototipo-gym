@@ -1,6 +1,8 @@
 package prototipogym.view;
 import prototipogym.view.consultas.ConActividades;
 import prototipogym.view.consultas.ConCliente;
+import prototipogym.view.consultas.ConCobroRangoFecha;
+import prototipogym.view.consultas.ConCuotas;
 import prototipogym.view.consultas.ConEntrenador;
 import prototipogym.view.mantenimientos.ManActividades;
 import prototipogym.view.consultas.ConHorariosActividades;
@@ -9,6 +11,7 @@ import prototipogym.view.consultas.ConSalas;
 import prototipogym.view.consultas.ConUsuario;
 import prototipogym.view.mantenimientos.ActualizarCobro;
 import prototipogym.view.mantenimientos.Cobros;
+import prototipogym.view.mantenimientos.Cuotas;
 import prototipogym.view.mantenimientos.ManClientes;
 import prototipogym.view.mantenimientos.ManEntrenador;
 import prototipogym.view.mantenimientos.ManEstadoReserva;
@@ -43,6 +46,8 @@ public class MenuPrincipalFrame extends javax.swing.JFrame {
         jMenu2 = new javax.swing.JMenu();
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenuItem10 = new javax.swing.JMenuItem();
+        jMenuItem15 = new javax.swing.JMenuItem();
+        jMenuItem16 = new javax.swing.JMenuItem();
         panelMenuPrincipal = new javax.swing.JPanel();
         menuBar = new javax.swing.JMenuBar();
         mMantenimientos = new javax.swing.JMenu();
@@ -69,6 +74,8 @@ public class MenuPrincipalFrame extends javax.swing.JFrame {
         jMenuItem7 = new javax.swing.JMenuItem();
         jMenuItem8 = new javax.swing.JMenuItem();
         jMenuItem9 = new javax.swing.JMenuItem();
+        jMenuItem14 = new javax.swing.JMenuItem();
+        jMenuItem17 = new javax.swing.JMenuItem();
 
         jMenuItem3.setText("jMenuItem3");
 
@@ -81,6 +88,10 @@ public class MenuPrincipalFrame extends javax.swing.JFrame {
         jMenuItem5.setText("jMenuItem5");
 
         jMenuItem10.setText("jMenuItem10");
+
+        jMenuItem15.setText("jMenuItem15");
+
+        jMenuItem16.setText("jMenuItem16");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -96,7 +107,7 @@ public class MenuPrincipalFrame extends javax.swing.JFrame {
         );
         panelMenuPrincipalLayout.setVerticalGroup(
             panelMenuPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 532, Short.MAX_VALUE)
+            .addGap(0, 536, Short.MAX_VALUE)
         );
 
         menuBar.setBackground(new java.awt.Color(255, 193, 7));
@@ -246,7 +257,7 @@ public class MenuPrincipalFrame extends javax.swing.JFrame {
         jMenuItem1.setBackground(new java.awt.Color(255, 193, 7));
         jMenuItem1.setForeground(new java.awt.Color(0, 0, 0));
         jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/business-color_handout_icon-icons.com_53455.png"))); // NOI18N
-        jMenuItem1.setText("Cobros");
+        jMenuItem1.setText("Cuotas");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem1ActionPerformed(evt);
@@ -365,6 +376,28 @@ public class MenuPrincipalFrame extends javax.swing.JFrame {
         });
         mConsulta.add(jMenuItem9);
 
+        jMenuItem14.setBackground(new java.awt.Color(255, 193, 7));
+        jMenuItem14.setForeground(new java.awt.Color(0, 0, 0));
+        jMenuItem14.setText("Cuotas");
+        jMenuItem14.setPreferredSize(new java.awt.Dimension(125, 35));
+        jMenuItem14.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem14ActionPerformed(evt);
+            }
+        });
+        mConsulta.add(jMenuItem14);
+
+        jMenuItem17.setBackground(new java.awt.Color(255, 193, 7));
+        jMenuItem17.setForeground(new java.awt.Color(0, 0, 0));
+        jMenuItem17.setText("Cobros");
+        jMenuItem17.setPreferredSize(new java.awt.Dimension(125, 35));
+        jMenuItem17.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem17ActionPerformed(evt);
+            }
+        });
+        mConsulta.add(jMenuItem17);
+
         menuBar.add(mConsulta);
 
         setJMenuBar(menuBar);
@@ -453,16 +486,24 @@ public class MenuPrincipalFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem9ActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-       
+        Cuotas.getInstancia();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
-
-    private void jMenuItem12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem12ActionPerformed
-         Cobros.getInstancia();
-    }//GEN-LAST:event_jMenuItem12ActionPerformed
 
     private void jMenuItem13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem13ActionPerformed
        ActualizarCobro.getInstancia();
     }//GEN-LAST:event_jMenuItem13ActionPerformed
+
+    private void jMenuItem14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem14ActionPerformed
+        ConCuotas.getInstancia();
+    }//GEN-LAST:event_jMenuItem14ActionPerformed
+
+    private void jMenuItem12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem12ActionPerformed
+       Cobros.getInstancia();
+    }//GEN-LAST:event_jMenuItem12ActionPerformed
+
+    private void jMenuItem17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem17ActionPerformed
+        ConCobroRangoFecha.getInstancia();
+    }//GEN-LAST:event_jMenuItem17ActionPerformed
 
     private void configurarMenu(int nivelAcceso) {
         boolean esAdmin = (nivelAcceso == 0);
@@ -484,6 +525,10 @@ public class MenuPrincipalFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem11;
     private javax.swing.JMenuItem jMenuItem12;
     private javax.swing.JMenuItem jMenuItem13;
+    private javax.swing.JMenuItem jMenuItem14;
+    private javax.swing.JMenuItem jMenuItem15;
+    private javax.swing.JMenuItem jMenuItem16;
+    private javax.swing.JMenuItem jMenuItem17;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;

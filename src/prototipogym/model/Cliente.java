@@ -14,7 +14,8 @@ public class Cliente {
     private boolean status;
     private int tipoCliente;
     private String correo;
-   private double balance;
+    private double balance;
+    
     private double valorCuota;
 
     // Constructor completo
@@ -35,6 +36,7 @@ public class Cliente {
         this.tipoCliente = tipoCliente;
         this.correo = correo;
         this.balance = balance;
+        
         this.valorCuota = valorCuota;
     }
 

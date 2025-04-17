@@ -46,63 +46,71 @@ public class ManEstadoReserva extends javax.swing.JFrame {
         }
         return instanciass;
     }
-
+    
     private void buscarUsuario(){
+    
         boolean encontrado = false;
         Scanner s = null;
         int cod;
-        
+
         cod = Integer.parseInt(Text_ID.getText());
-        
-        try{
-            File f = new File("data/estado_reservas.txt"); 
+
+        try {
+            File f = new File("data/estado_reservas.txt");
             s = new Scanner(f);
-             while (s.hasNextLine() && !encontrado){
+            while (s.hasNextLine() && !encontrado) {
                 String linea = s.nextLine().trim();
                 Scanner sl = new Scanner(linea);
                 sl.useDelimiter("\\s*;\\s*");
-                try{
-                    
-                    if (cod==Integer.parseInt(sl.next())){
+                try {
+                    String idStr = sl.next();
+                    String estadoStr = sl.next();
+
+                    if (cod == Integer.parseInt(idStr)) {
                         encontrado = true;
                         etiqueta.setText("Modificando");
-                        
-                        String Estado = sl.hasNext() ? sl.next().trim() : "";
-                        TextEstado.setText(Estado);
-                        antiguaLinea = cod + ";" +Estado ;
+
+                        boolean estado = estadoStr.equalsIgnoreCase("Ocupado");
+                        jCheckBox1.setSelected(estado);
+
+                        antiguaLinea = idStr + ";" + estadoStr;
                     }
-                    
-                }catch (Exception e) {
+
+                } catch (Exception e) {
                     System.out.println("Error al leer linea: " + e.getMessage());
                 }
-                
-             }
+            }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error al leer el archivo: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }finally {
+        } finally {
             if (s != null) {
                 s.close();
             }
         }
-        
+
         if (!encontrado) {
             etiqueta.setText("Creando");
+            jCheckBox1.setSelected(false); // marcar como "No ocupado" por defecto si no se encuentra
         }
     }
+    
 
     private void guardarEstadoReserva() {
         try {
             String id = Text_ID.getText().trim();
-            String estado = TextEstado.getText().trim();
-
-        if (id.isEmpty() || estado.isEmpty()) {
+            //String estado = TextEstado.getText().trim();
+            boolean estado = jCheckBox1.isSelected();
+            
+        if (id.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Por favor, introduzca un ID y estado.");
             return;
         }
+        
+        String estadoTexto = estado ? "Ocupado" : "No ocupado";
 
         EstadoReserva estadoReserva = new EstadoReserva(id, estado);
         EstadoReservaController ERC = new EstadoReservaController();
-        String nuevaLinea = id + ";" + estado;
+        String nuevaLinea = id + ";" +  estadoTexto;
 
         if (EstadoReservaController.existeEstado(id)) {
         // Aquí va la modificación si ya existe
@@ -135,7 +143,8 @@ public class ManEstadoReserva extends javax.swing.JFrame {
     
     public void Limpiar(){
         Text_ID.setText("");
-        TextEstado.setText("");
+         jCheckBox1.setSelected(false);
+         etiqueta.setText("");
     }
 
     
@@ -150,12 +159,12 @@ public class ManEstadoReserva extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         Text_ID = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        TextEstado = new javax.swing.JTextField();
         ButtonGuardar = new javax.swing.JButton();
         ButtonLimpiar = new javax.swing.JButton();
         ButtonVolver = new javax.swing.JButton();
         etiqueta = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
+        jCheckBox1 = new javax.swing.JCheckBox();
 
         jLabel3.setText("jLabel3");
 
@@ -190,9 +199,6 @@ public class ManEstadoReserva extends javax.swing.JFrame {
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Estado");
 
-        TextEstado.setBackground(new java.awt.Color(200, 200, 200));
-        TextEstado.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
         ButtonGuardar.setBackground(new java.awt.Color(255, 193, 7));
         ButtonGuardar.setText("Guardar");
         ButtonGuardar.setBorderPainted(false);
@@ -224,6 +230,10 @@ public class ManEstadoReserva extends javax.swing.JFrame {
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/backup_29169.png"))); // NOI18N
 
+        jCheckBox1.setBackground(new java.awt.Color(200, 200, 200));
+        jCheckBox1.setForeground(new java.awt.Color(0, 0, 0));
+        jCheckBox1.setText("Ocupado");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -242,21 +252,21 @@ public class ManEstadoReserva extends javax.swing.JFrame {
                 .addGap(26, 26, 26)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(51, 51, 51)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(TextEstado, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
-                            .addComponent(Text_ID)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(etiqueta, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(ButtonGuardar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 85, Short.MAX_VALUE))
                         .addGap(18, 18, 18)
                         .addComponent(ButtonLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(ButtonVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(ButtonVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(51, 51, 51)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(Text_ID, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
+                            .addComponent(jCheckBox1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap(29, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -272,11 +282,11 @@ public class ManEstadoReserva extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(Text_ID, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(30, 30, 30)
+                .addGap(34, 34, 34)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(TextEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(38, 38, 38)
+                    .addComponent(jCheckBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(42, 42, 42)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(ButtonGuardar)
                     .addComponent(ButtonLimpiar)
@@ -327,9 +337,9 @@ public class ManEstadoReserva extends javax.swing.JFrame {
     private javax.swing.JButton ButtonGuardar;
     private javax.swing.JButton ButtonLimpiar;
     private javax.swing.JButton ButtonVolver;
-    private javax.swing.JTextField TextEstado;
     private javax.swing.JTextField Text_ID;
     private javax.swing.JLabel etiqueta;
+    private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

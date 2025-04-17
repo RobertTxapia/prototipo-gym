@@ -50,7 +50,7 @@ private static ActualizarCobro instancias;
 
         jLabel1.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Actualizar Cobros");
+        jLabel1.setText("Actualizar Cuota");
 
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Fecha de inicio");

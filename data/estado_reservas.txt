@@ -1,4 +1,5 @@
-1;ocupadooa
+1;No ocupado
 2;Disponible
 12;nueva
 13;perro
+123;No ocupado
