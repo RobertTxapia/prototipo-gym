@@ -1,12 +1,20 @@
 package prototipogym.view.movimientos;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import prototipogym.controller.movimientos.EncabezadoCuotaController;
+import prototipogym.controller.ClienteController;
+
+import prototipogym.controller.procesos.CobroController;
+import prototipogym.model.Cliente;
+import prototipogym.model.Cobro;
 import prototipogym.model.EncabezadoCuota;
 
 public class Cuotas extends javax.swing.JFrame {
@@ -23,8 +31,13 @@ public class Cuotas extends javax.swing.JFrame {
             dispose(); 
         }
         });
-        cargarTabla();
-    }
+        IDCliente.addFocusListener(new java.awt.event.FocusAdapter() {
+        public void focusLost(java.awt.event.FocusEvent evt) {
+            IDClienteFocusLost(evt);
+        }
+    });
+
+   }
     
     public static Cuotas getInstancia(){
         if (instanciass == null){
@@ -34,29 +47,44 @@ public class Cuotas extends javax.swing.JFrame {
         return instanciass;
     }
 
-    private void cargarTabla() {
-        DefaultTableModel modelo = (DefaultTableModel) Tabla.getModel();
-        modelo.setRowCount(0);
-        ArrayList<EncabezadoCuota> lista = EncabezadoCuotaController.cargarEncabezados();
-        for (EncabezadoCuota e : lista) {
-            modelo.addRow(new Object[]{
-                    e.getIdCuota(),
-                    e.getFechaCuota(),
-                    e.getIdCliente(),
-                    e.getValorTotal(),
-                    e.isStatus()
-            });
+    private void IDClienteFocusLost(java.awt.event.FocusEvent evt) {
+        try {
+            Cliente cliente = ClienteController.obtenerCliente(IDCliente.getText());
+            if (cliente != null) {
+                TextNombre.setText(cliente.getNombre() + " " + cliente.getApellidoPat());
+                TextCuota.setText(String.valueOf(cliente.getValorCuota()));
+
+                // Cargar tabla con cobros pendientes
+                DefaultTableModel model = (DefaultTableModel) Tabla.getModel();
+                model.setRowCount(0); // Limpiar tabla
+
+                List<Cobro> cobros = CobroController.obtenerCobrosPendientes(IDCliente.getText());
+                for (Cobro c : cobros) {
+                    model.addRow(new Object[]{
+                            c.getId(),          // ID Cobro (Columna 0)
+                            "",                 // Secuencia (vacío inicialmente - Columna 1)
+                            c.getConcepto(),    // Concepto (Columna 2)
+                            c.getValorCobro(),  // Valor (Columna 3)
+                            c.getId()           // ID Cobro Cuota (Columna 4)
+                    });
+                }
+            }
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(this,
+                    "Error al cargar datos del cliente",
+                    "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
+
 
     public void Limpiar(){
         Text_ID.setText("");
         TextNombre.setText("");
         TextCuota.setText("");
         TextFecha.setText("");
-        
+
         IDCliente.setText("");
-        
+
     }
     
      
@@ -138,22 +166,28 @@ public class Cuotas extends javax.swing.JFrame {
         TextCuota.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         Tabla.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
-            },
-            new String [] {
-                "ID Cliente", "Secuencia", "Concepto", "Valor Cuota", "ID Cobro Cuota"
+                new Object[][]{},
+                new String[]{
+                        "ID Cobro", "Sec", "Concepto", "Valor Cuota", "ID Cobro Cuota" // 5 columnas
+                }
+        ) {
+            Class[] types = new Class[]{
+                    java.lang.String.class, java.lang.String.class,
+                    java.lang.String.class, java.lang.Double.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean[]{
+                    false, false, false, false, false // Todas las columnas no editables
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types[columnIndex];
             }
-        ));
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit[columnIndex];
+            }
+        });
+
         jScrollPane1.setViewportView(Tabla);
 
         btnGuardar.setBackground(new java.awt.Color(255, 193, 7));
@@ -298,25 +332,146 @@ public class Cuotas extends javax.swing.JFrame {
     }//GEN-LAST:event_LimpiarActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        try {
-            String idCuota = Text_ID.getText();
-            String idCliente = IDCliente.getText();
-            double valor = Double.parseDouble(TextCuota.getText());
-            Date fecha = new Date(); // actual del sistema
-            boolean status = false;
-
-            EncabezadoCuota e = new EncabezadoCuota(idCuota, fecha, idCliente, valor, status);
-            if (EncabezadoCuotaController.guardarEncabezado(e)) {
-                JOptionPane.showMessageDialog(this, "Encabezado guardado correctamente");
-                cargarTabla();
-                Limpiar();
-            } else {
-                JOptionPane.showMessageDialog(this, "Error al guardar encabezado");
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
+        // Validar campos obligatorios
+        if(Text_ID.getText().isEmpty() || IDCliente.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this,
+                    "Debe completar ID de Cuota y ID de Cliente",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
         }
-    }//GEN-LAST:event_btnGuardarActionPerformed
+
+        // Obtener datos del cliente
+        Cliente cliente;
+        try {
+            cliente = ClienteController.obtenerCliente(IDCliente.getText());
+            if(cliente == null) {
+                JOptionPane.showMessageDialog(this,
+                        "Cliente no encontrado",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(this,
+                    "Error al leer datos del cliente: " + ex.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Validar tipo de cliente y estado
+        if(cliente.getTipoCliente() != 0 && !cliente.isStatus()) {
+            JOptionPane.showMessageDialog(this,
+                    "Solo socios activos pueden generar cuotas",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Obtener cobros de la tabla
+        DefaultTableModel model = (DefaultTableModel) Tabla.getModel();
+        List<Cobro> cobros = new ArrayList<>();
+        double totalCuota = 0.0;
+
+        for(int i = 0; i < model.getRowCount(); i++) {
+            try {
+                // Obtener datos de todas las columnas
+                int idCobro = Integer.parseInt(model.getValueAt(i, 4).toString()); // Columna 4: ID Cobro Cuota
+                String concepto = model.getValueAt(i, 2).toString(); // Columna 2: Concepto
+                double valor = Double.parseDouble(model.getValueAt(i, 3).toString()); // Columna 3: Valor Cuota
+
+                Cobro cobro = new Cobro(
+                        idCobro,
+                        new Date(),
+                        Integer.parseInt(IDCliente.getText()),
+                        valor,
+                        concepto
+                );
+                cobros.add(cobro);
+                totalCuota += valor;
+
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(this,
+                        "Formato incorrecto en la fila " + (i+1),
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+        }
+
+        // Validar cobros seleccionados
+        if(cobros.isEmpty()) {
+            JOptionPane.showMessageDialog(this,
+                    "Debe agregar al menos un concepto",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        List<Cobro> cobrosProcesados = new ArrayList<>(); // Para manejar reversiones
+        boolean transaccionExitosa = false;
+
+        try {
+            // Guardar encabezado de cuota
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter("data/encabezado_cuota.txt", true))) {
+                writer.write(String.join(";",
+                        Text_ID.getText(),
+                        FORMATO_FECHA.format(new Date()),
+                        IDCliente.getText(),
+                        "pendiente"
+                ));
+                writer.newLine();
+            }
+
+            // Guardar detalle y actualizar estados
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter("data/detalle_cuota.txt", true))) {
+                int secuencia = 1;
+                for(Cobro cobro : cobros) {
+                    // Guardar detalle
+                    writer.write(String.join(";",
+                            Text_ID.getText(),
+                            String.valueOf(secuencia++),
+                            cobro.getConcepto(),
+                            String.valueOf(cobro.getValorCobro()),
+                            String.valueOf(cobro.getId())
+                    ));
+                    writer.newLine();
+
+                    // Actualizar estado del cobro
+                    if (!CobroController.actualizarEstadoCobro(cobro.getId(), true)) {
+                        throw new IOException("Error al actualizar cobro ID: " + cobro.getId());
+                    }
+                    cobrosProcesados.add(cobro); // Registrar para posible reversión
+                }
+            }
+
+            // Actualizar balance del cliente
+            double nuevoBalance = cliente.getBalance() - totalCuota;
+            if (!ClienteController.actualizarBalanceCliente(IDCliente.getText(), nuevoBalance)) {
+                throw new IOException("Error al actualizar balance del cliente");
+            }
+
+            transaccionExitosa = true;
+            JOptionPane.showMessageDialog(this,
+                    "Cuota guardada exitosamente!",
+                    "Éxito", JOptionPane.INFORMATION_MESSAGE);
+
+        } catch (Exception ex) {
+            // Revertir cambios si falla la transacción
+            for (Cobro cobro : cobrosProcesados) {
+                CobroController.actualizarEstadoCobro(cobro.getId(), false);
+            }
+            JOptionPane.showMessageDialog(this,
+                    "Error al guardar cuota: " + ex.getMessage(),
+                    "Error", JOptionPane.ERROR_MESSAGE);
+
+        } finally {
+            if (transaccionExitosa) {
+                Limpiar();
+            }
+        }
+}//GEN-LAST:event_btnGuardarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField IDCliente;

@@ -134,5 +134,39 @@ public class ClienteController {
             JOptionPane.showMessageDialog(null, "Error al modificar: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
+
+
+
+    public static boolean actualizarBalanceCliente(String idCliente, double nuevoBalance) {
+        String ARCHIVO = "data/clientes.txt";
+        boolean encontrado = false;
+        File tempFile = new File("data/clientes_temp.txt");
+        File originalFile = new File(ARCHIVO);
+
+        try (BufferedReader br = new BufferedReader(new FileReader(originalFile));
+             BufferedWriter bw = new BufferedWriter(new FileWriter(tempFile))) {
+
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                String[] campos = linea.split(";");
+                if (campos[0].equals(idCliente)) {
+                    campos[12] = String.valueOf(nuevoBalance);
+                    linea = String.join(";", campos);
+                    encontrado = true;
+                }
+                bw.write(linea + System.lineSeparator());
+            }
+
+            if (encontrado) {
+                originalFile.delete();
+                tempFile.renameTo(originalFile);
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null,
+                    "Error al actualizar balance: " + e.getMessage(),
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        return encontrado;
+    }
 }

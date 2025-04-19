@@ -1,0 +1,1 @@
+1;Robert;tapia;crespo;calle la mangulina;22/07/1997;802539724;802539724;19/04/2025;true;1;robert@gmail.com;-50.0;800.0

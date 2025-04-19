@@ -260,13 +260,15 @@ public class Cobros extends javax.swing.JFrame {
         String valor = txtValorCobro.getText();
         String concepto = btnConcepto.getText();
         String fecha = "";
+        String status = "false"; // Estado por defecto
 
         if (Date.getDate() != null) {
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
             fecha = sdf.format(Date.getDate());
         }
 
-        boolean guardado = CobroController.guardarCobro(id, fecha, idCliente, valor, concepto);
+// Añadir el parámetro de status al método
+        boolean guardado = CobroController.guardarCobro(id, fecha, idCliente, valor, concepto, status);
 
         if (guardado) {
             JOptionPane.showMessageDialog(this, "Cobro guardado correctamente");

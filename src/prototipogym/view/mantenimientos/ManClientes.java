@@ -99,7 +99,7 @@ public class ManClientes extends javax.swing.JFrame {
                 TextCelular.getText().trim(),
                 TextFechaIngreso.getText().trim(),
                 status,
-                TipoCliente.getSelectedIndex(),
+                TipoCliente.getSelectedIndex(), // 0 = Socio, 1 = Invitado
                 TextCorreo.getText().trim(),
                 TextBalance.getText().trim().isEmpty() ? 0 : Double.parseDouble(TextBalance.getText().trim()),
                 Double.parseDouble(TextCuota.getText().trim())
@@ -463,6 +463,11 @@ public class ManClientes extends javax.swing.JFrame {
         etiqueta.setForeground(new java.awt.Color(255, 255, 255));
 
         CheckBox.setText("Activo");
+        CheckBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CheckBoxActionPerformed(evt);
+            }
+        });
 
         jLabel16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/customer_person_people_man_user_client_1629.png"))); // NOI18N
 
@@ -689,6 +694,10 @@ public class ManClientes extends javax.swing.JFrame {
     private void TipoClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TipoClienteActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_TipoClienteActionPerformed
+
+    private void CheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CheckBoxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_CheckBoxActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
