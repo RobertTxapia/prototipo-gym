@@ -3,11 +3,15 @@ package prototipogym.view.procesos;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.Calendar;
-import javax.swing.table.DefaultTableModel;
 import java.text.SimpleDateFormat;
-import javax.swing.JOptionPane;
 import prototipogym.controller.procesos.CobroController;
-
+import java.io.FileOutputStream;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 public class Cobros extends javax.swing.JFrame {
     private static Cobros instanciass;
@@ -130,6 +134,11 @@ public class Cobros extends javax.swing.JFrame {
         btnLimpiar.setBackground(new java.awt.Color(255, 193, 7));
         btnLimpiar.setText("Limpiar");
         btnLimpiar.setBorderPainted(false);
+        btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLimpiarActionPerformed(evt);
+            }
+        });
 
         btnSalir.setBackground(new java.awt.Color(255, 193, 7));
         btnSalir.setText("Salir");
@@ -236,13 +245,51 @@ public class Cobros extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    
+    
+    public void Limpiar(){
+        txtID.setText("");
+        txtIDCliente.setText("");
+        txtValorCobro.setText("");
+        btnConcepto.setText("");
+    }
+    
     private void btnImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirActionPerformed
-//        if (!controller.obtenerTodos().isEmpty()) {
-//            Cobro ultimo = controller.obtenerTodos().get(controller.obtenerTodos().size() - 1);
-//            generarPDF(ultimo);
-//        }
+        String id = txtID.getText();
+        String valorCobro = txtValorCobro.getText();
+        String fecha = ((JTextField) Date.getDateEditor().getUiComponent()).getText();
+        String concepto = btnConcepto.getText();
+        String idCliente = txtIDCliente.getText();
 
+    
+        if (id.isEmpty() || valorCobro.isEmpty() || fecha.isEmpty() || concepto.isEmpty() || idCliente.isEmpty() ){
+            JOptionPane.showMessageDialog(this, "Los campos estan sin completar");
+        }else{
+            try {
+            
+            Document document = new Document();
+            PdfWriter.getInstance(document, new FileOutputStream("PDF/Cobro_" + id + ".pdf"));
+            document.open();
+
+
+            document.add(new Paragraph("COMPROBANTE DE COBRO", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 18)));
+            document.add(new Paragraph(" "));
+            document.add(new Paragraph("ID: " + id));
+            document.add(new Paragraph("Valor del Cobro: " + valorCobro));
+            document.add(new Paragraph("Fecha: " + fecha));
+            document.add(new Paragraph("Concepto: " + concepto));
+            document.add(new Paragraph("ID Cliente: " + idCliente));
+
+            document.close();
+
+            JOptionPane.showMessageDialog(this, "PDF creado exitosamente");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error al crear el PDF: " + e.getMessage());
+        }
+        }
+        
     }//GEN-LAST:event_btnImprimirActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
@@ -274,6 +321,10 @@ public class Cobros extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Error al guardar el cobro", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
+      Limpiar();
+    }//GEN-LAST:event_btnLimpiarActionPerformed
 
    
 
