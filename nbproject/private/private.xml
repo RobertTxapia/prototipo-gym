@@ -3,7 +3,14 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
             <file>file:/C:/Users/Robert%20Tapia/workspace/prototipo-gym/src/prototipogym/view/movimientos/Cuotas.java</file>
+=======
+            <file>file:/C:/Users/ramon/workspace/prototipo-gym/src/prototipogym/view/MenuPrincipalFrame.java</file>
+            <file>file:/C:/Users/ramon/workspace/prototipo-gym/src/prototipogym/view/consultas/ConCobroRangoFecha.java</file>
+            <file>file:/C:/Users/ramon/workspace/prototipo-gym/src/prototipogym/view/movimientos/Detalles.java</file>
+            <file>file:/C:/Users/ramon/workspace/prototipo-gym/src/prototipogym/view/procesos/Cobros.java</file>
+>>>>>>> e009fee6584ae8092463689d0af66a457cafcc13
         </group>
     </open-files>
 </project-private>

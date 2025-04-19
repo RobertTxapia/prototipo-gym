@@ -21,6 +21,7 @@ import prototipogym.view.mantenimientos.ManReserva;
 import prototipogym.view.mantenimientos.ManReservaActividades;
 import prototipogym.view.mantenimientos.ManSalas;
 import prototipogym.view.mantenimientos.ManUsuario;
+import prototipogym.view.movimientos.Detalles;
 
 public class MenuPrincipalFrame extends javax.swing.JFrame {
     public MenuPrincipalFrame(int nivelAcceso) {
@@ -63,6 +64,7 @@ public class MenuPrincipalFrame extends javax.swing.JFrame {
         mItemReservaActividades = new javax.swing.JMenuItem();
         mMovimientos = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem18 = new javax.swing.JMenuItem();
         mProcesos = new javax.swing.JMenu();
         jMenuItem12 = new javax.swing.JMenuItem();
         jMenuItem13 = new javax.swing.JMenuItem();
@@ -253,6 +255,11 @@ public class MenuPrincipalFrame extends javax.swing.JFrame {
         mMovimientos.setForeground(new java.awt.Color(255, 255, 255));
         mMovimientos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/analytics_chart_bars_graphic_finance_business_money_coin_icon_150732 (1).png"))); // NOI18N
         mMovimientos.setText("Movimientos");
+        mMovimientos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mMovimientosActionPerformed(evt);
+            }
+        });
 
         jMenuItem1.setBackground(new java.awt.Color(255, 193, 7));
         jMenuItem1.setForeground(new java.awt.Color(0, 0, 0));
@@ -265,14 +272,28 @@ public class MenuPrincipalFrame extends javax.swing.JFrame {
         });
         mMovimientos.add(jMenuItem1);
 
+        jMenuItem18.setBackground(new java.awt.Color(255, 193, 7));
+        jMenuItem18.setForeground(new java.awt.Color(0, 0, 0));
+        jMenuItem18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/analisis.png"))); // NOI18N
+        jMenuItem18.setText("Detalles");
+        jMenuItem18.setPreferredSize(new java.awt.Dimension(97, 37));
+        jMenuItem18.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem18ActionPerformed(evt);
+            }
+        });
+        mMovimientos.add(jMenuItem18);
+
         menuBar.add(mMovimientos);
 
         mProcesos.setBackground(new java.awt.Color(255, 193, 7));
         mProcesos.setForeground(new java.awt.Color(255, 255, 255));
+        mProcesos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/liqui.png"))); // NOI18N
         mProcesos.setText("Procesos");
 
         jMenuItem12.setBackground(new java.awt.Color(255, 193, 7));
         jMenuItem12.setForeground(new java.awt.Color(0, 0, 0));
+        jMenuItem12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/salario.png"))); // NOI18N
         jMenuItem12.setText("Cobros");
         jMenuItem12.setPreferredSize(new java.awt.Dimension(115, 35));
         jMenuItem12.addActionListener(new java.awt.event.ActionListener() {
@@ -284,6 +305,7 @@ public class MenuPrincipalFrame extends javax.swing.JFrame {
 
         jMenuItem13.setBackground(new java.awt.Color(255, 193, 7));
         jMenuItem13.setForeground(new java.awt.Color(0, 0, 0));
+        jMenuItem13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/actualizar.png"))); // NOI18N
         jMenuItem13.setText("Actualizar");
         jMenuItem13.setPreferredSize(new java.awt.Dimension(115, 35));
         jMenuItem13.addActionListener(new java.awt.event.ActionListener() {
@@ -297,6 +319,7 @@ public class MenuPrincipalFrame extends javax.swing.JFrame {
 
         mConsulta.setBackground(new java.awt.Color(255, 193, 7));
         mConsulta.setForeground(new java.awt.Color(255, 255, 255));
+        mConsulta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/consulta-de-datos.png"))); // NOI18N
         mConsulta.setText("Consultas");
 
         jMenuItem2.setBackground(new java.awt.Color(255, 193, 7));
@@ -505,6 +528,14 @@ public class MenuPrincipalFrame extends javax.swing.JFrame {
         ConCobroRangoFecha.getInstancia();
     }//GEN-LAST:event_jMenuItem17ActionPerformed
 
+    private void mMovimientosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mMovimientosActionPerformed
+       
+    }//GEN-LAST:event_mMovimientosActionPerformed
+
+    private void jMenuItem18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem18ActionPerformed
+         Detalles.getInstancia();
+    }//GEN-LAST:event_jMenuItem18ActionPerformed
+
     private void configurarMenu(int nivelAcceso) {
         boolean esAdmin = (nivelAcceso == 0);
         mMantenimientos.setVisible(true);
@@ -529,6 +560,7 @@ public class MenuPrincipalFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem15;
     private javax.swing.JMenuItem jMenuItem16;
     private javax.swing.JMenuItem jMenuItem17;
+    private javax.swing.JMenuItem jMenuItem18;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
