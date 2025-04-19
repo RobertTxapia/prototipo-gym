@@ -7,9 +7,12 @@ import java.text.SimpleDateFormat;
 import prototipogym.controller.procesos.CobroController;
 import java.io.FileOutputStream;
 import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.FontFactory;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
+import java.awt.HeadlessException;
+import java.io.FileNotFoundException;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
@@ -284,8 +287,7 @@ public class Cobros extends javax.swing.JFrame {
 
             JOptionPane.showMessageDialog(this, "PDF creado exitosamente");
 
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (DocumentException | HeadlessException | FileNotFoundException e) {
             JOptionPane.showMessageDialog(this, "Error al crear el PDF: " + e.getMessage());
         }
         }
