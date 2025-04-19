@@ -2,9 +2,14 @@ package prototipogym.view.movimientos;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
+import prototipogym.model.DetalleCuota;
+import prototipogym.controller.CuotaController;
 
 public class Cuotas extends javax.swing.JFrame {
    private static Cuotas instanciass;
@@ -28,6 +33,21 @@ public class Cuotas extends javax.swing.JFrame {
             getInstancia().setVisible(true);
         }
         return instanciass;
+    }
+
+    private void cargarTabla() {
+        DefaultTableModel modelo = (DefaultTableModel) Tabla.getModel();
+        modelo.setRowCount(0);
+        ArrayList<DetalleCuota> detalles = CuotaController.cargarDetalles();
+        for (DetalleCuota d : detalles) {
+            modelo.addRow(new Object[]{
+                    d.getIdCliente(),
+                    d.getSecuencia(),
+                    d.getConcepto(),
+                    d.getValorCuota(),
+                    d.getIdCobroCuota()
+            });
+        }
     }
     
     public void Limpiar(){
@@ -60,7 +80,7 @@ public class Cuotas extends javax.swing.JFrame {
         TextCuota = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         Tabla = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
+        btnGuardar = new javax.swing.JButton();
         Limpiar = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
 
@@ -137,9 +157,14 @@ public class Cuotas extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(Tabla);
 
-        jButton1.setBackground(new java.awt.Color(255, 193, 7));
-        jButton1.setText("Guardar");
-        jButton1.setBorderPainted(false);
+        btnGuardar.setBackground(new java.awt.Color(255, 193, 7));
+        btnGuardar.setText("Guardar");
+        btnGuardar.setBorderPainted(false);
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
 
         Limpiar.setBackground(new java.awt.Color(255, 193, 7));
         Limpiar.setText("Limpiar");
@@ -194,7 +219,7 @@ public class Cuotas extends javax.swing.JFrame {
                                 .addComponent(jLabel3))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(109, 109, 109)
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(83, 83, 83)
                                 .addComponent(Limpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(66, 66, 66)
@@ -234,7 +259,7 @@ public class Cuotas extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
+                    .addComponent(btnGuardar)
                     .addComponent(Limpiar)
                     .addComponent(jButton3))
                 .addGap(29, 29, 29))
@@ -273,6 +298,32 @@ public class Cuotas extends javax.swing.JFrame {
         Limpiar();
     }//GEN-LAST:event_LimpiarActionPerformed
 
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        try {
+            String idCuota = txtIdCuota.getText();
+            String idCliente = txtIdCliente.getText();
+            int secuencia = Integer.parseInt(txtSecuencia.getText());
+            String concepto = txtConcepto.getText();
+            double valor = Double.parseDouble(txtValor.getText());
+            String idCobro = txtIdCobro.getText();
+            Date fecha = new Date(); 
+            double total = valor;
+            boolean status = false;
+
+            DetalleCuota d = new DetalleCuota(idCuota, fecha, idCliente, total, status, secuencia, concepto, valor, idCobro);
+
+            if (CuotaController.guardarDetalle(d)) {
+                JOptionPane.showMessageDialog(this, "Detalle guardado correctamente");
+                cargarTabla();
+                Limpiar();
+            } else {
+                JOptionPane.showMessageDialog(this, "Error al guardar detalle");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
+        }
+    }//GEN-LAST:event_btnGuardarActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField IDCliente;
     private javax.swing.JButton Limpiar;
@@ -281,7 +332,7 @@ public class Cuotas extends javax.swing.JFrame {
     private javax.swing.JTextField TextFecha;
     private javax.swing.JTextField TextNombre;
     private javax.swing.JTextField Text_ID;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnGuardar;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
