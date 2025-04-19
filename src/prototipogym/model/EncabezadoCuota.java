@@ -2,14 +2,15 @@ package prototipogym.model;
 
 import java.util.Date;
 
-public class Cuota {
+
+public class EncabezadoCuota {
     private String idCuota;
     private Date fechaCuota;
     private String idCliente;
     private double valorTotal;
     private boolean status;
 
-    public Cuota(String idCuota, Date fechaCuota, String idCliente, double valorTotal, boolean status) {
+    public EncabezadoCuota(String idCuota, Date fechaCuota, String idCliente, double valorTotal, boolean status) {
         this.idCuota = idCuota;
         this.fechaCuota = fechaCuota;
         this.idCliente = idCliente;

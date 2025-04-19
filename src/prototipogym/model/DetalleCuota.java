@@ -1,7 +1,8 @@
 package prototipogym.model;
-import prototipogym.model.Cuota;
 
-public class DetalleCuota extends Cuota {
+import java.util.Date;
+
+public class DetalleCuota extends EncabezadoCuota {
     private int secuencia;
     private String concepto;
     private double valorCuota;
@@ -9,7 +10,7 @@ public class DetalleCuota extends Cuota {
 
     public DetalleCuota(
             String idCuota,
-            java.util.Date fechaCuota,
+            Date fechaCuota,
             String idCliente,
             double valorTotal,
             boolean status,

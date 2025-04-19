@@ -3,13 +3,11 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-
-import prototipogym.model.DetalleCuota;
-import prototipogym.controller.CuotaController;
+import prototipogym.controller.movimientos.EncabezadoCuotaController;
+import prototipogym.model.EncabezadoCuota;
 
 public class Cuotas extends javax.swing.JFrame {
    private static Cuotas instanciass;
@@ -25,6 +23,7 @@ public class Cuotas extends javax.swing.JFrame {
             dispose(); 
         }
         });
+        cargarTabla();
     }
     
     public static Cuotas getInstancia(){
@@ -38,18 +37,18 @@ public class Cuotas extends javax.swing.JFrame {
     private void cargarTabla() {
         DefaultTableModel modelo = (DefaultTableModel) Tabla.getModel();
         modelo.setRowCount(0);
-        ArrayList<DetalleCuota> detalles = CuotaController.cargarDetalles();
-        for (DetalleCuota d : detalles) {
+        ArrayList<EncabezadoCuota> lista = EncabezadoCuotaController.cargarEncabezados();
+        for (EncabezadoCuota e : lista) {
             modelo.addRow(new Object[]{
-                    d.getIdCliente(),
-                    d.getSecuencia(),
-                    d.getConcepto(),
-                    d.getValorCuota(),
-                    d.getIdCobroCuota()
+                    e.getIdCuota(),
+                    e.getFechaCuota(),
+                    e.getIdCliente(),
+                    e.getValorTotal(),
+                    e.isStatus()
             });
         }
     }
-    
+
     public void Limpiar(){
         Text_ID.setText("");
         TextNombre.setText("");
@@ -300,24 +299,19 @@ public class Cuotas extends javax.swing.JFrame {
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         try {
-            String idCuota = txtIdCuota.getText();
-            String idCliente = txtIdCliente.getText();
-            int secuencia = Integer.parseInt(txtSecuencia.getText());
-            String concepto = txtConcepto.getText();
-            double valor = Double.parseDouble(txtValor.getText());
-            String idCobro = txtIdCobro.getText();
-            Date fecha = new Date(); 
-            double total = valor;
+            String idCuota = Text_ID.getText();
+            String idCliente = IDCliente.getText();
+            double valor = Double.parseDouble(TextCuota.getText());
+            Date fecha = new Date(); // actual del sistema
             boolean status = false;
 
-            DetalleCuota d = new DetalleCuota(idCuota, fecha, idCliente, total, status, secuencia, concepto, valor, idCobro);
-
-            if (CuotaController.guardarDetalle(d)) {
-                JOptionPane.showMessageDialog(this, "Detalle guardado correctamente");
+            EncabezadoCuota e = new EncabezadoCuota(idCuota, fecha, idCliente, valor, status);
+            if (EncabezadoCuotaController.guardarEncabezado(e)) {
+                JOptionPane.showMessageDialog(this, "Encabezado guardado correctamente");
                 cargarTabla();
                 Limpiar();
             } else {
-                JOptionPane.showMessageDialog(this, "Error al guardar detalle");
+                JOptionPane.showMessageDialog(this, "Error al guardar encabezado");
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
