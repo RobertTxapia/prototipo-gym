@@ -206,4 +206,35 @@ public class ClienteController {
         }
         return socios;
     }
+
+    public static void actualizarCliente(Cliente cliente) {
+        try {
+            List<String> lineas = new ArrayList<>();
+            try (Scanner scanner = new Scanner(new File("data/clientes.txt"))) {
+                while (scanner.hasNextLine()) {
+                    String linea = scanner.nextLine();
+                    String[] campos = linea.split(";");
+                    if (campos[0].equals(cliente.getId())) {
+                        linea = String.join(";",
+                                cliente.getId(),
+                                cliente.getNombre(),
+                                String.valueOf(cliente.getTipoCliente()),
+                                String.valueOf(cliente.isStatus()),
+                                String.valueOf(cliente.getBalance())
+                        );
+                    }
+                    lineas.add(linea);
+                }
+            }
+
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter("data/clientes.txt"))) {
+                for (String l : lineas) {
+                    writer.write(l);
+                    writer.newLine();
+                }
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
 }

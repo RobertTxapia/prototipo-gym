@@ -81,8 +81,8 @@
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="jDateChooser1" pref="110" max="32767" attributes="0"/>
-                      <Component id="jDateChooser2" max="32767" attributes="0"/>
+                      <Component id="dateInicial" pref="110" max="32767" attributes="0"/>
+                      <Component id="dateFinal" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace pref="49" max="32767" attributes="0"/>
                   <Component id="jButton1" min="-2" pref="100" max="-2" attributes="0"/>
@@ -108,7 +108,7 @@
                                   <Component id="jComboBox1" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <Component id="jDateChooser1" min="-2" max="-2" attributes="0"/>
+                              <Component id="dateInicial" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <Component id="jButton1" min="-2" max="-2" attributes="0"/>
@@ -116,7 +116,7 @@
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
-                      <Component id="jDateChooser2" min="-2" max="-2" attributes="0"/>
+                      <Component id="dateFinal" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace pref="24" max="32767" attributes="0"/>
                   <Component id="jScrollPane1" min="-2" pref="305" max="-2" attributes="0"/>
@@ -176,11 +176,14 @@
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
               <StringArray count="2">
-                <StringItem index="0" value="De Cobro Por Rango De Fecha"/>
+                <StringItem index="0" value="Todos"/>
                 <StringItem index="1" value="De Cobro Por Cliente"/>
               </StringArray>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboBox1ActionPerformed"/>
+          </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
           </AuxValues>
@@ -222,7 +225,7 @@
             <Property name="text" type="java.lang.String" value="Fecha Iniciar"/>
           </Properties>
         </Component>
-        <Component class="com.toedter.calendar.JDateChooser" name="jDateChooser1">
+        <Component class="com.toedter.calendar.JDateChooser" name="dateInicial">
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel5">
           <Properties>
@@ -232,7 +235,7 @@
             <Property name="text" type="java.lang.String" value="Fecha Final"/>
           </Properties>
         </Component>
-        <Component class="com.toedter.calendar.JDateChooser" name="jDateChooser2">
+        <Component class="com.toedter.calendar.JDateChooser" name="dateFinal">
         </Component>
       </SubComponents>
     </Container>

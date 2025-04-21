@@ -9,20 +9,22 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class ActualizarCobro extends javax.swing.JFrame {
-private static ActualizarCobro instancias;
+    private static ActualizarCobro instancias;
+    private final ActualizarCuotaController controller = new ActualizarCuotaController();
+    private static final SimpleDateFormat FORMATO_FECHA = new SimpleDateFormat("dd/MM/yyyy");
+
     public ActualizarCobro() {
         initComponents();
         setLocationRelativeTo(null);
         addWindowListener(new WindowAdapter() {
-        @Override
-        public void windowClosing(WindowEvent e) {
-            instancias = null;
-            dispose(); 
-        }
-    });
-        
+            @Override
+            public void windowClosing(WindowEvent e) {
+                instancias = null;
+                dispose();
+            }
+        });
     }
-    
+
     public static ActualizarCobro getInstancia(){
         if (instancias == null){
             instancias = new ActualizarCobro();
@@ -165,12 +167,12 @@ private static ActualizarCobro instancias;
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    
+
     public void Limpiar(){
         dateInicio.setDate(null);
         dateFinal.setDate(null);
     }
-    
+
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
         instancias = null;
         dispose();
@@ -181,41 +183,35 @@ private static ActualizarCobro instancias;
     }//GEN-LAST:event_btnLimpaiarActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        // Obtener fechas
         Date fechaInicio = dateInicio.getDate();
         Date fechaFinal = dateFinal.getDate();
 
-        // Validar que ambas fechas estén seleccionadas
         if (fechaInicio == null || fechaFinal == null) {
-            JOptionPane.showMessageDialog(this,
-                    "Seleccione ambas fechas (dd/MM/yyyy)",
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE
-            );
+            JOptionPane.showMessageDialog(this, "Seleccione ambas fechas", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        // Formatear fechas para comparación
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        String fechaInicioStr = sdf.format(fechaInicio);
-        String fechaFinalStr = sdf.format(fechaFinal);
-
-        // Llamar al controlador con las fechas
-        boolean exito = ActualizarCuotaController.actualizarCuotas(fechaInicio, fechaFinal);
-
-        if (exito) {
-            JOptionPane.showMessageDialog(this,
-                    "Fechas actualizadas correctamente",
-                    "Éxito",
-                    JOptionPane.INFORMATION_MESSAGE
-            );
-        } else {
-            JOptionPane.showMessageDialog(this,
-                    "Error al actualizar. Revise los archivos.",
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE
-            );
+        if (fechaInicio.after(fechaFinal)) {
+            JOptionPane.showMessageDialog(this, "Fecha inicial no puede ser mayor a la final", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
         }
+
+        try {
+            boolean exito = controller.procesarActualizacion(
+                    FORMATO_FECHA.format(fechaInicio),
+                    FORMATO_FECHA.format(fechaFinal)
+            );
+
+            if (exito) {
+                JOptionPane.showMessageDialog(this, "Cuotas actualizadas correctamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                Limpiar();
+            } else {
+                JOptionPane.showMessageDialog(this, "No se encontraron cuotas pendientes en ese rango", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
 
