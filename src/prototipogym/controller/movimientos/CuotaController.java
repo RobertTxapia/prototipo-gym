@@ -24,36 +24,32 @@ public class CuotaController {
         }
     }
 
-    public static List<Cobro> obtenerCobrosPendientes(String idCliente) {
-        List<Cobro> cobrosPendientes = new ArrayList<>();
-        // Añadir formato de fecha
-        SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy"); 
-
-        try (Scanner scanner = new Scanner(new File("data/cobros.txt"))) {
-            while (scanner.hasNextLine()) {
-                String[] datos = scanner.nextLine().split(";"); // <--- Usar comillas dobles
-
-                if (datos.length >= 6 
-                    && datos[2].equals(idCliente) 
-                    && datos[5].equalsIgnoreCase("false")) {
-
-                    // Crear objeto Cobro con todos los parámetros
-                    Cobro cobro = new Cobro(
-                        Integer.parseInt(datos[0]),       // id
-                        formatoFecha.parse(datos[1]),     // fecha
-                        Integer.parseInt(datos[2]),       // idCliente
-                        Double.parseDouble(datos[3]),     // valor
-                        datos[4],                         // concepto
-                        Boolean.parseBoolean(datos[5])    // status
-                    );
-                    cobrosPendientes.add(cobro);
-                }
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
-        return cobrosPendientes;
-}
+        public static List<Cobro> obtenerCobrosPendientes(String idCliente) {
+         List<Cobro> cobrosPendientes = new ArrayList<>();
+         SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy"); 
+         try (Scanner scanner = new Scanner(new File("data/cobros.txt"))) {
+             while (scanner.hasNextLine()) {
+                 String[] datos = scanner.nextLine().split(";");
+                 // Filtrar por ID de cliente y status "false"
+                 if (datos.length >= 6 
+                     && datos[2].equals(idCliente) 
+                     && datos[5].equalsIgnoreCase("false")) { 
+                     Cobro cobro = new Cobro(
+                         Integer.parseInt(datos[0]),
+                         formatoFecha.parse(datos[1]),
+                         Integer.parseInt(datos[2]),
+                         Double.parseDouble(datos[3]),
+                         datos[4],
+                         Boolean.parseBoolean(datos[5])
+                     );
+                     cobrosPendientes.add(cobro);
+                 }
+             }
+         } catch (Exception e) {
+             JOptionPane.showMessageDialog(null, "Error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+         }
+         return cobrosPendientes;
+     }
 
     public static boolean guardarCuota(String idCuota, String idCliente, List<Cobro> cobros) {
         try (BufferedWriter encabezadoWriter = new BufferedWriter(new FileWriter(ENCABEZADO_FILE, true));

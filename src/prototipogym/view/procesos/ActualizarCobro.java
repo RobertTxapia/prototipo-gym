@@ -5,6 +5,7 @@ import prototipogym.controller.procesos.ActualizarCuotaController;
 import javax.swing.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class ActualizarCobro extends javax.swing.JFrame {
@@ -38,14 +39,18 @@ private static ActualizarCobro instancias;
         jSeparator1 = new javax.swing.JSeparator();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        dateInicio = new com.toedter.calendar.JDateChooser();
         jLabel3 = new javax.swing.JLabel();
-        dateFinal = new com.toedter.calendar.JDateChooser();
         btnGuardar = new javax.swing.JButton();
         btnLimpaiar = new javax.swing.JButton();
         btnSalir = new javax.swing.JButton();
+        dateInicio = new com.toedter.calendar.JDateChooser();
+        dateFinal = new com.toedter.calendar.JDateChooser();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+        dateInicio.setDateFormatString("dd/MM/yyyy");
+
+        dateFinal.setDateFormatString("dd/MM/yyyy");
 
         jPanel1.setBackground(new java.awt.Color(51, 51, 51));
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 193, 7), 3));
@@ -59,12 +64,8 @@ private static ActualizarCobro instancias;
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Fecha de inicio");
 
-        dateInicio.setBackground(new java.awt.Color(55, 55, 55));
-
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Fecha Final");
-
-        dateFinal.setBackground(new java.awt.Color(55, 55, 55));
 
         btnGuardar.setBackground(new java.awt.Color(255, 193, 7));
         btnGuardar.setText("Guardar");
@@ -114,16 +115,19 @@ private static ActualizarCobro instancias;
                         .addComponent(btnLimpaiar, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(37, 37, 37)
                         .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(34, Short.MAX_VALUE))
+                        .addContainerGap(50, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
-                            .addComponent(dateInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(dateInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(dateFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(35, 35, 35))))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(71, 71, 71))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(dateFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(86, 86, 86))))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -136,10 +140,10 @@ private static ActualizarCobro instancias;
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(jLabel3))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(dateInicio, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
-                    .addComponent(dateFinal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(26, 26, 26)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(dateInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(dateFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnGuardar)
@@ -177,20 +181,40 @@ private static ActualizarCobro instancias;
     }//GEN-LAST:event_btnLimpaiarActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        // Obtener fechas
         Date fechaInicio = dateInicio.getDate();
         Date fechaFinal = dateFinal.getDate();
 
+        // Validar que ambas fechas estén seleccionadas
         if (fechaInicio == null || fechaFinal == null) {
-            JOptionPane.showMessageDialog(this, "Ambas fechas deben ser seleccionadas", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this,
+                    "Seleccione ambas fechas (dd/MM/yyyy)",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE
+            );
             return;
         }
 
-        boolean actualizado = ActualizarCuotaController.actualizarFechas(fechaInicio, fechaFinal);
+        // Formatear fechas para comparación
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        String fechaInicioStr = sdf.format(fechaInicio);
+        String fechaFinalStr = sdf.format(fechaFinal);
 
-        if (actualizado) {
-            JOptionPane.showMessageDialog(this, "Fechas de cuota actualizadas correctamente");
+        // Llamar al controlador con las fechas
+        boolean exito = ActualizarCuotaController.actualizarCuotas(fechaInicio, fechaFinal);
+
+        if (exito) {
+            JOptionPane.showMessageDialog(this,
+                    "Fechas actualizadas correctamente",
+                    "Éxito",
+                    JOptionPane.INFORMATION_MESSAGE
+            );
         } else {
-            JOptionPane.showMessageDialog(this, "No se pudieron actualizar las cuotas", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this,
+                    "Error al actualizar. Revise los archivos.",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE
+            );
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
 

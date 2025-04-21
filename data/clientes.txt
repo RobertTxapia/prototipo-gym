@@ -1,4 +1,4 @@
-100;Robert;Tapia;Crespo;calle 123;06/04/2005;123456;123456;20/04/2025;true;1;robert@gmail.com;0.0;500.0
-200;Ana;Maria;Rosa;cale456;09/04/2018;46684;6258962;20/04/2025;true;0;ana@gmail.com;300.00;800.0
+100;Robert;Tapia;Crespo;calle 123;06/04/2005;123456;123456;20/04/2025;true;1;robert@gmail.com;-500.00;500.0
+200;Ana;Maria;Rosa;cale456;09/04/2018;46684;6258962;20/04/2025;true;1;ana@gmail.com;-700.00;800.0
 300;Manuel;Rodriguez;Vargas;cale247;11/04/2025;2897635498;165489;20/04/2025;false;0;manuel@gmail.com;250.00;1000.0
 400;vdf;sfsfs;fsdfsfsfsd;dfs;04/04/2025;25164;42424;20/04/2025;false;0;dgsga;25.00;345.0

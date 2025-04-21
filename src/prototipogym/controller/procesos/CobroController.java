@@ -126,7 +126,7 @@ public class CobroController {
             }
         }
     
-    private static void actualizarEstadoEncabezado(String idCuota, boolean estado) {
+    public static void actualizarEstadoEncabezado(String idCuota, boolean estado) {
         try (BufferedReader br = new BufferedReader(new FileReader(ENCABEZADO_FILE));
              BufferedWriter bw = new BufferedWriter(new FileWriter("temp.txt"))) {
 
@@ -148,7 +148,7 @@ public class CobroController {
         }
     }
 
-    private static EncabezadoCuota obtenerEncabezadoCuota(String idCuota) {
+    public static EncabezadoCuota obtenerEncabezadoCuota(String idCuota) {
         try (Scanner scanner = new Scanner(new File(ENCABEZADO_FILE))) {
             while (scanner.hasNextLine()) {
                 String[] campos = scanner.nextLine().split(";");
@@ -189,7 +189,7 @@ public class CobroController {
         return null;
     }
     
-    private static List<DetalleCuota> obtenerDetallesCuota(String idCuota) {
+    public static List<DetalleCuota> obtenerDetallesCuota(String idCuota) {
         List<DetalleCuota> detalles = new ArrayList<>();
         try (Scanner scanner = new Scanner(new File("data/detalle_cuota.txt"))) {
             while (scanner.hasNextLine()) {

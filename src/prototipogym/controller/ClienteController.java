@@ -63,33 +63,31 @@ public class ClienteController {
 
     // Obtener cliente por ID (útil para modificaciones)
     public static Cliente obtenerCliente(String idCliente) throws IOException {
-        File file = new File(ARCHIVO);
-        if (!file.exists()) return null;
-
-        try (Scanner scanner = new Scanner(file)) {
-            while (scanner.hasNextLine()) {
-                String[] datos = scanner.nextLine().split(";");
+        try (BufferedReader br = new BufferedReader(new FileReader("data/Clientes.txt"))) {
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                String[] datos = linea.split(";");
                 if (datos[0].equals(idCliente)) {
                     return new Cliente(
-                            datos[0],   // idCliente
-                            datos[1],   // nombre
-                            datos[2],   // apellidoPat
-                            datos[3],   // apellidoMat
-                            datos[4],   // direccion
-                            datos[5],   // fechaNac
-                            datos[6],   // telefono
-                            datos[7],   // celular
-                            datos[8],   // fechaIngreso
-                            Boolean.parseBoolean(datos[9]),  // status
-                            Integer.parseInt(datos[10]),      // tipoCliente
-                            datos[11],  // correo
-                            Double.parseDouble(datos[12]),   // balance
-                            Double.parseDouble(datos[13])    // valorCuota
+                            datos[0],  // ID
+                            datos[1],  // Nombre
+                            datos[2],  // Primer apellido
+                            datos[3],  // Segundo apellido
+                            datos[4],  // Dirección
+                            datos[5],  // Fecha de nacimiento
+                            datos[6],  // Teléfono
+                            datos[7],  // Celular
+                            datos[8],  // Fecha de ingreso
+                            Boolean.parseBoolean(datos[9]),  // Status
+                            Integer.parseInt(datos[10]),     // TipoCliente
+                            datos[11],  // Correo
+                            Double.parseDouble(datos[12]),   // Balance
+                            Double.parseDouble(datos[13])    // Valor Cuota
                     );
                 }
             }
         }
-        return null;
+        return null; // Cliente no encontrado
     }
 
     // Validar si un cliente tiene balance pendiente (>0)
