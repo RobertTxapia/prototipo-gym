@@ -1,11 +1,22 @@
 package prototipogym.view.procesos;
 
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
+import java.awt.HeadlessException;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.Calendar;
-import javax.swing.table.DefaultTableModel;
 import java.text.SimpleDateFormat;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import prototipogym.controller.procesos.CobroController;
 
 
@@ -251,11 +262,61 @@ public class Cobros extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirActionPerformed
-//        if (!controller.obtenerTodos().isEmpty()) {
-//            Cobro ultimo = controller.obtenerTodos().get(controller.obtenerTodos().size() - 1);
-//            generarPDF(ultimo);
-//        }
+         String id = txtID.getText();
+         String valorCobro = txtValorCobro.getText();
+         String fecha = ((JTextField) Date.getDateEditor().getUiComponent()).getText();
+         String concepto = txtConcepto.getText();
+         String idCliente = txtIDCliente.getText();
+ 
+ 
+         if (id.isEmpty() || valorCobro.isEmpty() || fecha.isEmpty() || concepto.isEmpty() || idCliente.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Los campos están sin completar");
+        } else {
+        boolean esSocio = false;
 
+        try (BufferedReader br = new BufferedReader(new FileReader("data/clientes.txt"))) {
+         String linea;
+        while ((linea = br.readLine()) != null) {
+            String[] datos = linea.split(";");
+            if (datos[0].equals(idCliente)) {
+                // El campo tipo de cliente está en la posición 11
+                if (datos.length > 10 && datos[10].equals("1")) {
+                    esSocio = true;
+                }
+                break;
+            }
+        }
+    } catch (IOException e) {
+        JOptionPane.showMessageDialog(this, "Error al leer archivo de clientes: " + e.getMessage());
+        return;
+    }
+
+    if (!esSocio) {
+        JOptionPane.showMessageDialog(this, "Este cliente no es tipo Socio. No se imprimirá el PDF.");
+        return;
+    }
+
+    try {
+        Document document = new Document();
+        PdfWriter.getInstance(document, new FileOutputStream("PDF/Cobro_" + id + ".pdf"));
+        document.open();
+
+        document.add(new Paragraph("COMPROBANTE DE COBRO", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 18)));
+        document.add(new Paragraph(" "));
+        document.add(new Paragraph("ID: " + id));
+        document.add(new Paragraph("Valor del Cobro: " + valorCobro));
+        document.add(new Paragraph("Fecha: " + fecha));
+        document.add(new Paragraph("Concepto: " + concepto));
+        document.add(new Paragraph("ID Cliente: " + idCliente));
+
+        document.close();
+
+        JOptionPane.showMessageDialog(this, "PDF creado exitosamente");
+
+    } catch (DocumentException | HeadlessException | FileNotFoundException e) {
+        JOptionPane.showMessageDialog(this, "Error al crear el PDF: " + e.getMessage());
+    }
+}
     }//GEN-LAST:event_btnImprimirActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
