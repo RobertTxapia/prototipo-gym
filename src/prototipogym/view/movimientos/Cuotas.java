@@ -30,7 +30,7 @@ public class Cuotas extends javax.swing.JFrame {
         @Override
         public void windowClosing(WindowEvent e) {
             instanciass = null;
-            dispose(); 
+            dispose();
         }
         });
         IDCliente.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -40,7 +40,7 @@ public class Cuotas extends javax.swing.JFrame {
     });
 
    }
-    
+
     public static Cuotas getInstancia(){
         if (instanciass == null){
             instanciass = new Cuotas();
@@ -49,49 +49,47 @@ public class Cuotas extends javax.swing.JFrame {
         return instanciass;
     }
 
-<<<<<<< HEAD
+//    private void Text_IDFocusLost(java.awt.event.FocusEvent evt) {
+//        String idCuota = Text_ID.getText().trim();
+//        if (!idCuota.isEmpty()) {
+//            cargarDetallesCuota(idCuota);
+//        }
+//    }
+
     private void Text_IDFocusLost(java.awt.event.FocusEvent evt) {
         String idCuota = Text_ID.getText().trim();
-        if (!idCuota.isEmpty()) {
-            cargarDetallesCuota(idCuota);
-=======
-    private void IDClienteFocusLost(java.awt.event.FocusEvent evt) {
-       String idCuota = Text_ID.getText().trim();
-        if (!idCuota.isEmpty()) {
-                try (Scanner scanner = new Scanner(new File("data/encabezado_cuota.txt"))) {
-                boolean encontrado = false;
-                while (scanner.hasNextLine()) {
-                    String[] campos = scanner.nextLine().split(";");
-                    if (campos[0].equals(idCuota)) {
-                        encontrado = true;
-                        if (campos[3].equalsIgnoreCase("false")) {
-                            etiqueta.setText("Modificando");
-                            TextFecha.setText(campos[1]);
-                            IDCliente.setText(campos[2]);
-                            cargarDetallesCuota(idCuota);
-                        } else {
-                            JOptionPane.showMessageDialog(null,
-                                    "Cuota ya procesada", "Error", JOptionPane.ERROR_MESSAGE);
-                            Text_ID.setText("");
-                        }
-                        break;
+        if (idCuota.isEmpty()) return;
+
+        try (Scanner scanner = new Scanner(new File("data/encabezado_cuota.txt"))) {
+            boolean encontrado = false;
+            while (scanner.hasNextLine()) {
+                String[] campos = scanner.nextLine().split(";");
+                if (campos[0].equals(idCuota)) {
+                    encontrado = true;
+                    if (campos[3].equalsIgnoreCase("false")) {
+                        etiqueta.setText("Modificando");
+                        TextFecha.setText(campos[1]);
+                        IDCliente.setText(campos[2]);
+                        cargarDetallesCuota(idCuota);
+                    } else {
+                        JOptionPane.showMessageDialog(this,
+                                "Cuota ya procesada", "Error", JOptionPane.ERROR_MESSAGE);
+                        Text_ID.setText(""); // Limpiar campo
                     }
+                    break;
                 }
-                if (!encontrado) {
-                    etiqueta.setText("Creando");
-                    TextFecha.setText(FORMATO_FECHA.format(new Date()));
-                }
-            } catch (FileNotFoundException ex) {
-                TextFecha.setText(FORMATO_FECHA.format(new Date())); //Arreglar fecha si exite el cliente
-                etiqueta.setText("Creando");
             }
->>>>>>> acf0a9b35090c5644c7b235b4245893b0e44af6e
+            if (!encontrado) {
+                etiqueta.setText("Creando");
+                TextFecha.setText(FORMATO_FECHA.format(new Date())); // Nueva fecha
+            }
+        } catch (FileNotFoundException ex) {
+            etiqueta.setText("Creando");
+            TextFecha.setText(FORMATO_FECHA.format(new Date()));
         }
     }
-    
-    
 
-    private void IDClienteFocusLost(java.awt.event.FocusEvent evt) {                                    
+    private void IDClienteFocusLost(java.awt.event.FocusEvent evt) {
         String idCliente = IDCliente.getText().trim();
         if (idCliente.isEmpty()) {
             return;
@@ -113,9 +111,9 @@ public class Cuotas extends javax.swing.JFrame {
 
             // Validar que sea Socio Activo (TipoCliente = 0, Status = true)
             if (cliente.getTipoCliente() != 1 || !cliente.isStatus()) {
-                JOptionPane.showMessageDialog(this, 
-                    "El cliente no es Socio Activo", 
-                    "Error", 
+                JOptionPane.showMessageDialog(this,
+                    "El cliente no es Socio Activo",
+                    "Error",
                     JOptionPane.ERROR_MESSAGE
                 );
                 limpiarCamposCliente();
@@ -125,16 +123,17 @@ public class Cuotas extends javax.swing.JFrame {
             // Autocompletar campos
             TextNombre.setText(cliente.getNombre());
             TextCuota.setText(String.valueOf(cliente.getValorCuota()));
+            //TextFecha.setText();
 
         } catch (IOException ex) {
-            JOptionPane.showMessageDialog(this, 
-                "Error al leer datos del cliente: " + ex.getMessage(), 
-                "Error", 
+            JOptionPane.showMessageDialog(this,
+                "Error al leer datos del cliente: " + ex.getMessage(),
+                "Error",
                 JOptionPane.ERROR_MESSAGE
             );
             limpiarCamposCliente();
         }
-    } 
+    }
 
     private void limpiarCamposCliente() {
         TextNombre.setText("");
@@ -144,13 +143,10 @@ public class Cuotas extends javax.swing.JFrame {
 
     private void cargarDetallesCuota(String idCuota) {
         DefaultTableModel model = (DefaultTableModel) Tabla.getModel();
-        model.setRowCount(0); // Limpiar la tabla
+        model.setRowCount(0);
 
         try {
-            // 1. Obtener el ID del cliente desde encabezado_cuota.txt
             String idCliente = obtenerIdClienteDeEncabezado(idCuota);
-
-            // 2. Leer detalles de la cuota
             try (Scanner scanner = new Scanner(new File("data/detalle_cuota.txt"))) {
                 while (scanner.hasNextLine()) {
                     String[] campos = scanner.nextLine().split(";");
@@ -170,7 +166,7 @@ public class Cuotas extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Error al cargar detalles: " + ex.getMessage());
         }
     }
-    
+
     private String obtenerIdClienteDeEncabezado(String idCuota) {
         try (Scanner scanner = new Scanner(new File("data/encabezado_cuota.txt"))) {
             while (scanner.hasNextLine()) {
@@ -182,11 +178,9 @@ public class Cuotas extends javax.swing.JFrame {
         } catch (FileNotFoundException ex) {
             JOptionPane.showMessageDialog(this, "Error al leer encabezados: " + ex.getMessage());
         }
-        return "N/A"; 
+        return "N/A";
     }
-    
-    
-    //funcion para eliminar fila 
+
     private void guardarFilasSeleccionadas() {
         int[] filasSeleccionadas = Tabla.getSelectedRows();
 
@@ -249,7 +243,7 @@ public class Cuotas extends javax.swing.JFrame {
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(this, "Error al procesar: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
-}
+    }
 
     public void Limpiar(){
         Text_ID.setText("");
@@ -262,8 +256,7 @@ public class Cuotas extends javax.swing.JFrame {
         IDCliente.setText("");
 
     }
-    
-     
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -509,7 +502,7 @@ public class Cuotas extends javax.swing.JFrame {
 
     private void Text_IDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Text_IDActionPerformed
         Text_ID.requestFocus();
-        
+
     }//GEN-LAST:event_Text_IDActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -522,7 +515,7 @@ public class Cuotas extends javax.swing.JFrame {
     }//GEN-LAST:event_LimpiarActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        // Validación de campos
+       // Validación de campos
         if (Text_ID.getText().isEmpty() || IDCliente.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Campos obligatorios faltantes", "Error", JOptionPane.ERROR_MESSAGE);
             return;
@@ -569,34 +562,21 @@ public class Cuotas extends javax.swing.JFrame {
                     ));
                     detalleWriter.newLine();
                     total += cobro.getValorCobro();
-                    CobroController.actualizarEstadoCobro(cobro.getId(), true); 
+                    CobroController.actualizarEstadoCobro(cobro.getId(), true);
                 }
             }
-            
-            
 
-            // Actualizar balance del cliente
-<<<<<<< HEAD
             ClienteController.actualizarBalanceCliente(IDCliente.getText(), cliente.getBalance() - total);
             JOptionPane.showMessageDialog(this, "Cuota registrada exitosamente");
             Limpiar();
             cargarDetallesCuota(Text_ID.getText().trim());
-=======
-            double nuevoBalance = cliente.getBalance() - totalCuota;
+            double nuevoBalance = cliente.getBalance() - total;
+            
             if (!ClienteController.actualizarBalanceCliente(IDCliente.getText(), nuevoBalance)) {
                 throw new IOException("Error al actualizar balance del cliente");
             }
             
-            
-            
             guardarFilasSeleccionadas();
-            
-            transaccionExitosa = true;
-            JOptionPane.showMessageDialog(this,
-                    "Cuota guardada exitosamente!",
-                    "Éxito", JOptionPane.INFORMATION_MESSAGE);
->>>>>>> acf0a9b35090c5644c7b235b4245893b0e44af6e
-
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }

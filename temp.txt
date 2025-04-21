@@ -1,6 +1,1 @@
-1;30/04/2025;200;300.00;pago mensual;false
-3;30/04/2025;300;200.00;pago manito;false
-3;30/04/2025;300;50.00;dd;false
-4;30/04/2025;100;500.00;Cuota Mensual 04/2025;false
-85;12/06/2025;300;50.00;fddf;false
-52;14/05/2025;200;100.00;gdgdf;true
+1;30/04/2025;100;100.00;Pago mensual;true

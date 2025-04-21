@@ -1,9 +1,5 @@
-<<<<<<< HEAD
-100;Robert;Tapia;Crespo;calle 123;06/04/2005;123456;123456;20/04/2025;true;1;robert@gmail.com;-500.00;500.0
-200;Ana;Maria;Rosa;cale456;09/04/2018;46684;6258962;20/04/2025;true;1;ana@gmail.com;-700.00;800.0
-=======
-100;Robert;Tapia;Crespo;calle 123;06/04/2005;123456;123456;20/04/2025;true;1;robert@gmail.com;6000.00;500.0
-200;Ana;Maria;Rosa;cale456;09/04/2018;46684;6258962;20/04/2025;true;1;ana@gmail.com;11500.00;800.0
->>>>>>> acf0a9b35090c5644c7b235b4245893b0e44af6e
-300;Manuel;Rodriguez;Vargas;cale247;11/04/2025;2897635498;165489;20/04/2025;false;0;manuel@gmail.com;250.00;1000.0
-400;vdf;sfsfs;fsdfsfsfsd;dfs;04/04/2025;25164;42424;20/04/2025;false;0;dgsga;25.00;345.0
+100;Robert;Tapia;Crespo;calle 123;06/04/2005;123456;123456;20/04/2025;true;1;robert@gmail.com;0.00;500.0
+200;Ana;Maria;Rosa;cale456;09/04/2018;46684;6258962;20/04/2025;true;1;ana@gmail.com;0.0;800.0
+300;Jose;Maria;Rosa;cale4566;09/04/2018;465684;62558962;20/04/2025;false;1;jose@gmail.com;0.0;300.0
+400;Jose;Fernandez;Calderon;cale42566;09/04/2018;46545684;6256962;20/04/2025;false;0;fernandez@gmail.com;0.0;50.0
+500;Emmanuel;Manolo;Vargas;cale420566;09/04/2018;46584;25262;20/04/2025;true;0;emmanuel@gmail.com;0.0;100.0

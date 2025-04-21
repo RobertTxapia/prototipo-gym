@@ -26,8 +26,10 @@ import javax.swing.JOptionPane;
 import prototipogym.controller.ClienteController;
 
 import javax.swing.JTextField;
+import prototipogym.controller.movimientos.CuotaController;
 import prototipogym.controller.procesos.CobroController;
 import prototipogym.model.Cliente;
+import prototipogym.model.Cobro;
 
 
 public class Cobros extends javax.swing.JFrame {
@@ -439,7 +441,6 @@ public class Cobros extends javax.swing.JFrame {
     }//GEN-LAST:event_txtValorCobroActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-      
         List<Cliente> socios = null;
         try {
             socios = ClienteController.obtenerSociosActivos();
@@ -524,7 +525,6 @@ public class Cobros extends javax.swing.JFrame {
         } else {
         JOptionPane.showMessageDialog(this, "No se pudo encontrar el cobro a modificar.", "Error", JOptionPane.ERROR_MESSAGE);
         }
-
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
