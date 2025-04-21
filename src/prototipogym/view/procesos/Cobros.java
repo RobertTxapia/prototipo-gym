@@ -8,23 +8,19 @@ import com.itextpdf.text.pdf.PdfWriter;
 import java.awt.HeadlessException;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-<<<<<<< HEAD
-=======
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
->>>>>>> 24b34f2f84b3c0b41c662b095d43de1ac0b62121
 import java.io.IOException;
 import java.util.Calendar;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import javax.swing.JOptionPane;
-<<<<<<< HEAD
 import prototipogym.controller.ClienteController;
-=======
+
 import javax.swing.JTextField;
->>>>>>> 24b34f2f84b3c0b41c662b095d43de1ac0b62121
 import prototipogym.controller.procesos.CobroController;
 import prototipogym.model.Cliente;
 
