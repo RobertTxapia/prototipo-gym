@@ -25,7 +25,9 @@ public class CobroController {
         String status
     ) {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(FILE_PATH, true))) {
-            String linea = String.join(";", id, fecha, idCliente, valor, concepto, status);
+            String valorFormateado = String.format("%.2f", Double.parseDouble(valor)); 
+            String linea = String.join(";", id, fecha, idCliente, valorFormateado, concepto, status);
+            
             bw.write(linea);
             bw.newLine();
             return true;
@@ -35,58 +37,8 @@ public class CobroController {
             return false;
         }
     }
-    public static void generarCobrosMensuales(String mes, String año) {
-        try {
-            Calendar cal = Calendar.getInstance();
-            cal.set(Calendar.DAY_OF_MONTH, 30);
-            cal.set(Calendar.MONTH, Integer.parseInt(mes) - 1);
-            cal.set(Calendar.YEAR, Integer.parseInt(año));
 
-            Date fechaCobro = cal.getTime();
-            String fechaStr = new SimpleDateFormat("dd/MM/yyyy").format(fechaCobro);
-
-            // Obtener socios activos
-            List<Cliente> socios = ClienteController.obtenerSociosActivos();
-            if (socios.isEmpty()) {
-                JOptionPane.showMessageDialog(null, "No hay socios activos", "Info", JOptionPane.INFORMATION_MESSAGE);
-                return;
-            }
-
-            for (Cliente socio : socios) {
-                // Verificar si ya existe cobro para este mes
-                if (existeCobroMensual(socio.getIdCliente(), mes, año)) {
-                    JOptionPane.showMessageDialog(null, "Cobro duplicado para socio: " + socio.getIdCliente(), "Error", JOptionPane.ERROR_MESSAGE);
-                    continue;
-                }
-
-                // Crear cobro
-                int id = obtenerUltimoIdCobro() + 1;
-                String concepto = "Cuota Mensual " + mes + "/" + año;
-                boolean guardado = guardarCobro(
-                    String.valueOf(id),
-                    fechaStr,
-                    socio.getIdCliente(),
-                    String.valueOf(socio.getValorCuota()),
-                    concepto,
-                    "false"
-                );
-
-                if (guardado) {
-                    double nuevoBalance = socio.getBalance() + socio.getValorCuota();
-                    System.out.println("[DEBUG] Actualizando balance del cliente " + socio.getIdCliente() 
-                        + ". Nuevo balance: " + nuevoBalance);
-                    boolean exito = ClienteController.actualizarBalanceCliente(socio.getIdCliente(), nuevoBalance);
-                    System.out.println("[DEBUG] Actualización exitosa: " + exito); 
-                }
-            }
-            JOptionPane.showMessageDialog(null, "Cobros generados exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Error al generar cobros: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
-    private static boolean existeCobroMensual(String idCliente, String mes, String año) {
+    public static boolean existeCobroMensual(String idCliente, String mes, String año) {
         try (Scanner scanner = new Scanner(new File(FILE_PATH))) {
             while (scanner.hasNextLine()) {
                 String[] datos = scanner.nextLine().split(";");
@@ -106,19 +58,6 @@ public class CobroController {
         return false;
     }
 
-    private static int obtenerUltimoIdCobro() {
-        int maxId = 0;
-        try (Scanner scanner = new Scanner(new File(FILE_PATH))) {
-            while (scanner.hasNextLine()) {
-                String[] datos = scanner.nextLine().split(";");
-                int id = Integer.parseInt(datos[0]);
-                if (id > maxId) maxId = id;
-            }
-        } catch (Exception e) {
-            return 0;
-        }
-        return maxId;
-    }
 
     public static boolean actualizarCuota(String idCuota) {
         try {

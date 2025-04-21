@@ -2,11 +2,15 @@ package prototipogym.view.procesos;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
 import java.util.Calendar;
 import javax.swing.table.DefaultTableModel;
 import java.text.SimpleDateFormat;
+import java.util.List;
 import javax.swing.JOptionPane;
+import prototipogym.controller.ClienteController;
 import prototipogym.controller.procesos.CobroController;
+import prototipogym.model.Cliente;
 
 
 public class Cobros extends javax.swing.JFrame {
@@ -73,6 +77,7 @@ public class Cobros extends javax.swing.JFrame {
         btnLimpiar = new javax.swing.JButton();
         btnSalir = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
+        button1 = new java.awt.Button();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -156,6 +161,13 @@ public class Cobros extends javax.swing.JFrame {
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
         jLabel7.setText("PDF");
 
+        button1.setLabel("button1");
+        button1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -169,13 +181,19 @@ public class Cobros extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addGap(200, 200, 200))
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(26, 26, 26)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel4))
-                .addGap(29, 29, 29)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(26, 26, 26)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel4))
+                        .addGap(29, 29, 29))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -202,37 +220,42 @@ public class Cobros extends javax.swing.JFrame {
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(21, 21, 21)
-                .addComponent(jLabel1)
-                .addGap(27, 27, 27)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(21, 21, 21)
+                        .addComponent(jLabel1)
+                        .addGap(27, 27, 27)
+                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel5)
+                                    .addComponent(txtValorCobro, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel2))
+                                .addGap(37, 37, 37)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(Date, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jLabel6)
+                                        .addComponent(txtConcepto, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jLabel3))
+                        .addGap(45, 45, 45)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel5)
-                            .addComponent(txtValorCobro, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2))
-                        .addGap(37, 37, 37)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(Date, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabel6)
-                                .addComponent(txtConcepto, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addComponent(jLabel3))
-                .addGap(45, 45, 45)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtIDCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnImprimir)
-                    .addComponent(jLabel7)
-                    .addComponent(jLabel4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnGuardar)
-                    .addComponent(btnLimpiar)
-                    .addComponent(btnSalir))
+                            .addComponent(txtIDCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnImprimir)
+                            .addComponent(jLabel7)
+                            .addComponent(jLabel4))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnGuardar)
+                            .addComponent(btnLimpiar)
+                            .addComponent(btnSalir))))
                 .addGap(34, 34, 34))
         );
 
@@ -268,15 +291,47 @@ public class Cobros extends javax.swing.JFrame {
     }//GEN-LAST:event_txtValorCobroActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        List<Cliente> socios = null;
+        try {
+            socios = ClienteController.obtenerSociosActivos();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al obtener socios activos: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Validar que haya socios activos
+        if (socios == null || socios.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "No hay socios activos", "Info", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+
         String id = txtID.getText();
         String idCliente = txtIDCliente.getText();
         String valor = txtValorCobro.getText();
         String concepto = txtConcepto.getText();
         String fecha = "";
-        String status = "false"; 
-        
+        String status = "false";
+
         if (id.isEmpty() || idCliente.isEmpty() || valor.isEmpty() || concepto.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Verificar que el cliente sea un socio activo
+        boolean esActivo = socios.stream().anyMatch(socio -> socio.getIdCliente().equals(idCliente));
+        if (!esActivo) {
+            JOptionPane.showMessageDialog(this, "El cliente ingresado no es un socio activo.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        double valorCuota;
+        try {
+            valorCuota = Double.parseDouble(valor);
+            if (valorCuota <= 0) {
+                throw new IllegalArgumentException("El valor de la cuota debe ser mayor a 0.");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Valor de cuota inválido: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
@@ -284,16 +339,37 @@ public class Cobros extends javax.swing.JFrame {
         if (Date.getDate() != null) {
             fecha = sdf.format(Date.getDate());
         }
+
+        String mes = fecha.split("/")[1];
+        String año = fecha.split("/")[2];
+
+        if (CobroController.existeCobroMensual(idCliente, mes, año)) {
+            JOptionPane.showMessageDialog(this, "Ya existe un cobro para este cliente en el mes indicado.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
         boolean guardado = CobroController.guardarCobro(
-                txtID.getText(),
-                fecha, 
-                txtIDCliente.getText(),
-                txtValorCobro.getText(),
-                txtConcepto.getText(),
+                id,
+                fecha,
+                idCliente,
+                valor,
+                concepto,
                 "false"
         );
 
         if (guardado) {
+            try {
+                Cliente cliente = ClienteController.obtenerCliente(idCliente);
+                if (cliente != null) {
+                    double nuevoBalance = cliente.getBalance() + Double.parseDouble(valor);
+                    boolean exito = ClienteController.actualizarBalanceCliente(idCliente, nuevoBalance);
+                    if (exito) {
+                        JOptionPane.showMessageDialog(this, "Balance actualizado correctamente");
+                    }
+                }
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(this, "Error al actualizar balance: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
             JOptionPane.showMessageDialog(this, "Cobro guardado correctamente");
             Limpiar();
         } else {
@@ -305,6 +381,11 @@ public class Cobros extends javax.swing.JFrame {
         Limpiar();
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
+    private void button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button1ActionPerformed
+            boolean exito = ClienteController.actualizarBalanceCliente("200", 500.00);
+    JOptionPane.showMessageDialog(null, "Resultado: " + exito);
+    }//GEN-LAST:event_button1ActionPerformed
+
    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -313,6 +394,7 @@ public class Cobros extends javax.swing.JFrame {
     private javax.swing.JButton btnImprimir;
     private javax.swing.JButton btnLimpiar;
     private javax.swing.JButton btnSalir;
+    private java.awt.Button button1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

@@ -3,6 +3,8 @@ package prototipogym.controller;
 import prototipogym.model.Cliente;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.*;
 import javax.swing.JOptionPane;
 
@@ -148,16 +150,30 @@ public class ClienteController {
             while ((linea = br.readLine()) != null) {
                 String[] campos = linea.split(";", -1);
                 if (campos.length >= 14 && campos[0].equals(idCliente)) {
-                    campos[12] = String.valueOf(nuevoBalance); 
+                    campos[12] = String.format("%.2f", nuevoBalance);
                     linea = String.join(";", campos);
                     encontrado = true;
                 }
                 bw.write(linea + "\n");
             }
 
+            bw.close();
+            br.close();
+
             if (encontrado) {
-                originalFile.delete();
-                tempFile.renameTo(originalFile);
+                if (originalFile.delete()) {
+                    Files.move(
+                        tempFile.toPath(), 
+                        originalFile.toPath(), 
+                        StandardCopyOption.REPLACE_EXISTING
+                    );
+                } else {
+                    System.err.println("Error al eliminar el archivo original.");
+                    tempFile.delete();
+                    return false;
+                }
+            } else {
+                tempFile.delete();
             }
 
         } catch (Exception e) {

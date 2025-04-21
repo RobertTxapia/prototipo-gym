@@ -79,6 +79,7 @@ public class Cliente {
     public double getBalance() { return balance; }
     public void setBalance(double balance) { this.balance = balance; }
 
-    public double getValorCuota() { return valorCuota; }
-    public void setValorCuota(double valorCuota) { this.valorCuota = valorCuota; }
+    public double getValorCuota() {
+        return this.valorCuota;
+    }
 }
