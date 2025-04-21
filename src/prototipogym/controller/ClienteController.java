@@ -214,13 +214,22 @@ public class ClienteController {
                 while (scanner.hasNextLine()) {
                     String linea = scanner.nextLine();
                     String[] campos = linea.split(";");
-                    if (campos[0].equals(cliente.getId())) {
+                    if (campos[0].equals(cliente.getIdCliente())) {
                         linea = String.join(";",
-                                cliente.getId(),
+                                cliente.getIdCliente(),
                                 cliente.getNombre(),
-                                String.valueOf(cliente.getTipoCliente()),
+                                cliente.getApellidoPat(),
+                                cliente.getApellidoMat(),
+                                cliente.getDireccion(),
+                                cliente.getFechaNac(),
+                                cliente.getTelefono(),
+                                cliente.getCelular(),
+                                cliente.getFechaIngreso(),
                                 String.valueOf(cliente.isStatus()),
-                                String.valueOf(cliente.getBalance())
+                                String.valueOf(cliente.getTipoCliente()),
+                                cliente.getCorreo(),
+                                String.valueOf(cliente.getBalance()),
+                                String.valueOf(cliente.getValorCuota())
                         );
                     }
                     lineas.add(linea);
