@@ -5,8 +5,10 @@ import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Set;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import prototipogym.controller.ClienteController;
@@ -47,9 +49,9 @@ public class Cuotas extends javax.swing.JFrame {
     }
 
     private void IDClienteFocusLost(java.awt.event.FocusEvent evt) {
-        String idCuota = Text_ID.getText().trim();
+       String idCuota = Text_ID.getText().trim();
         if (!idCuota.isEmpty()) {
-            try (Scanner scanner = new Scanner(new File("data/encabezado_cuota.txt"))) {
+                try (Scanner scanner = new Scanner(new File("data/encabezado_cuota.txt"))) {
                 boolean encontrado = false;
                 while (scanner.hasNextLine()) {
                     String[] campos = scanner.nextLine().split(";");
@@ -73,10 +75,13 @@ public class Cuotas extends javax.swing.JFrame {
                     TextFecha.setText(FORMATO_FECHA.format(new Date()));
                 }
             } catch (FileNotFoundException ex) {
+                TextFecha.setText(FORMATO_FECHA.format(new Date())); //Arreglar fecha si exite el cliente
                 etiqueta.setText("Creando");
             }
         }
     }
+    
+    
 
     private void cargarDetallesCuota(String idCuota) {
         DefaultTableModel model = (DefaultTableModel) Tabla.getModel();
@@ -98,6 +103,72 @@ public class Cuotas extends javax.swing.JFrame {
             ex.printStackTrace();
         }
     }
+    
+    
+    //funcion para eliminar fila 
+    private void guardarFilasSeleccionadas() {
+        int[] filasSeleccionadas = Tabla.getSelectedRows();
+
+        if (filasSeleccionadas.length == 0) {
+            JOptionPane.showMessageDialog(this, "Debes seleccionar al menos una fila", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        DefaultTableModel model = (DefaultTableModel) Tabla.getModel();
+        Set<String> idsSeleccionados = new HashSet<>();
+
+        // Recolectar los IDs de cobros seleccionados (columna 4)
+        for (int fila : filasSeleccionadas) {
+            String idCobro = model.getValueAt(fila, 4).toString();
+            idsSeleccionados.add(idCobro);
+        }
+
+        File archivoCobros = new File("data/cobros.txt");
+        File archivoTemporal = new File("data/temp_cobros.txt");
+
+        try (
+            BufferedReader reader = new BufferedReader(new FileReader(archivoCobros));
+            BufferedWriter writerTemporal = new BufferedWriter(new FileWriter(archivoTemporal));
+            BufferedWriter writerDetalle = new BufferedWriter(new FileWriter("data/detalle_cuota.txt", true))
+        ) {
+            String linea;
+            int secuencia = 1;
+
+            while ((linea = reader.readLine()) != null) {
+                String[] partes = linea.split(";");
+                if (partes.length > 0 && idsSeleccionados.contains(partes[0])) {
+                    // Si el ID de cobro está seleccionado, escribir en detalle_cuota.txt
+                    String idCuota = Text_ID.getText(); // Usar el ID de cuota actual
+                    String concepto = partes[2];  // Columna 2: Concepto
+                    String valor = partes[3];     // Columna 3: Valor
+
+                    // Escribir el detalle en el archivo
+                    writerDetalle.write(String.join(";", idCuota, String.valueOf(secuencia++), concepto, valor, partes[0]));
+                    writerDetalle.newLine();
+                } else {
+                    // Si no está seleccionado, escribirlo en el archivo temporal
+                    writerTemporal.write(linea);
+                    writerTemporal.newLine();
+                }
+            }
+
+            // Reemplazar el archivo original con el archivo temporal
+            reader.close();
+            writerTemporal.close();
+            archivoCobros.delete();
+            archivoTemporal.renameTo(archivoCobros);
+
+            // Eliminar las filas seleccionadas del JTable (desde atrás para evitar errores de índice)
+            for (int i = filasSeleccionadas.length - 1; i >= 0; i--) {
+                model.removeRow(filasSeleccionadas[i]);
+            }
+
+            JOptionPane.showMessageDialog(this, "Filas guardadas y eliminadas correctamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(this, "Error al procesar: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+}
 
 
     public void Limpiar(){
@@ -105,7 +176,9 @@ public class Cuotas extends javax.swing.JFrame {
         TextNombre.setText("");
         TextCuota.setText("");
         TextFecha.setText("");
-
+        etiqueta.setText("");
+        DefaultTableModel model = (DefaultTableModel) Tabla.getModel();
+        model.setRowCount(0);
         IDCliente.setText("");
 
     }
@@ -235,7 +308,7 @@ public class Cuotas extends javax.swing.JFrame {
             }
         });
 
-        etiqueta.setText("label1");
+        etiqueta.setForeground(new java.awt.Color(255, 255, 255));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -266,7 +339,7 @@ public class Cuotas extends javax.swing.JFrame {
                             .addComponent(TextNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(164, 164, 164)
-                        .addComponent(etiqueta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(etiqueta, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(14, 144, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -350,7 +423,7 @@ public class Cuotas extends javax.swing.JFrame {
 
     private void Text_IDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Text_IDActionPerformed
         Text_ID.requestFocus();
-        TextFecha.setText(FORMATO_FECHA.format(new Date())); //Arreglar fecha si exite el cliente
+        
     }//GEN-LAST:event_Text_IDActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -478,12 +551,19 @@ public class Cuotas extends javax.swing.JFrame {
                 cobrosProcesados.add(cobro);
                 }
             }
+            
+            
 
             // Actualizar balance del cliente
             double nuevoBalance = cliente.getBalance() - totalCuota;
             if (!ClienteController.actualizarBalanceCliente(IDCliente.getText(), nuevoBalance)) {
                 throw new IOException("Error al actualizar balance del cliente");
             }
+            
+            
+            
+            guardarFilasSeleccionadas();
+            
             transaccionExitosa = true;
             JOptionPane.showMessageDialog(this,
                     "Cuota guardada exitosamente!",

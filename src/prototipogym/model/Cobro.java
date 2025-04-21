@@ -19,6 +19,8 @@ public class Cobro {
         this.status = status;
     }
 
+    
+
     public int getId() { return id; }
     public Date getFecha() { return fecha; }
     public int getIdCliente() { return idCliente; }

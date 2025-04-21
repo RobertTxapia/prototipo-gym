@@ -6,17 +6,22 @@ import com.itextpdf.text.FontFactory;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 import java.awt.HeadlessException;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Calendar;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Scanner;
 import javax.swing.JOptionPane;
 import prototipogym.controller.ClienteController;
 
@@ -26,6 +31,7 @@ import prototipogym.model.Cliente;
 
 
 public class Cobros extends javax.swing.JFrame {
+    private static String antiguaLinea="";
     private static Cobros instanciass;
     public Cobros() {
         initComponents();
@@ -43,12 +49,24 @@ public class Cobros extends javax.swing.JFrame {
 
         if (maxDia >= 30) {
             cal.set(Calendar.DAY_OF_MONTH, 30);
-            Date.setDate(cal.getTime());
+            DateC.setDate(cal.getTime());
         } else {
             
             cal.set(Calendar.DAY_OF_MONTH, maxDia);
-            Date.setDate(cal.getTime());
+            DateC.setDate(cal.getTime());
         }
+        
+        KeyAdapter enterListener = new KeyAdapter() {
+            
+        @Override
+        public void keyPressed(KeyEvent e) {
+            if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                buscarUsuario();
+            }
+        }
+        };
+        
+        txtID.addKeyListener(enterListener);
     }
     
     public static Cobros getInstancia(){
@@ -76,7 +94,7 @@ public class Cobros extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         txtID = new javax.swing.JTextField();
-        Date = new com.toedter.calendar.JDateChooser();
+        DateC = new com.toedter.calendar.JDateChooser();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         txtIDCliente = new javax.swing.JTextField();
@@ -90,6 +108,7 @@ public class Cobros extends javax.swing.JFrame {
         btnSalir = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         button1 = new java.awt.Button();
+        etiqueta = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -180,6 +199,8 @@ public class Cobros extends javax.swing.JFrame {
             }
         });
 
+        etiqueta.setForeground(new java.awt.Color(255, 255, 255));
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -215,7 +236,7 @@ public class Cobros extends javax.swing.JFrame {
                         .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(Date, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(DateC, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(txtIDCliente)
                             .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(58, 58, 58)
@@ -224,10 +245,11 @@ public class Cobros extends javax.swing.JFrame {
                             .addComponent(jLabel6)
                             .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtConcepto, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtValorCobro, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnImprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtConcepto, javax.swing.GroupLayout.DEFAULT_SIZE, 111, Short.MAX_VALUE)
+                            .addComponent(txtValorCobro, javax.swing.GroupLayout.DEFAULT_SIZE, 111, Short.MAX_VALUE)
+                            .addComponent(btnImprimir, javax.swing.GroupLayout.DEFAULT_SIZE, 111, Short.MAX_VALUE)
+                            .addComponent(etiqueta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -252,7 +274,7 @@ public class Cobros extends javax.swing.JFrame {
                                     .addComponent(jLabel2))
                                 .addGap(37, 37, 37)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(Date, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(DateC, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(jLabel6)
                                         .addComponent(txtConcepto, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))))
@@ -263,7 +285,9 @@ public class Cobros extends javax.swing.JFrame {
                             .addComponent(btnImprimir)
                             .addComponent(jLabel7)
                             .addComponent(jLabel4))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(etiqueta, javax.swing.GroupLayout.DEFAULT_SIZE, 22, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnGuardar)
                             .addComponent(btnLimpiar)
@@ -288,7 +312,7 @@ public class Cobros extends javax.swing.JFrame {
     private void btnImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirActionPerformed
          String id = txtID.getText();
          String valorCobro = txtValorCobro.getText();
-         String fecha = ((JTextField) Date.getDateEditor().getUiComponent()).getText();
+         String fecha = ((JTextField) DateC.getDateEditor().getUiComponent()).getText();
          String concepto = txtConcepto.getText();
          String idCliente = txtIDCliente.getText();
  
@@ -343,6 +367,68 @@ public class Cobros extends javax.swing.JFrame {
 }
     }//GEN-LAST:event_btnImprimirActionPerformed
 
+    private void buscarUsuario(){
+        boolean encontrado = false;
+        Scanner s = null;
+        int cod;
+
+        cod = Integer.parseInt(txtID.getText());
+
+        try {
+            File f = new File("data/cobros.txt"); 
+            s = new Scanner(f);
+
+            while (s.hasNextLine() && !encontrado) {
+                String linea = s.nextLine().trim();
+                Scanner sl = new Scanner(linea);
+                sl.useDelimiter("\\s*;\\s*");
+
+                try {
+                    int idArchivo = Integer.parseInt(sl.next());
+
+                    if (cod == idArchivo) {
+                        encontrado = true;
+                        etiqueta.setText("Modificando");
+
+                        String fecha = sl.hasNext() ? sl.next().trim() : "";
+                        String cliente = sl.hasNext() ? sl.next().trim() : "";
+                        String valor = sl.hasNext() ? sl.next().trim() : "";
+                        String concepto = sl.hasNext() ? sl.next().trim() : "";
+
+                        
+                        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                        Date fechaDate = null;
+                        if (!fecha.isEmpty()) {
+                            fechaDate = sdf.parse(fecha);
+                        }
+
+                        
+                        DateC.setDate(fechaDate);
+                        txtIDCliente.setText(cliente);
+                        txtValorCobro.setText(valor);
+                        txtConcepto.setText(concepto);
+
+                        antiguaLinea = cod + ";" + fecha + ";" + cliente + ";" + valor + ";" + concepto;
+                    }
+
+                } catch (Exception e) {
+                    System.out.println("Error al leer línea: " + e.getMessage());
+                }
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al leer el archivo: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } finally {
+            if (s != null) {
+                s.close();
+            }
+        }
+
+        if (!encontrado) {
+            etiqueta.setText("Creando");
+        }
+}
+    
+    
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
         instanciass = null;
         dispose();
@@ -353,6 +439,7 @@ public class Cobros extends javax.swing.JFrame {
     }//GEN-LAST:event_txtValorCobroActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+      
         List<Cliente> socios = null;
         try {
             socios = ClienteController.obtenerSociosActivos();
@@ -398,8 +485,8 @@ public class Cobros extends javax.swing.JFrame {
         }
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        if (Date.getDate() != null) {
-            fecha = sdf.format(Date.getDate());
+        if (DateC.getDate() != null) {
+            fecha = sdf.format(DateC.getDate());
         }
 
         String mes = fecha.split("/")[1];
@@ -435,8 +522,9 @@ public class Cobros extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Cobro guardado correctamente");
             Limpiar();
         } else {
-            JOptionPane.showMessageDialog(this, "Error al guardar el cobro", "Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(this, "No se pudo encontrar el cobro a modificar.", "Error", JOptionPane.ERROR_MESSAGE);
         }
+
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
@@ -444,19 +532,20 @@ public class Cobros extends javax.swing.JFrame {
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
     private void button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button1ActionPerformed
-            boolean exito = ClienteController.actualizarBalanceCliente("200", 500.00);
-    JOptionPane.showMessageDialog(null, "Resultado: " + exito);
+        boolean exito = ClienteController.actualizarBalanceCliente("200", 500.00);
+        JOptionPane.showMessageDialog(null, "Resultado: " + exito);
     }//GEN-LAST:event_button1ActionPerformed
 
    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private com.toedter.calendar.JDateChooser Date;
+    private com.toedter.calendar.JDateChooser DateC;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnImprimir;
     private javax.swing.JButton btnLimpiar;
     private javax.swing.JButton btnSalir;
     private java.awt.Button button1;
+    private javax.swing.JLabel etiqueta;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
