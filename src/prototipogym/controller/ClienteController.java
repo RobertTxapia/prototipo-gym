@@ -109,7 +109,6 @@ public class ClienteController {
                     String linea;
                     while ((linea = br.readLine()) != null) {
                         System.out.println("Leyendo linea: " + linea);
-                        // Si encontramos la linea antigua, escribimos la nueva
                         if (linea.trim().equals(LineaAntigua.trim())) {
                             encontrado = true;
                             bw.write(nuevaLinea);
@@ -121,7 +120,6 @@ public class ClienteController {
                 }
                 bw.close();
 
-                // Si se encontró la línea, reemplazamos el archivo original
                 if (encontrado) {
                     fAntiguo.delete(); 
                     fNuevo.renameTo(fAntiguo);
@@ -148,13 +146,13 @@ public class ClienteController {
 
             String linea;
             while ((linea = br.readLine()) != null) {
-                String[] campos = linea.split(";");
-                if (campos[0].equals(idCliente)) {
-                    campos[12] = String.valueOf(nuevoBalance);
+                String[] campos = linea.split(";", -1);
+                if (campos.length >= 14 && campos[0].equals(idCliente)) {
+                    campos[12] = String.valueOf(nuevoBalance); 
                     linea = String.join(";", campos);
                     encontrado = true;
                 }
-                bw.write(linea + System.lineSeparator());
+                bw.write(linea + "\n");
             }
 
             if (encontrado) {
@@ -163,10 +161,35 @@ public class ClienteController {
             }
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null,
-                    "Error al actualizar balance: " + e.getMessage(),
-                    "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Error al actualizar balance: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
         }
         return encontrado;
+    }
+
+    public static List<Cliente> obtenerSociosActivos() throws IOException {
+        List<Cliente> socios = new ArrayList<>();
+        File file = new File(ARCHIVO);
+        if (!file.exists()) return socios;
+
+        try (Scanner scanner = new Scanner(file)) {
+            while (scanner.hasNextLine()) {
+                String[] datos = scanner.nextLine().split(";");
+                if (datos.length >= 14) {
+                    boolean status = Boolean.parseBoolean(datos[9]);
+                    int tipo = Integer.parseInt(datos[10]);
+                    if (tipo == 1 && status) {
+                        Cliente cliente = new Cliente(
+                                datos[0], datos[1], datos[2], datos[3], datos[4],
+                                datos[5], datos[6], datos[7], datos[8], status,
+                                tipo, datos[11], Double.parseDouble(datos[12]),
+                                Double.parseDouble(datos[13])
+                        );
+                        socios.add(cliente);
+                    }
+                }
+            }
+        }
+        return socios;
     }
 }

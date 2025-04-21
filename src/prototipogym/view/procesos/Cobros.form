@@ -92,7 +92,7 @@
                           </Group>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="btnConcepto" min="-2" pref="111" max="-2" attributes="0"/>
+                              <Component id="txtConcepto" min="-2" pref="111" max="-2" attributes="0"/>
                               <Component id="txtValorCobro" min="-2" pref="111" max="-2" attributes="0"/>
                               <Component id="btnImprimir" min="-2" pref="111" max="-2" attributes="0"/>
                           </Group>
@@ -123,7 +123,7 @@
                               <Component id="Date" min="-2" pref="30" max="-2" attributes="0"/>
                               <Group type="103" alignment="0" groupAlignment="3" attributes="0">
                                   <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="btnConcepto" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                                  <Component id="txtConcepto" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
@@ -247,7 +247,7 @@
             <Property name="text" type="java.lang.String" value="Concepto"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="btnConcepto">
+        <Component class="javax.swing.JTextField" name="txtConcepto">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="c8" green="c8" red="c8" type="rgb"/>
@@ -291,6 +291,9 @@
             <Property name="text" type="java.lang.String" value="Limpiar"/>
             <Property name="borderPainted" type="boolean" value="false"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnLimpiarActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnSalir">
           <Properties>

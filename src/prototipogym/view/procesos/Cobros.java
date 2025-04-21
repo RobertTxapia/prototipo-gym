@@ -42,6 +42,14 @@ public class Cobros extends javax.swing.JFrame {
         }
         return instanciass;
     }
+    
+    public void Limpiar() {
+        txtID.setText("");
+        txtIDCliente.setText("");
+        txtValorCobro.setText("");
+        txtConcepto.setText("");
+    }
+    
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -59,7 +67,7 @@ public class Cobros extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         txtValorCobro = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        btnConcepto = new javax.swing.JTextField();
+        txtConcepto = new javax.swing.JTextField();
         btnImprimir = new javax.swing.JButton();
         btnGuardar = new javax.swing.JButton();
         btnLimpiar = new javax.swing.JButton();
@@ -106,8 +114,8 @@ public class Cobros extends javax.swing.JFrame {
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("Concepto");
 
-        btnConcepto.setBackground(new java.awt.Color(200, 200, 200));
-        btnConcepto.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        txtConcepto.setBackground(new java.awt.Color(200, 200, 200));
+        txtConcepto.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         btnImprimir.setBackground(new java.awt.Color(255, 193, 7));
         btnImprimir.setText("Imprimir");
@@ -130,6 +138,11 @@ public class Cobros extends javax.swing.JFrame {
         btnLimpiar.setBackground(new java.awt.Color(255, 193, 7));
         btnLimpiar.setText("Limpiar");
         btnLimpiar.setBorderPainted(false);
+        btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLimpiarActionPerformed(evt);
+            }
+        });
 
         btnSalir.setBackground(new java.awt.Color(255, 193, 7));
         btnSalir.setText("Salir");
@@ -182,7 +195,7 @@ public class Cobros extends javax.swing.JFrame {
                             .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnConcepto, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtConcepto, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtValorCobro, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnImprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -207,7 +220,7 @@ public class Cobros extends javax.swing.JFrame {
                             .addComponent(Date, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(jLabel6)
-                                .addComponent(btnConcepto, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(txtConcepto, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addComponent(jLabel3))
                 .addGap(45, 45, 45)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -258,30 +271,44 @@ public class Cobros extends javax.swing.JFrame {
         String id = txtID.getText();
         String idCliente = txtIDCliente.getText();
         String valor = txtValorCobro.getText();
-        String concepto = btnConcepto.getText();
+        String concepto = txtConcepto.getText();
         String fecha = "";
-        String status = "false"; // Estado por defecto
-
-        if (Date.getDate() != null) {
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-            fecha = sdf.format(Date.getDate());
+        String status = "false"; 
+        
+        if (id.isEmpty() || idCliente.isEmpty() || valor.isEmpty() || concepto.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
         }
 
-// Añadir el parámetro de status al método
-        boolean guardado = CobroController.guardarCobro(id, fecha, idCliente, valor, concepto, status);
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        if (Date.getDate() != null) {
+            fecha = sdf.format(Date.getDate());
+        }
+        boolean guardado = CobroController.guardarCobro(
+                txtID.getText(),
+                fecha, 
+                txtIDCliente.getText(),
+                txtValorCobro.getText(),
+                txtConcepto.getText(),
+                "false"
+        );
 
         if (guardado) {
             JOptionPane.showMessageDialog(this, "Cobro guardado correctamente");
+            Limpiar();
         } else {
             JOptionPane.showMessageDialog(this, "Error al guardar el cobro", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
+    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
+        Limpiar();
+    }//GEN-LAST:event_btnLimpiarActionPerformed
+
    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.toedter.calendar.JDateChooser Date;
-    private javax.swing.JTextField btnConcepto;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnImprimir;
     private javax.swing.JButton btnLimpiar;
@@ -295,6 +322,7 @@ public class Cobros extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JTextField txtConcepto;
     private javax.swing.JTextField txtID;
     private javax.swing.JTextField txtIDCliente;
     private javax.swing.JTextField txtValorCobro;

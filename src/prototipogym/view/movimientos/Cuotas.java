@@ -1,13 +1,12 @@
 package prototipogym.view.movimientos;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Scanner;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import prototipogym.controller.ClienteController;
@@ -48,31 +47,55 @@ public class Cuotas extends javax.swing.JFrame {
     }
 
     private void IDClienteFocusLost(java.awt.event.FocusEvent evt) {
-        try {
-            Cliente cliente = ClienteController.obtenerCliente(IDCliente.getText());
-            if (cliente != null) {
-                TextNombre.setText(cliente.getNombre() + " " + cliente.getApellidoPat());
-                TextCuota.setText(String.valueOf(cliente.getValorCuota()));
+        String idCuota = Text_ID.getText().trim();
+        if (!idCuota.isEmpty()) {
+            try (Scanner scanner = new Scanner(new File("data/encabezado_cuota.txt"))) {
+                boolean encontrado = false;
+                while (scanner.hasNextLine()) {
+                    String[] campos = scanner.nextLine().split(";");
+                    if (campos[0].equals(idCuota)) {
+                        encontrado = true;
+                        if (campos[3].equalsIgnoreCase("false")) {
+                            etiqueta.setText("Modificando");
+                            TextFecha.setText(campos[1]);
+                            IDCliente.setText(campos[2]);
+                            cargarDetallesCuota(idCuota);
+                        } else {
+                            JOptionPane.showMessageDialog(null,
+                                    "Cuota ya procesada", "Error", JOptionPane.ERROR_MESSAGE);
+                            Text_ID.setText("");
+                        }
+                        break;
+                    }
+                }
+                if (!encontrado) {
+                    etiqueta.setText("Creando");
+                    TextFecha.setText(FORMATO_FECHA.format(new Date()));
+                }
+            } catch (FileNotFoundException ex) {
+                etiqueta.setText("Creando");
+            }
+        }
+    }
 
-                // Cargar tabla con cobros pendientes
-                DefaultTableModel model = (DefaultTableModel) Tabla.getModel();
-                model.setRowCount(0); // Limpiar tabla
-
-                List<Cobro> cobros = CobroController.obtenerCobrosPendientes(IDCliente.getText());
-                for (Cobro c : cobros) {
+    private void cargarDetallesCuota(String idCuota) {
+        DefaultTableModel model = (DefaultTableModel) Tabla.getModel();
+        model.setRowCount(0);
+        try (Scanner scanner = new Scanner(new File("data/detalle_cuota.txt"))) {
+            while (scanner.hasNextLine()) {
+                String[] campos = scanner.nextLine().split(";");
+                if (campos[0].equals(idCuota)) {
                     model.addRow(new Object[]{
-                            c.getId(),          // ID Cobro (Columna 0)
-                            "",                 // Secuencia (vacío inicialmente - Columna 1)
-                            c.getConcepto(),    // Concepto (Columna 2)
-                            c.getValorCobro(),  // Valor (Columna 3)
-                            c.getId()           // ID Cobro Cuota (Columna 4)
+                            campos[4], 
+                            campos[1],
+                            campos[2], 
+                            campos[3], 
+                            campos[4] 
                     });
                 }
             }
-        } catch (IOException ex) {
-            JOptionPane.showMessageDialog(this,
-                    "Error al cargar datos del cliente",
-                    "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (FileNotFoundException ex) {
+            ex.printStackTrace();
         }
     }
 
@@ -110,6 +133,7 @@ public class Cuotas extends javax.swing.JFrame {
         btnGuardar = new javax.swing.JButton();
         Limpiar = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
+        etiqueta = new java.awt.Label();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -166,28 +190,22 @@ public class Cuotas extends javax.swing.JFrame {
         TextCuota.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         Tabla.setModel(new javax.swing.table.DefaultTableModel(
-                new Object[][]{},
-                new String[]{
-                        "ID Cobro", "Sec", "Concepto", "Valor Cuota", "ID Cobro Cuota" // 5 columnas
-                }
-        ) {
-            Class[] types = new Class[]{
-                    java.lang.String.class, java.lang.String.class,
-                    java.lang.String.class, java.lang.Double.class, java.lang.String.class
-            };
-            boolean[] canEdit = new boolean[]{
-                    false, false, false, false, false // Todas las columnas no editables
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types[columnIndex];
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "ID Cliente", "Secuencia", "Concepto", "Valor Cuota", "ID Cobro Cuota"
             }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit[columnIndex];
-            }
-        });
-
+        ));
         jScrollPane1.setViewportView(Tabla);
 
         btnGuardar.setBackground(new java.awt.Color(255, 193, 7));
@@ -217,6 +235,8 @@ public class Cuotas extends javax.swing.JFrame {
             }
         });
 
+        etiqueta.setText("label1");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -234,14 +254,19 @@ public class Cuotas extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(TextCuota)
                         .addComponent(IDCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(47, 47, 47)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(30, 30, 30)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(TextFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(TextNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(47, 47, 47)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(30, 30, 30)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(TextFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(TextNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(164, 164, 164)
+                        .addComponent(etiqueta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(14, 144, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -270,32 +295,38 @@ public class Cuotas extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(28, 28, 28)
                 .addComponent(jLabel3)
-                .addGap(32, 32, 32)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(35, 35, 35)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(Text_ID, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(TextFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
-                .addGap(39, 39, 39)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(IDCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(TextNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5))
-                .addGap(35, 35, 35)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(TextCuota, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnGuardar)
-                    .addComponent(Limpiar)
-                    .addComponent(jButton3))
-                .addGap(29, 29, 29))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(32, 32, 32)
+                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(35, 35, 35)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(Text_ID, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(TextFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2))
+                        .addGap(39, 39, 39)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel4)
+                            .addComponent(IDCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(TextNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5))
+                        .addGap(35, 35, 35)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel6)
+                            .addComponent(TextCuota, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnGuardar)
+                            .addComponent(Limpiar)
+                            .addComponent(jButton3))
+                        .addGap(29, 29, 29))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(189, 189, 189)
+                        .addComponent(etiqueta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -312,7 +343,7 @@ public class Cuotas extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    
+
     private void IDClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IDClienteActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_IDClienteActionPerformed
@@ -376,30 +407,32 @@ public class Cuotas extends javax.swing.JFrame {
 
         for(int i = 0; i < model.getRowCount(); i++) {
             try {
-                // Obtener datos de todas las columnas
+                // Obtener datos de la tabla
                 int idCobro = Integer.parseInt(model.getValueAt(i, 4).toString()); // Columna 4: ID Cobro Cuota
                 String concepto = model.getValueAt(i, 2).toString(); // Columna 2: Concepto
-                double valor = Double.parseDouble(model.getValueAt(i, 3).toString()); // Columna 3: Valor Cuota
+                double valor = Double.parseDouble(model.getValueAt(i, 3).toString()); // Columna 3: Valor
 
+                // Crear objeto Cobro con el constructor correcto (6 parámetros)
                 Cobro cobro = new Cobro(
-                        idCobro,
-                        new Date(),
-                        Integer.parseInt(IDCliente.getText()),
-                        valor,
-                        concepto
+                    idCobro,
+                    new Date(), // Fecha actual
+                    Integer.parseInt(IDCliente.getText()), // ID Cliente
+                    valor,
+                    concepto,
+                    false // Estado inicial (false = pendiente)
                 );
+
                 cobros.add(cobro);
                 totalCuota += valor;
 
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(this,
-                        "Formato incorrecto en la fila " + (i+1),
-                        "Error",
-                        JOptionPane.ERROR_MESSAGE);
+                    "Formato incorrecto en la fila " + (i+1),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
                 return;
             }
-        }
-
+    }
         // Validar cobros seleccionados
         if(cobros.isEmpty()) {
             JOptionPane.showMessageDialog(this,
@@ -419,7 +452,7 @@ public class Cuotas extends javax.swing.JFrame {
                         Text_ID.getText(),
                         FORMATO_FECHA.format(new Date()),
                         IDCliente.getText(),
-                        "pendiente"
+                        "false" // <--- Estado correcto
                 ));
                 writer.newLine();
             }
@@ -429,20 +462,20 @@ public class Cuotas extends javax.swing.JFrame {
                 int secuencia = 1;
                 for(Cobro cobro : cobros) {
                     // Guardar detalle
-                    writer.write(String.join(";",
-                            Text_ID.getText(),
-                            String.valueOf(secuencia++),
-                            cobro.getConcepto(),
-                            String.valueOf(cobro.getValorCobro()),
-                            String.valueOf(cobro.getId())
-                    ));
+                writer.write(String.join(";",
+                    Text_ID.getText(),              // ID Cuota
+                    String.valueOf(secuencia++),    // Secuencia
+                    cobro.getConcepto(),            // Concepto
+                    String.valueOf(cobro.getValorCobro()), // Valor
+                    String.valueOf(cobro.getId())   // ID Cobro Cuota
+                ));
+
                     writer.newLine();
 
-                    // Actualizar estado del cobro
-                    if (!CobroController.actualizarEstadoCobro(cobro.getId(), true)) {
-                        throw new IOException("Error al actualizar cobro ID: " + cobro.getId());
-                    }
-                    cobrosProcesados.add(cobro); // Registrar para posible reversión
+                if (!CobroController.actualizarEstadoCobro(cobro.getId(), true)) {
+                    throw new IOException("Error al actualizar cobro ID: " + cobro.getId());
+                }
+                cobrosProcesados.add(cobro);
                 }
             }
 
@@ -451,7 +484,6 @@ public class Cuotas extends javax.swing.JFrame {
             if (!ClienteController.actualizarBalanceCliente(IDCliente.getText(), nuevoBalance)) {
                 throw new IOException("Error al actualizar balance del cliente");
             }
-
             transaccionExitosa = true;
             JOptionPane.showMessageDialog(this,
                     "Cuota guardada exitosamente!",
@@ -482,6 +514,7 @@ public class Cuotas extends javax.swing.JFrame {
     private javax.swing.JTextField TextNombre;
     private javax.swing.JTextField Text_ID;
     private javax.swing.JButton btnGuardar;
+    private java.awt.Label etiqueta;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

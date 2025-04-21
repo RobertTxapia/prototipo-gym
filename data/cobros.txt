@@ -1,1 +1,6 @@
-1;30/04/2025;1;50;Membresía Premium;false
+1;20/04/2025;100;50;pago mensual;false
+2;30/04/2025;100;50.0;fff;false
+101;30/08/2025;1;800;Cuota Mensual 08/2023;false
+102;13/08/2025;100;800;Cuota Mensual 08/2023;false
+103;20/04/2025;100;800;Cuota Mensual 08/2023;false
+5;20/04/2025;1;100;Cuota Mensual 08/2023;false
