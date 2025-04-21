@@ -57,7 +57,8 @@ public class CobroController {
         }
         return false;
     }
-
+    
+    
 
     public static boolean actualizarCuota(String idCuota) {
         try {
@@ -209,4 +210,40 @@ public class CobroController {
     }
     return detalles;
   }
+    public void ModificaDatos(String LineaAntigua, String nuevaLinea) {
+        boolean encontrado = false;
+        File fNuevo = new File("data/ClienArchivo.txt"); 
+        File fAntiguo = new File("data/cobros.txt"); 
+
+        try {
+            if (fAntiguo.exists()) {
+                BufferedWriter bw;
+                try (BufferedReader br = new BufferedReader(new FileReader(fAntiguo))) {
+                    bw = new BufferedWriter(new FileWriter(fNuevo));
+                    String linea;
+                    while ((linea = br.readLine()) != null) {
+                        System.out.println("Leyendo linea: " + linea);
+                        if (linea.trim().equals(LineaAntigua.trim())) {
+                            encontrado = true;
+                            bw.write(nuevaLinea);
+                        } else {
+                            bw.write(linea); 
+                        }
+                        bw.newLine();
+                    }
+                }
+                bw.close();
+
+                if (encontrado) {
+                    fAntiguo.delete(); 
+                    fNuevo.renameTo(fAntiguo);
+                } else {
+                    fNuevo.delete(); 
+                    
+                }
+            } 
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Error al modificar: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
 }
