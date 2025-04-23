@@ -21,7 +21,7 @@ import prototipogym.model.EncabezadoCuota;
 
 public class Cuotas extends javax.swing.JFrame {
    private static Cuotas instanciass;
-    public static final SimpleDateFormat FORMATO_FECHA= new SimpleDateFormat("dd/MM/yyyy");//sirve para la feccha
+   public static final SimpleDateFormat FORMATO_FECHA= new SimpleDateFormat("dd/MM/yyyy");//sirve para la feccha
    public static SimpleDateFormat clockFormat=new SimpleDateFormat("h:mm a");
    public Cuotas() {
         initComponents();
@@ -36,6 +36,7 @@ public class Cuotas extends javax.swing.JFrame {
         IDCliente.addFocusListener(new java.awt.event.FocusAdapter() {
         public void focusLost(java.awt.event.FocusEvent evt) {
             IDClienteFocusLost(evt);
+            Text_IDFocusLost(evt);
         }
     });
 
@@ -74,7 +75,7 @@ public class Cuotas extends javax.swing.JFrame {
                     } else {
                         JOptionPane.showMessageDialog(this,
                                 "Cuota ya procesada", "Error", JOptionPane.ERROR_MESSAGE);
-                        Text_ID.setText(""); // Limpiar campo
+                        Text_ID.setText(""); 
                     }
                     break;
                 }
@@ -96,7 +97,7 @@ public class Cuotas extends javax.swing.JFrame {
         }
 
         if (!idCliente.isEmpty()) {
-            cargarDetallesCuota(Text_ID.getText().trim()); // <-- Cargar detalles de la cuota actual
+            cargarDetallesCuota(Text_ID.getText().trim());
         }
 
         try {
@@ -531,6 +532,9 @@ public class Cuotas extends javax.swing.JFrame {
                 return;
             }
 
+            double valorTotal = cobrosPendientes.stream().mapToDouble(Cobro::getValorCobro).sum();
+            CuotaController.guardarCuota(Text_ID.getText(), IDCliente.getText(), cobrosPendientes);
+
             // Guardar encabezado de cuota
             String idCuota = Text_ID.getText();
             try (BufferedWriter writer = new BufferedWriter(new FileWriter("data/encabezado_cuota.txt", true))) {
@@ -566,11 +570,11 @@ public class Cuotas extends javax.swing.JFrame {
             Limpiar();
             cargarDetallesCuota(Text_ID.getText().trim());
             double nuevoBalance = cliente.getBalance() - total;
-            
+
             if (!ClienteController.actualizarBalanceCliente(IDCliente.getText(), nuevoBalance)) {
                 throw new IOException("Error al actualizar balance del cliente");
             }
-            
+
             guardarFilasSeleccionadas();
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);

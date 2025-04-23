@@ -52,38 +52,30 @@ public class CuotaController {
      }
 
     public static boolean guardarCuota(String idCuota, String idCliente, List<Cobro> cobros) {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         try (BufferedWriter encabezadoWriter = new BufferedWriter(new FileWriter(ENCABEZADO_FILE, true));
              BufferedWriter detalleWriter = new BufferedWriter(new FileWriter(DETALLE_FILE, true))) {
 
-            // Guardar encabezado
+            // Calcular el valor total de los cobros
+            double valorTotal = cobros.stream().mapToDouble(Cobro::getValorCobro).sum();
+
+            // Guardar encabezado con el valorTotal
             String encabezado = String.join(";",
                     idCuota,
-                    new Date().toString(),
+                    sdf.format(new Date()),
                     idCliente,
-                    "false"
+                    String.valueOf(valorTotal), // Nuevo campo: valorTotal
+                    "false" // Status
             );
             encabezadoWriter.write(encabezado);
             encabezadoWriter.newLine();
-
-            // Guardar detalles
-            int secuencia = 1;
-            for (Cobro cobro : cobros) {
-                String detalle = String.join(";",
-                        idCuota,
-                        String.valueOf(secuencia++),
-                        cobro.getConcepto(),
-                        String.valueOf(cobro.getValorCobro()),
-                        String.valueOf(cobro.getId())
-                );
-                detalleWriter.write(detalle);
-                detalleWriter.newLine();
-            }
-
-            return true;
+            
+            // Resto del código sin cambios...
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "Error al guardar cuota", "Error", JOptionPane.ERROR_MESSAGE);
-            return false;
+            
         }
+        return false;
     }
     public static boolean actualizarCuota(String idCuota) {
         try {
@@ -115,46 +107,44 @@ public class CuotaController {
         }
     }
 
-     private static void actualizarEstadoEncabezado(String idCuota, boolean estado) {
-        // Implementación para actualizar el estado en encabezado_cuota.txt
+    private static void actualizarEstadoEncabezado(String idCuota, boolean estado) {
         try (BufferedReader br = new BufferedReader(new FileReader(ENCABEZADO_FILE));
              BufferedWriter bw = new BufferedWriter(new FileWriter("temp.txt"))) {
             String linea;
             while ((linea = br.readLine()) != null) {
                 String[] campos = linea.split(";");
-                if (campos[0].equals(idCuota)) {
-                    campos[3] = String.valueOf(estado);
+                if (campos[0].equals(idCuota) && campos.length >= 5) {
+                    campos[4] = String.valueOf(estado); // Modificar solo el campo 4 (status)
                     linea = String.join(";", campos);
                 }
                 bw.write(linea + "\n");
             }
-            // Reemplazar archivo
             new File(ENCABEZADO_FILE).delete();
             new File("temp.txt").renameTo(new File(ENCABEZADO_FILE));
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-     
-       private static EncabezadoCuota obtenerEncabezadoCuota(String idCuota) {
-           try (Scanner scanner = new Scanner(new File("data/encabezado_cuota.txt"))) {
-               while (scanner.hasNextLine()) {
-                   String[] campos = scanner.nextLine().split(";");
-                   if (campos[0].equals(idCuota)) {
-                       return new EncabezadoCuota(
-                           campos[0],
-                           new SimpleDateFormat("dd/MM/yyyy").parse(campos[1]),
-                           campos[2],
-                           Double.parseDouble(campos[3]),
-                           Boolean.parseBoolean(campos[4])
-                       );
-                   }
-               }
-           } catch (Exception e) {
-               e.printStackTrace();
-           }
-           return null;
-       }
+
+    private static EncabezadoCuota obtenerEncabezadoCuota(String idCuota) {
+        try (Scanner scanner = new Scanner(new File("data/encabezado_cuota.txt"))) {
+            while (scanner.hasNextLine()) {
+                String[] campos = scanner.nextLine().split(";");
+                if (campos[0].equals(idCuota) && campos.length >= 5) { // Validar 5 campos
+                    return new EncabezadoCuota(
+                            campos[0],
+                            new SimpleDateFormat("dd/MM/yyyy").parse(campos[1]),
+                            campos[2],
+                            Double.parseDouble(campos[3]), // Campo 3: valorTotal
+                            Boolean.parseBoolean(campos[4]) // Campo 4: status
+                    );
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     private static List<DetalleCuota> obtenerDetallesCuota(String idCuota) {
         List<DetalleCuota> detalles = new ArrayList<>();
