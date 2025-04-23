@@ -2,11 +2,13 @@ package prototipogym.view.consultas;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import prototipogym.controller.consultas.ConCuotass;
+import prototipogym.model.DetalleCuota;
 import prototipogym.model.EncabezadoCuota;
 
 public class ConCuotas extends javax.swing.JFrame {
@@ -97,68 +99,109 @@ public class ConCuotas extends javax.swing.JFrame {
     jTable1.setModel(model);
 }*/
     
-    private void buscarCuotas() {
-    try {
-        String filtro = jComboBox1.getSelectedItem().toString();
+//    private void buscarCuotas() {
+//    try {
+//        String filtro = jComboBox1.getSelectedItem().toString();
+//
+//        if (filtro.equals("Todos")) {
+//            List<EncabezadoCuota> cuotas = ConCuotass.getTodasCuotas();
+//            actualizarTablaCuotas(cuotas);
+//
+//        } else if (filtro.equals("Cuota por Fecha")) {
+//            Date fechaInicio = dateInicial.getDate();
+//            Date fechaFin = dateFinal.getDate();
+//            String idTexto = IDCliente.getText().trim();
+//
+//            if (fechaInicio == null || fechaFin == null) {
+//                JOptionPane.showMessageDialog(this, "Debes seleccionar ambas fechas.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+//                return;
+//            }
+//
+//            List<EncabezadoCuota> cuotasFiltradas;
+//
+//            if (!idTexto.isEmpty()) {
+//                cuotasFiltradas = ConCuotass.filtrarCuotasPorFechaYCliente(fechaInicio, fechaFin, idTexto); // se pasa como String
+//            } else {
+//                cuotasFiltradas = ConCuotass.filtrarCuotas(fechaInicio, fechaFin);
+//            }
+//
+//            actualizarTablaCuotas(cuotasFiltradas);
+//
+//        } else if (filtro.equals("Cuota por Clientes")) {
+//            String idTexto = IDCliente.getText().trim();
+//
+//            if (idTexto.isEmpty()) {
+//                JOptionPane.showMessageDialog(this, "Debes ingresar un ID de cliente.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+//                return;
+//            }
+//
+//            List<EncabezadoCuota> cuotas = ConCuotass.filtrarCuotasPorCliente(idTexto); 
+//            actualizarTablaCuotas(cuotas);
+//        }
+//
+//    } catch (Exception ex) {
+//        JOptionPane.showMessageDialog(this, "Error al cargar cuotas: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+//    }
+//}
+//
+//    private void actualizarTablaCuotas(List<EncabezadoCuota> cuotas) {
+//    String[] columnas = {"ID", "Fecha", "ID Cliente", "Valor"}; 
+//    DefaultTableModel model = new DefaultTableModel(columnas, 0);
+//    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+//
+//    for (EncabezadoCuota c : cuotas) {
+//        model.addRow(new Object[]{
+//            c.getIdCuota(),
+//            sdf.format(c.getFechaCuota()),
+//            c.getIdCliente(),
+//            c.getValorTotal(),
+//            c.isStatus() ? "Pagado" : "Pendiente"
+//        });
+//    }
+//
+//    jTable1.setModel(model);
+//}
+    
+        private void buscarCuotas() {
+        try {
+            String filtro = jComboBox1.getSelectedItem().toString();
+            List<DetalleCuota> detalles;
 
-        if (filtro.equals("Todos")) {
-            List<EncabezadoCuota> cuotas = ConCuotass.getTodasCuotas();
-            actualizarTablaCuotas(cuotas);
-
-        } else if (filtro.equals("Cuota por Fecha")) {
-            Date fechaInicio = dateInicial1.getDate();
-            Date fechaFin = dateFinal.getDate();
-            String idTexto = IDCliente.getText().trim();
-
-            if (fechaInicio == null || fechaFin == null) {
-                JOptionPane.showMessageDialog(this, "Debes seleccionar ambas fechas.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-
-            List<EncabezadoCuota> cuotasFiltradas;
-
-            if (!idTexto.isEmpty()) {
-                cuotasFiltradas = ConCuotass.filtrarCuotasPorFechaYCliente(fechaInicio, fechaFin, idTexto); // se pasa como String
+            if (filtro.equals("Todos")) {
+                detalles = ConCuotass.getTodasCuotas();
+            } else if (filtro.equals("Por ID Cuota")) {
+                String idCuota = IDCliente.getText().trim(); // Reutilizando campo para ID Cuota
+                if (idCuota.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Ingrese un ID de cuota.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
+                detalles = ConCuotass.filtrarCuotasPorId(idCuota);
             } else {
-                cuotasFiltradas = ConCuotass.filtrarCuotas(fechaInicio, fechaFin);
+                detalles = new ArrayList<>();
             }
 
-            actualizarTablaCuotas(cuotasFiltradas);
+            actualizarTablaCuotas(detalles);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
 
-        } else if (filtro.equals("Cuota por Clientes")) {
-            String idTexto = IDCliente.getText().trim();
+    private void actualizarTablaCuotas(List<DetalleCuota> detalles) {
+        String[] columnas = {"ID Cuota", "Secuencia", "Concepto", "Valor", "ID Cobro"}; // Columnas ajustadas
+        DefaultTableModel model = new DefaultTableModel(columnas, 0);
 
-            if (idTexto.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Debes ingresar un ID de cliente.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-
-            List<EncabezadoCuota> cuotas = ConCuotass.filtrarCuotasPorCliente(idTexto); // se pasa como String
-            actualizarTablaCuotas(cuotas);
+        for (DetalleCuota d : detalles) {
+            model.addRow(new Object[]{
+                d.getIdCuota(),
+                d.getSecuencia(),
+                d.getConcepto(),
+                d.getValor(),
+                d.getIdCobroCuota()
+            });
         }
 
-    } catch (Exception ex) {
-        JOptionPane.showMessageDialog(this, "Error al cargar cuotas: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        jTable1.setModel(model);
     }
-}
-
-    private void actualizarTablaCuotas(List<EncabezadoCuota> cuotas) {
-    String[] columnas = {"ID", "Fecha", "ID Cliente", "Valor"}; // Corregido: se añadió "Estado"
-    DefaultTableModel model = new DefaultTableModel(columnas, 0);
-    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-
-    for (EncabezadoCuota c : cuotas) {
-        model.addRow(new Object[]{
-            c.getIdCuota(),
-            sdf.format(c.getFechaCuota()),
-            c.getIdCliente(),
-            c.getValorTotal(),
-            c.isStatus() ? "Pagado" : "Pendiente"
-        });
-    }
-
-    jTable1.setModel(model);
-}
 
 
     @SuppressWarnings("unchecked")
@@ -177,8 +220,8 @@ public class ConCuotas extends javax.swing.JFrame {
         jTable1 = new javax.swing.JTable();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
+        dateInicial = new com.toedter.calendar.JDateChooser();
         dateFinal = new com.toedter.calendar.JDateChooser();
-        dateInicial1 = new com.toedter.calendar.JDateChooser();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -261,13 +304,16 @@ public class ConCuotas extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel4))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(dateInicial1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(dateFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(86, 86, 86)))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(dateInicial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 63, Short.MAX_VALUE)
+                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(86, 86, 86))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(dateFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE)))))
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
@@ -281,20 +327,11 @@ public class ConCuotas extends javax.swing.JFrame {
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel4)
-                            .addComponent(dateInicial1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5)
-                            .addComponent(dateFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(26, 26, 26)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel2)
                                     .addComponent(IDCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -304,9 +341,22 @@ public class ConCuotas extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
                                 .addComponent(jButton1)
-                                .addGap(78, 78, 78)))
+                                .addGap(78, 78, 78))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(dateInicial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(87, 87, 87)))
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 298, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(101, 101, 101))))
+                        .addGap(101, 101, 101))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(28, 28, 28)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(dateFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel5)))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -330,7 +380,7 @@ public class ConCuotas extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField IDCliente;
     private com.toedter.calendar.JDateChooser dateFinal;
-    private com.toedter.calendar.JDateChooser dateInicial1;
+    private com.toedter.calendar.JDateChooser dateInicial;
     private javax.swing.JButton jButton1;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
