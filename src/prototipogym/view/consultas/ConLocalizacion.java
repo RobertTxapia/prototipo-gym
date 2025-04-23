@@ -46,7 +46,7 @@ private static ConLocalizacion instanciass;
                     .stream()
                     .filter(loc ->
                             String.valueOf(loc.getId()).contains(busqueda) ||
-                                    loc.getTipo().toLowerCase().contains(busqueda) // Condición válida
+                                    loc.getTipo().toLowerCase().contains(busqueda)
                     )
                     .collect(Collectors.toList());
 
@@ -57,7 +57,6 @@ private static ConLocalizacion instanciass;
         }
     }
 
-    // ========== [ACTUALIZAR TABLA] ========== //
     private void actualizarTabla(List<Localizacion> localizaciones) {
         String[] columnas = {"ID", "Tipo"};
         DefaultTableModel model = new DefaultTableModel(columnas, 0);

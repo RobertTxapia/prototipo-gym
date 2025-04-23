@@ -1,2 +1,0 @@
-1;rooma;zumba;13;1
-2;dfs;ssgf;3;1

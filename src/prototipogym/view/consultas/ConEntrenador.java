@@ -42,9 +42,8 @@ private static ConEntrenador instanciass;
         try {
             String busqueda = jTextField1.getText().trim().toLowerCase();
 
-            // Corrección: Punto y coma eliminado y encadenamiento correcto
             List<Entrenador> entrenadores = ConsultaControllerEntrenador.getTodosEntrenadores()
-                    .stream() // <-- Ahora se aplica a la lista devuelta por getTodosEntrenadores()
+                    .stream()
                     .filter(entrenador ->
                             (entrenador.getNombre().toLowerCase() + " " + entrenador.getApellido().toLowerCase())
                                     .contains(busqueda)

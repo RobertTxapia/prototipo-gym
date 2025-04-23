@@ -87,7 +87,6 @@ public class ReservaController {
                 }
                 bw.close();
 
-                // Si se encontró la línea, reemplazamos el archivo original
                 if (encontrado) {
                     fAntiguo.delete(); 
                     fNuevo.renameTo(fAntiguo);

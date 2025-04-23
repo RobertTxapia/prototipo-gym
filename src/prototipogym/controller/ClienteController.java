@@ -87,10 +87,9 @@ public class ClienteController {
                 }
             }
         }
-        return null; // Cliente no encontrado
+        return null;
     }
 
-    // Validar si un cliente tiene balance pendiente (>0)
     public static boolean tieneBalancePendiente(String idCliente) throws IOException {
         Cliente cliente = obtenerCliente(idCliente);
         return cliente != null && cliente.getBalance() > 0;

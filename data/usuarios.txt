@@ -1,7 +1,2 @@
 admin;admin123;0;Admin;Super Admin;admin@gym.com
 user;user123;1;Juan;Pérez;juan@mail.com
-pedro;pedro01;0;fafadsf;adfadf;adfadf
-juan;juan01;1;sfsadf;fdasadf;adsfasdf
-nose;nose123;1;noseeee;noseeee;dadfadfsdfaddfa
-alex;alex03;0;Ramon alexander;suarez;alexsuarez@mail.com
-fmj;123;1;fausto Antonio;Martinez Jimenez;mart@gmail.com

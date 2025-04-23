@@ -1,17 +1,12 @@
 package prototipogym.view.consultas;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import prototipogym.controller.consultas.ConCobroRango;
 import prototipogym.controller.consultas.ConCuotass;
-import prototipogym.model.Cobro;
-import prototipogym.model.DetalleCuota;
 import prototipogym.model.EncabezadoCuota;
 
 public class ConCuotas extends javax.swing.JFrame {
@@ -38,132 +33,7 @@ public class ConCuotas extends javax.swing.JFrame {
         }
         return instanciass;
     }
-    
-    /*private void buscarCuotas() {
-    try {
-        String filtro = jComboBox1.getSelectedItem().toString();
-
-        if (filtro.equals("Todos")) {
-            List<EncabezadoCuota> cuotas = ConCuotass.getTodasCuotas();
-            actualizarTablaCuotas(cuotas);
-
-        } else if (filtro.equals("Por Rango de fecha")) {
-            Date fechaInicio = dateInicial1.getDate();
-            Date fechaFin = dateFinal.getDate();
-            String idTexto = IDCliente.getText().trim();
-
-            if (fechaInicio == null || fechaFin == null) {
-                JOptionPane.showMessageDialog(this, "Debes seleccionar ambas fechas.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-
-            List<EncabezadoCuota> cuotasFiltradas;
-
-            if (!idTexto.isEmpty()) {
-                cuotasFiltradas = ConCuotass.filtrarCuotasPorFechaYCliente(fechaInicio, fechaFin, idTexto);
-            } else {
-                cuotasFiltradas = ConCuotass.filtrarCuotas(fechaInicio, fechaFin);
-            }
-
-            actualizarTablaCuotas(cuotasFiltradas);
-
-        } else if (filtro.equals("Cobro por Cliente")) {
-            String idTexto = IDCliente.getText().trim();
-
-            if (idTexto.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Debes ingresar un ID de cliente.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-
-            List<EncabezadoCuota> cuotas = ConCuotass.filtrarCuotasPorCliente(idTexto);
-            actualizarTablaCuotas(cuotas);
-        }
-
-    } catch (Exception ex) {
-        JOptionPane.showMessageDialog(this, "Error al cargar cuotas: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-    }
-}*/
-
-/*private void actualizarTablaCuotas(List<EncabezadoCuota> cuotas) {
-    String[] columnas = {"ID", "Fecha", "ID Cliente", "Valor"};
-    DefaultTableModel model = new DefaultTableModel(columnas, 0);
-    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-
-    for (EncabezadoCuota c : cuotas) {
-        model.addRow(new Object[]{
-            c.getIdCuota(),
-            sdf.format(c.getFechaCuota()),
-            c.getIdCliente(),
-            c.getValorTotal(),
-            c.isStatus() ? "Pagado" : "Pendiente"
-        });
-    }
-
-    jTable1.setModel(model);
-}*/
-    
-//    private void buscarCuotas() {
-//    try {
-//        String filtro = jComboBox1.getSelectedItem().toString();
-//
-//        if (filtro.equals("Todos")) {
-//            List<EncabezadoCuota> cuotas = ConCuotass.getTodasCuotas();
-//            actualizarTablaCuotas(cuotas);
-//
-//        } else if (filtro.equals("Cuota por Fecha")) {
-//            Date fechaInicio = dateInicial.getDate();
-//            Date fechaFin = dateFinal.getDate();
-//            String idTexto = IDCliente.getText().trim();
-//
-//            if (fechaInicio == null || fechaFin == null) {
-//                JOptionPane.showMessageDialog(this, "Debes seleccionar ambas fechas.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-//                return;
-//            }
-//
-//            List<EncabezadoCuota> cuotasFiltradas;
-//
-//            if (!idTexto.isEmpty()) {
-//                cuotasFiltradas = ConCuotass.filtrarCuotasPorFechaYCliente(fechaInicio, fechaFin, idTexto); // se pasa como String
-//            } else {
-//                cuotasFiltradas = ConCuotass.filtrarCuotas(fechaInicio, fechaFin);
-//            }
-//
-//            actualizarTablaCuotas(cuotasFiltradas);
-//
-//        } else if (filtro.equals("Cuota por Clientes")) {
-//            String idTexto = IDCliente.getText().trim();
-//
-//            if (idTexto.isEmpty()) {
-//                JOptionPane.showMessageDialog(this, "Debes ingresar un ID de cliente.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-//                return;
-//            }
-//
-//            List<EncabezadoCuota> cuotas = ConCuotass.filtrarCuotasPorCliente(idTexto); 
-//            actualizarTablaCuotas(cuotas);
-//        }
-//
-//    } catch (Exception ex) {
-//        JOptionPane.showMessageDialog(this, "Error al cargar cuotas: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-//    }
-//}
-//
-//    private void actualizarTablaCuotas(List<EncabezadoCuota> cuotas) {
-//    String[] columnas = {"ID", "Fecha", "ID Cliente", "Valor"}; 
-//    DefaultTableModel model = new DefaultTableModel(columnas, 0);
-//    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-//
-//    for (EncabezadoCuota c : cuotas) {
-//        model.addRow(new Object[]{
-//            c.getIdCuota(),
-//            sdf.format(c.getFechaCuota()),
-//            c.getIdCliente(),
-//            c.getValorTotal(),
-//            c.isStatus() ? "Pagado" : "Pendiente"
-//        });
-//    }
-//
-//    jTable1.setModel(model);
-//}
+   
 private void buscarCuotas() {
     try {
         String filtro = jComboBox1.getSelectedItem().toString();

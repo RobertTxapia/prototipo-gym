@@ -41,17 +41,14 @@ private static ConHorariosActividades instanciass;
 private void buscarHorarios() {
     try {
         String diaSeleccionado = comboDia.getSelectedItem().toString().trim();
-
-        // 1. Obtener todos los horarios (con o sin filtro por día)
         List<HorarioActividad> horarios = ConsultaControllerHorarioActividad.getTodosHorarios()
                 .stream()
                 .filter(horario -> 
-                    diaSeleccionado.equals("Todos") || // Si es "Todos", no filtrar
+                    diaSeleccionado.equals("Todos") ||
                     horario.getDia().equalsIgnoreCase(diaSeleccionado)
                 )
                 .collect(Collectors.toList());
 
-        // 2. Obtener actividades correspondientes a los horarios
         List<Actividad> actividades = new ArrayList<>();
         for (HorarioActividad horario : horarios) {
             Actividad actividad = ConsultaControllerHorarioActividad.getActividadPorId(horario.getIdActividad()); // Nombre correcto

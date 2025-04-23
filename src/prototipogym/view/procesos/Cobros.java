@@ -331,7 +331,6 @@ public class Cobros extends javax.swing.JFrame {
         while ((linea = br.readLine()) != null) {
             String[] datos = linea.split(";");
             if (datos[0].equals(idCliente)) {
-                // El campo tipo de cliente está en la posición 11
                 if (datos.length > 10 && datos[10].equals("1")) {
                     esSocio = true;
                 }
@@ -469,8 +468,6 @@ public class Cobros extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-
-        // Verificar que el cliente sea un socio activo
         boolean esActivo = socios.stream().anyMatch(socio -> socio.getIdCliente().equals(idCliente));
         if (!esActivo) {
             JOptionPane.showMessageDialog(this, "El cliente ingresado no es un socio activo.", "Error", JOptionPane.ERROR_MESSAGE);

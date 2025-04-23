@@ -21,16 +21,7 @@ public class ConCuotass {
 
         for (String linea : lineas) {
             String[] datos = linea.split(";");
-             /*if (datos.length >= 5) {
-                 EncabezadoCuota cuota = new EncabezadoCuota(
-                     datos[0].trim(),                           // ID Cuota
-                     sdf.parse(datos[1].trim()),                // Fecha
-                     datos[2].trim(),                           // ID Cliente
-                     Double.parseDouble(datos[3].trim()),       // Valor
-                     Boolean.parseBoolean(datos[4].trim())      // Status
-                 );
-                 cuotas.add(cuota);
-             }*/
+
             if (datos.length >= 4) {
                 double valor = datos.length >= 5 ? Double.parseDouble(datos[3].trim()) : 0.0;
                 boolean status = datos.length == 5 ? Boolean.parseBoolean(datos[4].trim()) : false;

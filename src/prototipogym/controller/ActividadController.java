@@ -5,13 +5,10 @@ import java.util.Scanner;
 import javax.swing.JOptionPane;
 
 public class ActividadController {
-
-    // Guardar o actualizar actividad
     public static void guardarActividad(Actividad actividad) throws IOException {
         File archivo = new File("data/actividades.txt");
         StringBuilder contenido = new StringBuilder();
 
-        // Leer archivo existente
         if (archivo.exists()) {
             try (BufferedReader br = new BufferedReader(new FileReader(archivo))) {
                 String linea;
@@ -43,7 +40,6 @@ public class ActividadController {
                     .append(actividad.getIdEntrenador()).append("\n");
         }
 
-        // Escribir todo el contenido
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(archivo))) {
             bw.write(contenido.toString());
         }
@@ -64,7 +60,6 @@ public class ActividadController {
         return false;
     }
 
-    // Validar existencia de IDs relacionados
     public static boolean validarRelaciones(int idLocalizacion, int idEntrenador) throws IOException {
         return existeEnArchivo("data/localizaciones.txt", idLocalizacion)
                 && existeEnArchivo("data/entrenadores.txt", idEntrenador);
@@ -93,7 +88,6 @@ public class ActividadController {
                     String linea;
                     while ((linea = br.readLine()) != null) {
                         System.out.println("Leyendo linea: " + linea);
-                        // Si encontramos la linea antigua, escribimos la nueva
                         if (linea.trim().equals(LineaAntigua.trim())) {
                             encontrado = true;
                             bw.write(nuevaLinea);
@@ -105,7 +99,6 @@ public class ActividadController {
                 }
                 bw.close();
 
-                // Si se encontró la línea, reemplazamos el archivo original
                 if (encontrado) {
                     fAntiguo.delete(); 
                     fNuevo.renameTo(fAntiguo);

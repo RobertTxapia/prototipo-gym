@@ -165,8 +165,6 @@ public class LoginFrame extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Campos oblogatorios");
             return;
         }
-        
-        //agregue este try catch
         try{
             boolean credencialesValidas = AuthManager.validarUsuario(usuario, password);
             int nivelAcceso = AuthManager.getNivelAcceso(usuario, password);
@@ -179,10 +177,10 @@ public class LoginFrame extends javax.swing.JFrame {
                 if (nivelAcceso == 0) {
                     menu.setVisible(true);
                 } else {
-                    menu.setVisible(true); // Si el usuario no es admin, igual se muestra
+                    menu.setVisible(true);
                 }
 
-                this.dispose(); // Cierra la ventana actual
+                this.dispose();
             }else {
                 JOptionPane.showMessageDialog(this, "Nombre o contraseña incorrectas");
             }   

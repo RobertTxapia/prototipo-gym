@@ -1,7 +1,6 @@
 package prototipogym.controller.procesos;
 import javax.swing.*;
 import java.io.*;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import prototipogym.controller.ClienteController;
@@ -11,7 +10,6 @@ import prototipogym.model.Cliente;
 import prototipogym.model.EncabezadoCuota;
 import prototipogym.model.DetalleCuota;
 import prototipogym.util.mantenimientos.FileManager;
-import prototipogym.view.procesos.Cobros;
 
 
 public class CobroController {
@@ -68,14 +66,12 @@ public class CobroController {
 
     public static boolean actualizarCuota(String idCuota) {
         try {
-            // Verificar estado de la cuota
             EncabezadoCuota encabezado = obtenerEncabezadoCuota(idCuota);
             if (encabezado == null || encabezado.isStatus()) {
                 JOptionPane.showMessageDialog(null, "Cuota no existe o ya fue procesada", "Error", JOptionPane.ERROR_MESSAGE);
                 return false;
             }
 
-            // Obtener detalles de la cuota
             List<DetalleCuota> detalles = obtenerDetallesCuota(idCuota);
             double totalPagado = 0;
             boolean todosPagados = true;
@@ -90,9 +86,7 @@ public class CobroController {
             }
 
             if (todosPagados) {
-                // Actualizar estado de la cuota
                 actualizarEstadoEncabezado(idCuota, true);
-                // Actualizar balance del cliente
                 Cliente cliente = ClienteController.obtenerCliente(encabezado.getIdCliente());
                 ClienteController.actualizarBalanceCliente(cliente.getIdCliente(), cliente.getBalance() - totalPagado);
                 JOptionPane.showMessageDialog(null, "Cuota actualizada exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
@@ -108,7 +102,6 @@ public class CobroController {
     }
     
             public static boolean actualizarEstadoCobro(int idCobro, boolean estado) {
-            // Implementación para actualizar el estado en cobros.txt
             try (BufferedReader br = new BufferedReader(new FileReader(FILE_PATH));
                  BufferedWriter bw = new BufferedWriter(new FileWriter("temp.txt"))) {
 
@@ -122,7 +115,6 @@ public class CobroController {
                     bw.write(linea + "\n");
                 }
 
-                // Reemplazar archivo original
                 new File(FILE_PATH).delete();
                 new File("temp.txt").renameTo(new File(FILE_PATH));
                 return true;

@@ -24,12 +24,12 @@ public class ConCobroRango {
             String[] datos = linea.split(";");
             if (datos.length >= 6) {
                 Cobro cobro = new Cobro(
-                        Integer.parseInt(datos[0].trim()),                  // ID
-                        sdf.parse(datos[1].trim()),                         // Fecha
-                        Integer.parseInt(datos[2].trim()),                  // ID Cliente
-                        Double.parseDouble(datos[3].trim()),                // Valor Cobro
-                        datos[4].trim(),                                    // Concepto
-                        Boolean.parseBoolean(datos[5].trim())               // Status
+                        Integer.parseInt(datos[0].trim()),
+                        sdf.parse(datos[1].trim()),
+                        Integer.parseInt(datos[2].trim()),
+                        Double.parseDouble(datos[3].trim()),
+                        datos[4].trim(),
+                        Boolean.parseBoolean(datos[5].trim())
                 );
                 cobros.add(cobro);
             }
@@ -37,12 +37,6 @@ public class ConCobroRango {
         return cobros;
     }
 
-    /*public static List<Cobro> filtrarCobros(Date fechaInicio, Date fechaFin) throws IOException, ParseException {
-        List<Cobro> cobros = getTodosCobros();
-        return cobros.stream()
-                .filter(c -> !c.getFecha().before(fechaInicio) && !c.getFecha().after(fechaFin))
-                .toList();
-    }*/
     
    public static List<Cobro> filtrarCobros(Date fechaInicio, Date fechaFin) throws IOException, ParseException {
     List<Cobro> cobros = getTodosCobros();

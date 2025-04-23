@@ -17,7 +17,6 @@ public class HorarioActividadController {
                 String linea;
                 while ((linea = br.readLine()) != null) {
                     if (linea.startsWith(horario.getId() + ";")) {
-                        // Actualizar línea existente
                         contenido.append(horario.getId()).append(";")
                                 .append(horario.getDia()).append(";")
                                 .append(horario.getHora()).append(";")
@@ -59,7 +58,6 @@ public class HorarioActividadController {
         return false;
     }
 
-    // Validar referencias
     public static boolean validarRelaciones(String idActividad) throws IOException {
         return existeEnArchivo("data/actividades.txt", idActividad);
                 
@@ -100,7 +98,6 @@ public class HorarioActividadController {
                 }
                 bw.close();
 
-                // Si se encontró la línea, reemplazamos el archivo original
                 if (encontrado) {
                     fAntiguo.delete(); 
                     fNuevo.renameTo(fAntiguo);

@@ -37,7 +37,7 @@ public class UsuarioController {
         File archivoUsuarios = new File("data/usuarios.txt");
 
         if (!archivoUsuarios.exists()) {
-            return false; // El archivo no existe, por lo que no hay usuarios
+            return false;
         }
 
         try (BufferedReader br = new BufferedReader(new FileReader(archivoUsuarios))) {
@@ -81,7 +81,6 @@ public class UsuarioController {
                 br.close();
                 bw.close();
 
-                // Si se encontró la línea, reemplazamos el archivo original
                 if (encontrado) {
                     fAntiguo.delete(); 
                     fNuevo.renameTo(fAntiguo);

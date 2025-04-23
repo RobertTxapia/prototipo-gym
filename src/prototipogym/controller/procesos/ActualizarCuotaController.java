@@ -27,8 +27,7 @@ public class ActualizarCuotaController {
                 }
             }
         }
-        
-        // Actualizar status de cuotas
+
         if (!cuotasProcesadas.isEmpty()) {
             actualizarArchivoEncabezado(cuotasProcesadas);
             return true;
@@ -56,7 +55,6 @@ public class ActualizarCuotaController {
             }
         }
 
-        // Escribir cambios
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(archivoCobros))) {
             for (String linea : nuevasLineas) {
                 writer.write(linea);
@@ -64,7 +62,6 @@ public class ActualizarCuotaController {
             }
         }
 
-        // Actualizar balance del cliente
         Cliente cliente = ClienteController.obtenerCliente(idCliente);
         if (cliente != null) {
             cliente.setBalance(cliente.getBalance() - totalPagado);

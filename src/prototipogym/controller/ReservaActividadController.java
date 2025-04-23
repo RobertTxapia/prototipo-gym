@@ -9,7 +9,6 @@ import javax.swing.JOptionPane;
 public class ReservaActividadController {
     private static final String ARCHIVO = "data/reservaActividades.txt";
 
-    // Guardar reserva (devuelve boolean)
     public static boolean guardarReserva(ReservaActividad reserva) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(ARCHIVO, true))) {
             writer.write(reservaToCSV(reserva));
@@ -21,7 +20,6 @@ public class ReservaActividadController {
         }
     }
 
-    // Verificar si existe la reserva
     public static boolean existeReserva(String idReserva) throws IOException {
     File file = new File(ARCHIVO);
     if (!file.exists()) return false;
@@ -38,7 +36,6 @@ public class ReservaActividadController {
 }
 
 
-    // Validar relaciones con otras tablas
     public static boolean validarRelaciones(String idCliente, String idActividad,
                                             String idHorario, String idEstado) throws IOException {
         return ClienteController.existeCliente(idCliente) &&
@@ -47,7 +44,6 @@ public class ReservaActividadController {
                 EstadoReservaController.existeEstado(idEstado);
     }
 
-    // Convertir objeto a CSV
     private static String reservaToCSV(ReservaActividad r) {
         return String.join(";",
                 String.valueOf(r.getId()),
@@ -87,7 +83,6 @@ public class ReservaActividadController {
                 }
                 bw.close();
 
-                // Si se encontró la línea, reemplazamos el archivo original
                 if (encontrado) {
                     fAntiguo.delete(); 
                     fNuevo.renameTo(fAntiguo);

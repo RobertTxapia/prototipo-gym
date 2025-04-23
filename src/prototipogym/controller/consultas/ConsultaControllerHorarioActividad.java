@@ -34,10 +34,10 @@ public class ConsultaControllerHorarioActividad {
             String[] datos = linea.split(";");
             if (datos.length >= 4) { // Validar formato
                 HorarioActividad horario = new HorarioActividad(
-                        datos[0].trim(), // ID
-                        datos[1].trim(), // Día
-                        datos[2].trim(), // Hora
-                        datos[3].trim()  // ID Actividad
+                        datos[0].trim(),
+                        datos[1].trim(),
+                        datos[2].trim(),
+                        datos[3].trim()
                 );
                 horarios.add(horario);
             }

@@ -56,21 +56,17 @@ public class CuotaController {
         try (BufferedWriter encabezadoWriter = new BufferedWriter(new FileWriter(ENCABEZADO_FILE, true));
              BufferedWriter detalleWriter = new BufferedWriter(new FileWriter(DETALLE_FILE, true))) {
 
-            // Calcular el valor total de los cobros
             double valorTotal = cobros.stream().mapToDouble(Cobro::getValorCobro).sum();
-
-            // Guardar encabezado con el valorTotal
             String encabezado = String.join(";",
-                    idCuota,
-                    sdf.format(new Date()),
-                    idCliente,
-                    String.valueOf(valorTotal), // Nuevo campo: valorTotal
-                    "false" // Status
-            );
+                           idCuota,
+                           sdf.format(new Date()),
+                           idCliente,
+                           String.valueOf(valorTotal),
+                           "false"                  
+                   );
             encabezadoWriter.write(encabezado);
             encabezadoWriter.newLine();
-            
-            // Resto del código sin cambios...
+     
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "Error al guardar cuota", "Error", JOptionPane.ERROR_MESSAGE);
             
@@ -114,7 +110,7 @@ public class CuotaController {
             while ((linea = br.readLine()) != null) {
                 String[] campos = linea.split(";");
                 if (campos[0].equals(idCuota) && campos.length >= 5) {
-                    campos[4] = String.valueOf(estado); // Modificar solo el campo 4 (status)
+                    campos[4] = String.valueOf(estado); 
                     linea = String.join(";", campos);
                 }
                 bw.write(linea + "\n");
@@ -130,13 +126,13 @@ public class CuotaController {
         try (Scanner scanner = new Scanner(new File("data/encabezado_cuota.txt"))) {
             while (scanner.hasNextLine()) {
                 String[] campos = scanner.nextLine().split(";");
-                if (campos[0].equals(idCuota) && campos.length >= 5) { // Validar 5 campos
+                if (campos[0].equals(idCuota) && campos.length >= 5) { 
                     return new EncabezadoCuota(
                             campos[0],
                             new SimpleDateFormat("dd/MM/yyyy").parse(campos[1]),
                             campos[2],
-                            Double.parseDouble(campos[3]), // Campo 3: valorTotal
-                            Boolean.parseBoolean(campos[4]) // Campo 4: status
+                            Double.parseDouble(campos[3]),
+                            Boolean.parseBoolean(campos[4]) 
                     );
                 }
             }

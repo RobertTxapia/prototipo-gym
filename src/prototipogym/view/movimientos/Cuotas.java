@@ -50,13 +50,6 @@ public class Cuotas extends javax.swing.JFrame {
         return instanciass;
     }
 
-//    private void Text_IDFocusLost(java.awt.event.FocusEvent evt) {
-//        String idCuota = Text_ID.getText().trim();
-//        if (!idCuota.isEmpty()) {
-//            cargarDetallesCuota(idCuota);
-//        }
-//    }
-
     private void Text_IDFocusLost(java.awt.event.FocusEvent evt) {
         String idCuota = Text_ID.getText().trim();
         if (idCuota.isEmpty()) return;
@@ -101,7 +94,6 @@ public class Cuotas extends javax.swing.JFrame {
         }
 
         try {
-            // Obtener datos del cliente usando ClienteController
             Cliente cliente = ClienteController.obtenerCliente(idCliente);
 
             if (cliente == null) {
@@ -110,7 +102,6 @@ public class Cuotas extends javax.swing.JFrame {
                 return;
             }
 
-            // Validar que sea Socio Activo (TipoCliente = 0, Status = true)
             if (cliente.getTipoCliente() != 1 || !cliente.isStatus()) {
                 JOptionPane.showMessageDialog(this,
                     "El cliente no es Socio Activo",
@@ -121,7 +112,6 @@ public class Cuotas extends javax.swing.JFrame {
                 return;
             }
 
-            // Autocompletar campos
             TextNombre.setText(cliente.getNombre());
             TextCuota.setText(String.valueOf(cliente.getValorCuota()));
             //TextFecha.setText();
@@ -153,11 +143,11 @@ public class Cuotas extends javax.swing.JFrame {
                     String[] campos = scanner.nextLine().split(";");
                     if (campos.length >= 5 && campos[0].equals(idCuota)) {
                         model.addRow(new Object[]{
-                                idCliente,          // ID Cliente (desde encabezado)
-                                campos[1],          // Secuencia
-                                campos[2],          // Concepto
-                                campos[3],          // Valor
-                                campos[4]          // ID Cobro
+                                idCliente,
+                                campos[1],
+                                campos[2],
+                                campos[3],
+                                campos[4]
                         });
                     }
                 }
@@ -193,7 +183,6 @@ public class Cuotas extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel) Tabla.getModel();
         Set<String> idsSeleccionados = new HashSet<>();
 
-        // Recolectar los IDs de cobros seleccionados (columna 4)
         for (int fila : filasSeleccionadas) {
             String idCobro = model.getValueAt(fila, 4).toString();
             idsSeleccionados.add(idCobro);
@@ -213,28 +202,23 @@ public class Cuotas extends javax.swing.JFrame {
             while ((linea = reader.readLine()) != null) {
                 String[] partes = linea.split(";");
                 if (partes.length > 0 && idsSeleccionados.contains(partes[0])) {
-                    // Si el ID de cobro está seleccionado, escribir en detalle_cuota.txt
-                    String idCuota = Text_ID.getText(); // Usar el ID de cuota actual
-                    String concepto = partes[2];  // Columna 2: Concepto
-                    String valor = partes[3];     // Columna 3: Valor
+                    String idCuota = Text_ID.getText();
+                    String concepto = partes[2];
+                    String valor = partes[3];
 
-                    // Escribir el detalle en el archivo
                     writerDetalle.write(String.join(";", idCuota, String.valueOf(secuencia++), concepto, valor, partes[0]));
                     writerDetalle.newLine();
                 } else {
-                    // Si no está seleccionado, escribirlo en el archivo temporal
                     writerTemporal.write(linea);
                     writerTemporal.newLine();
                 }
             }
 
-            // Reemplazar el archivo original con el archivo temporal
             reader.close();
             writerTemporal.close();
             archivoCobros.delete();
             archivoTemporal.renameTo(archivoCobros);
 
-            // Eliminar las filas seleccionadas del JTable (desde atrás para evitar errores de índice)
             for (int i = filasSeleccionadas.length - 1; i >= 0; i--) {
                 model.removeRow(filasSeleccionadas[i]);
             }
@@ -518,14 +502,12 @@ public class Cuotas extends javax.swing.JFrame {
         }
 
         try {
-            // Verificar existencia del cliente y su estado
             Cliente cliente = ClienteController.obtenerCliente(IDCliente.getText());
             if (cliente == null || cliente.getTipoCliente() != 1 || !cliente.isStatus()) {
                 JOptionPane.showMessageDialog(this, "Cliente no válido", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
-            // Obtener cobros pendientes del cliente
             List<Cobro> cobrosPendientes = CuotaController.obtenerCobrosPendientes(IDCliente.getText());
             if (cobrosPendientes.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "No hay cobros pendientes", "Error", JOptionPane.ERROR_MESSAGE);
@@ -546,8 +528,6 @@ public class Cuotas extends javax.swing.JFrame {
                 ));
                 writer.newLine();
             }
-
-            // Guardar detalles y actualizar cobros
             double total = 0;
             int secuencia = 1;
             try (BufferedWriter detalleWriter = new BufferedWriter(new FileWriter("data/detalle_cuota.txt", true))) {

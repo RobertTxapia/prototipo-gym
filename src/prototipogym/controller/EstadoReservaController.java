@@ -19,7 +19,6 @@ public class EstadoReservaController {
         }
     }
 
-    // Validar ID único
     public static boolean existeEstado(String id) throws IOException {
         try (BufferedReader br = new BufferedReader(new FileReader("data/estado_reservas.txt"))) {
             String linea;
@@ -56,7 +55,6 @@ public class EstadoReservaController {
                 }
                 bw.close();
 
-                // Si se encontró la línea, reemplazamos el archivo original
                 if (encontrado) {
                     fAntiguo.delete(); 
                     fNuevo.renameTo(fAntiguo);

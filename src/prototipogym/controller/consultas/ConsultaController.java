@@ -16,9 +16,9 @@ public class ConsultaController {
         List<Usuario> usuarios = getTodosUsuarios();
         
         if (filtro.equalsIgnoreCase("Todos")) {
-            return usuarios; // Retorna todos sin filtrar
+            return usuarios;
         } else {
-            int nivel = Integer.parseInt(filtro); // Convierte el filtro a nivel
+            int nivel = Integer.parseInt(filtro);
             return usuarios.stream()
                     .filter(u -> u.getNivelAcceso() == nivel)
                     .collect(Collectors.toList());
@@ -32,7 +32,7 @@ public class ConsultaController {
 
         for (String linea : lineas) {
             String[] datos = linea.split(";");
-            if (datos.length >= 6) { // Validar que la línea tenga suficientes datos
+            if (datos.length >= 6) {
                 Usuario u = new Usuario();
                 u.setLogin(datos[0].trim());
                 u.setNombre(datos[3].trim());

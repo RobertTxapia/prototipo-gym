@@ -9,8 +9,6 @@ import java.util.Scanner;
 import javax.swing.JOptionPane;
 
 public class SalaController {
-
-    // Guardar o actualizar sala
     public static boolean guardarSala(Sala sala) throws IOException {
         List<String> lineas = leerTodasLasSalas();
         String nuevaLinea = sala.getId() + ";"
@@ -18,7 +16,6 @@ public class SalaController {
                 + sala.getDescripcion() + ";"
                 + sala.getIdLocalizacion();
 
-        // Buscar si existe el ID
         boolean existe = false;
         for (int i = 0; i < lineas.size(); i++) {
             String[] datos = lineas.get(i).split(";");
@@ -29,9 +26,7 @@ public class SalaController {
             }
         }
 
-        if (!existe) lineas.add(nuevaLinea); // Crear nuevo
-
-        // Escribir todas las líneas
+        if (!existe) lineas.add(nuevaLinea);
         try (BufferedWriter bw = new BufferedWriter(new FileWriter("data/salas.txt"))) {
             for (String linea : lineas) {
                 bw.write(linea);
@@ -54,7 +49,6 @@ public class SalaController {
         return false;
     }
 
-    // Validar existencia de localización
     public static boolean existeLocalizacion(int idLocalizacion) throws IOException {
         try (BufferedReader br = new BufferedReader(new FileReader("data/localizaciones.txt"))) {
             String linea;
@@ -91,7 +85,6 @@ public class SalaController {
                     String linea;
                     while ((linea = br.readLine()) != null) {
                         System.out.println("Leyendo linea: " + linea);
-                        // Si encontramos la linea antigua, escribimos la nueva
                         if (linea.trim().equals(LineaAntigua.trim())) {
                             encontrado = true;
                             bw.write(nuevaLinea);
@@ -103,7 +96,6 @@ public class SalaController {
                 }
                 bw.close();
 
-                // Si se encontró la línea, reemplazamos el archivo original
                 if (encontrado) {
                     fAntiguo.delete(); 
                     fNuevo.renameTo(fAntiguo);

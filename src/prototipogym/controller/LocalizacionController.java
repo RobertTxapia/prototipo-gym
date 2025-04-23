@@ -13,13 +13,11 @@ public class LocalizacionController {
         boolean existe = existeLocalizacion(loc.getId());
 
         if (!existe) {
-            // Guardar nuevo registro
             try (BufferedWriter bw = new BufferedWriter(new FileWriter(archivo, true))) {
                 bw.write(loc.getId() + ";" + loc.getTipo());
                 bw.newLine();
             }
         } else {
-            // Actualizar registro existente
             actualizarLocalizacionEnArchivo(loc);
         }
         return true;
@@ -30,7 +28,6 @@ public class LocalizacionController {
         File archivo = new File("data/localizaciones.txt");
         List<String> lineas = new ArrayList<>();
 
-        // Leer todas las líneas
         try (BufferedReader br = new BufferedReader(new FileReader(archivo))) {
             String linea;
             while ((linea = br.readLine()) != null) {
@@ -41,7 +38,6 @@ public class LocalizacionController {
             }
         }
 
-        // Sobrescribir el archivo original
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(archivo))) {
             for (String linea : lineas) {
                 bw.write(linea);
@@ -85,7 +81,6 @@ public class LocalizacionController {
                 }
                 bw.close();
 
-                // Si se encontró la línea, reemplazamos el archivo original
                 if (encontrado) {
                     fAntiguo.delete(); 
                     fNuevo.renameTo(fAntiguo);
