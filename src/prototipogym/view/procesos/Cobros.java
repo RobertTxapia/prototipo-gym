@@ -84,6 +84,7 @@ public class Cobros extends javax.swing.JFrame {
         txtIDCliente.setText("");
         txtValorCobro.setText("");
         txtConcepto.setText("");
+        DateC.setDate(null);
     }
     
 
@@ -121,6 +122,7 @@ public class Cobros extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Dialog", 0, 36)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/salario.png"))); // NOI18N
         jLabel1.setText("Cobros");
 
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
@@ -211,10 +213,6 @@ public class Cobros extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jSeparator1)
                 .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(0, 179, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(200, 200, 200))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -252,7 +250,11 @@ public class Cobros extends javax.swing.JFrame {
                             .addComponent(txtValorCobro, javax.swing.GroupLayout.DEFAULT_SIZE, 111, Short.MAX_VALUE)
                             .addComponent(btnImprimir, javax.swing.GroupLayout.DEFAULT_SIZE, 111, Short.MAX_VALUE)
                             .addComponent(etiqueta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(30, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(170, 170, 170))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -262,9 +264,9 @@ public class Cobros extends javax.swing.JFrame {
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(21, 21, 21)
+                        .addGap(17, 17, 17)
                         .addComponent(jLabel1)
-                        .addGap(27, 27, 27)
+                        .addGap(31, 31, 31)
                         .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -352,12 +354,13 @@ public class Cobros extends javax.swing.JFrame {
         document.open();
 
         document.add(new Paragraph("COMPROBANTE DE COBRO", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 18)));
-        document.add(new Paragraph(" "));
+        document.add(new Paragraph("______________________________________________ "));
         document.add(new Paragraph("ID: " + id));
         document.add(new Paragraph("Valor del Cobro: " + valorCobro));
         document.add(new Paragraph("Fecha: " + fecha));
         document.add(new Paragraph("Concepto: " + concepto));
         document.add(new Paragraph("ID Cliente: " + idCliente));
+         document.add(new Paragraph("______________________________________________ "));
 
         document.close();
 

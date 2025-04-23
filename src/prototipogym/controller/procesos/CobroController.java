@@ -1,6 +1,7 @@
 package prototipogym.controller.procesos;
 import javax.swing.*;
 import java.io.*;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import prototipogym.controller.ClienteController;
@@ -9,12 +10,17 @@ import prototipogym.model.Cobro;
 import prototipogym.model.Cliente;
 import prototipogym.model.EncabezadoCuota;
 import prototipogym.model.DetalleCuota;
+import prototipogym.util.mantenimientos.FileManager;
+import prototipogym.view.procesos.Cobros;
 
 
 public class CobroController {
     private static final String ENCABEZADO_FILE = "data/encabezado_cuota.txt";
     private static final String FILE_PATH = "data/cobros.txt";
     private static final SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
+  
+    
+    
     
     public static boolean guardarCobro(
         String id, 

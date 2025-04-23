@@ -50,10 +50,6 @@ public class ActualizarCobro extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        dateInicio.setDateFormatString("dd/MM/yyyy");
-
-        dateFinal.setDateFormatString("dd/MM/yyyy");
-
         jPanel1.setBackground(new java.awt.Color(51, 51, 51));
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 193, 7), 3));
 
@@ -61,6 +57,7 @@ public class ActualizarCobro extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/icons/actualizar.png"))); // NOI18N
         jLabel1.setText("Actualizar Cuota");
 
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
