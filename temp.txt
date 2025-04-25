@@ -1,1 +1,4 @@
-1;30/04/2025;200;200.00;jffh;true
+1;30/04/2025;100;500.00;Cuota mensual 04;false
+2;30/04/2025;10;2000.00;Cuota mensual 04;false
+3;30/05/2025;100;500.00;Cuota mensual 05;true
+4;30/05/2025;10;2000.00;Cuota mensual 05;false

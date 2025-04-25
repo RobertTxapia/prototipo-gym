@@ -1,0 +1,4 @@
+1;30/04/2025;100;500.00;Cuota mensual 04;false
+2;30/04/2025;10;2000.00;Cuota mensual 04;false
+3;30/05/2025;100;500.00;Cuota mensual 05;false
+4;30/05/2025;10;2000.00;Cuota mensual 05;false

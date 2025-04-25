@@ -1,0 +1,3 @@
+100;robert;tapia;crespo;cale1234;19/07/2005;15632186;15687313;23/04/2025;true;1;robert2gmailcom;500.0;500.0
+10;Rosa;LOpez;Ramirez;Moca;05/04/2005;875456344;7890987654;23/04/2025;true;1;mfdfm@gmial.com;4000.00;2000.0
+5;Rosa;LOpez;fgg;Moca;05/04/2005;875456344;7890987654;23/04/2025;false;1;mfdgm@gmial.com;0.0;400.0

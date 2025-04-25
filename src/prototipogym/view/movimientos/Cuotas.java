@@ -60,7 +60,7 @@ public class Cuotas extends javax.swing.JFrame {
                 String[] campos = scanner.nextLine().split(";");
                 if (campos[0].equals(idCuota)) {
                     encontrado = true;
-                    if (campos[3].equalsIgnoreCase("false")) {
+                    if (campos[4].equalsIgnoreCase("false")) {
                         etiqueta.setText("Modificando");
                         TextFecha.setText(campos[1]);
                         IDCliente.setText(campos[2]);
@@ -495,7 +495,6 @@ public class Cuotas extends javax.swing.JFrame {
     }//GEN-LAST:event_LimpiarActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-       // Validación de campos
         if (Text_ID.getText().isEmpty() || IDCliente.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Campos obligatorios faltantes", "Error", JOptionPane.ERROR_MESSAGE);
             return;
@@ -517,7 +516,6 @@ public class Cuotas extends javax.swing.JFrame {
             double valorTotal = cobrosPendientes.stream().mapToDouble(Cobro::getValorCobro).sum();
             CuotaController.guardarCuota(Text_ID.getText(), IDCliente.getText(), cobrosPendientes);
 
-            // Guardar encabezado de cuota
             String idCuota = Text_ID.getText();
             try (BufferedWriter writer = new BufferedWriter(new FileWriter("data/encabezado_cuota.txt", true))) {
                 writer.write(String.join(";",
@@ -549,7 +547,17 @@ public class Cuotas extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Cuota registrada exitosamente");
             Limpiar();
             cargarDetallesCuota(Text_ID.getText().trim());
+
             double nuevoBalance = cliente.getBalance() - total;
+
+            if (nuevoBalance < 0) {
+                JOptionPane.showMessageDialog(this,
+                        "El cliente no tiene saldo suficiente para cubrir los cobros",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE
+                );
+                return;
+            }
 
             if (!ClienteController.actualizarBalanceCliente(IDCliente.getText(), nuevoBalance)) {
                 throw new IOException("Error al actualizar balance del cliente");

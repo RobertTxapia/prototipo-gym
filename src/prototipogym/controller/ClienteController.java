@@ -135,6 +135,10 @@ public class ClienteController {
 
 
     public static boolean actualizarBalanceCliente(String idCliente, double nuevoBalance) {
+        if (nuevoBalance < 0) { // Validación de balance negativo
+            JOptionPane.showMessageDialog(null, "El balance no puede ser negativo", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
         String ARCHIVO = "data/clientes.txt";
         boolean encontrado = false;
         File tempFile = new File("data/clientes_temp.txt");
