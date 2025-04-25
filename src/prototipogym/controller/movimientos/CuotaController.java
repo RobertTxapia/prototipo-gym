@@ -24,7 +24,7 @@ public class CuotaController {
         }
     }
 
-        public static List<Cobro> obtenerCobrosPendientes(String idCliente) {
+        /*public static List<Cobro> obtenerCobrosPendientes(String idCliente) {
          List<Cobro> cobrosPendientes = new ArrayList<>();
          SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy"); 
          try (Scanner scanner = new Scanner(new File("data/cobros.txt"))) {
@@ -49,7 +49,53 @@ public class CuotaController {
              JOptionPane.showMessageDialog(null, "Error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
          }
          return cobrosPendientes;
-     }
+     }*/
+    
+   public static List<Cobro> obtenerCobrosPendientes(String idCliente) {
+    List<Cobro> cobrosPendientes = new ArrayList<>();
+    SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
+    
+    // Obtener cobros ya incluidos en cuotas
+    Set<Integer> cobrosEnCuotas = new HashSet<>();
+    try (Scanner scanner = new Scanner(new File("data/detalle_cuota.txt"))) {
+        while (scanner.hasNextLine()) {
+            String[] campos = scanner.nextLine().split(";");
+            if (campos.length >= 5) {
+                cobrosEnCuotas.add(Integer.parseInt(campos[4])); // ID Cobro
+            }
+        }
+    } catch (FileNotFoundException e) {
+        // Si el archivo no existe, no hay cobros registrados
+    }
+    
+    // Obtener cobros pendientes del cliente
+    try (Scanner scanner = new Scanner(new File("data/cobros.txt"))) {
+        while (scanner.hasNextLine()) {
+            String[] datos = scanner.nextLine().split(";");
+            if (datos.length >= 6 
+                && datos[2].equals(idCliente) 
+                && datos[5].equalsIgnoreCase("false")
+                && !cobrosEnCuotas.contains(Integer.parseInt(datos[0]))) {
+                
+                Cobro cobro = new Cobro(
+                    Integer.parseInt(datos[0]),
+                    formatoFecha.parse(datos[1]),
+                    Integer.parseInt(datos[2]),
+                    Double.parseDouble(datos[3]),
+                    datos[4],
+                    Boolean.parseBoolean(datos[5])
+                );
+                cobrosPendientes.add(cobro);
+            }
+        }
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, 
+            "Error al leer cobros pendientes: " + e.getMessage(), 
+            "Error", 
+            JOptionPane.ERROR_MESSAGE);
+    }
+    return cobrosPendientes;
+}
 
     public static boolean guardarCuota(String idCuota, String idCliente, List<Cobro> cobros) {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -73,6 +119,8 @@ public class CuotaController {
         }
         return false;
     }
+    
+    
     public static boolean actualizarCuota(String idCuota) {
         try {
             EncabezadoCuota encabezado = obtenerEncabezadoCuota(idCuota);

@@ -1,3 +1,4 @@
-1;1;Cuota mensual 04;500.0;1
+1;1;Cuota mensual 04;2000.0;2
+1;1;Cuota mensual 05;2000.0;4
+1;1;Cuota mensual 06;2000.0;6
 2;1;Cuota mensual 04;500.0;1
-2;2;Cuota mensual 05;500.0;3

@@ -84,7 +84,7 @@ public class Cuotas extends javax.swing.JFrame {
     }
 
     private void IDClienteFocusLost(java.awt.event.FocusEvent evt) {
-        String idCliente = IDCliente.getText().trim();
+       /* String idCliente = IDCliente.getText().trim();
         if (idCliente.isEmpty()) {
             return;
         }
@@ -123,7 +123,74 @@ public class Cuotas extends javax.swing.JFrame {
                 JOptionPane.ERROR_MESSAGE
             );
             limpiarCamposCliente();
+        }*/
+       
+       
+        String idCliente = IDCliente.getText().trim();
+    if (idCliente.isEmpty()) {
+        return;
+    }
+
+    try {
+        Cliente cliente = ClienteController.obtenerCliente(idCliente);
+
+        if (cliente == null) {
+            JOptionPane.showMessageDialog(this, "Cliente no encontrado", "Error", JOptionPane.ERROR_MESSAGE);
+            limpiarCamposCliente();
+            return;
         }
+
+        if (cliente.getTipoCliente() != 1 || !cliente.isStatus()) {
+            JOptionPane.showMessageDialog(this,
+                "El cliente no es Socio Activo",
+                "Error",
+                JOptionPane.ERROR_MESSAGE
+            );
+            limpiarCamposCliente();
+            return;
+        }
+
+        TextNombre.setText(cliente.getNombre());
+        TextCuota.setText(String.valueOf(cliente.getValorCuota()));
+
+        // Cargar cobros pendientes en la tabla
+        cargarCobrosPendientes(idCliente);
+
+    } catch (IOException ex) {
+        JOptionPane.showMessageDialog(this,
+            "Error al leer datos del cliente: " + ex.getMessage(),
+            "Error",
+            JOptionPane.ERROR_MESSAGE
+        );
+        limpiarCamposCliente();
+    }
+}
+
+private void cargarCobrosPendientes(String idCliente) {
+    DefaultTableModel model = (DefaultTableModel) Tabla.getModel();
+    model.setRowCount(0); // Limpiar tabla antes de cargar
+
+    List<Cobro> cobrosPendientes = CuotaController.obtenerCobrosPendientes(idCliente);
+    if (cobrosPendientes.isEmpty()) {
+        JOptionPane.showMessageDialog(this,
+            "No hay cobros pendientes para este cliente",
+            "Información",
+            JOptionPane.INFORMATION_MESSAGE
+        );
+        return;
+    }
+
+    int secuencia = 1;
+    for (Cobro cobro : cobrosPendientes) {
+        model.addRow(new Object[]{
+            idCliente,
+            secuencia++,
+            cobro.getConcepto(),
+            cobro.getValorCobro(),
+            cobro.getId()
+        });
+    }
+       
     }
 
     private void limpiarCamposCliente() {
@@ -132,7 +199,7 @@ public class Cuotas extends javax.swing.JFrame {
         IDCliente.setText("");
     }
 
-    private void cargarDetallesCuota(String idCuota) {
+    /*private void cargarDetallesCuota(String idCuota) {
         DefaultTableModel model = (DefaultTableModel) Tabla.getModel();
         model.setRowCount(0);
 
@@ -156,7 +223,52 @@ public class Cuotas extends javax.swing.JFrame {
         } catch (FileNotFoundException ex) {
             JOptionPane.showMessageDialog(this, "Error al cargar detalles: " + ex.getMessage());
         }
+    }*/
+    
+    private void cargarDetallesCuota(String idCuota) {
+    DefaultTableModel model = (DefaultTableModel) Tabla.getModel();
+    model.setRowCount(0); // Limpiar la tabla antes de cargar
+
+    try {
+        String idCliente = obtenerIdClienteDeEncabezado(idCuota);
+        if (idCliente.equals("N/A")) return;
+        
+        // Cargar solo cobros pendientes no incluidos en otras cuotas
+        List<Cobro> cobrosPendientes = CuotaController.obtenerCobrosPendientes(idCliente);
+        Set<Integer> cobrosEnCuota = obtenerCobrosEnCuota(idCuota);
+        
+        int secuencia = 1;
+        for (Cobro cobro : cobrosPendientes) {
+            if (!cobrosEnCuota.contains(cobro.getId())) {
+                model.addRow(new Object[]{
+                    idCliente,
+                    secuencia++,
+                    cobro.getConcepto(),
+                    cobro.getValorCobro(),
+                    cobro.getId()
+                });
+            }
+        }
+    } catch (Exception ex) {
+        JOptionPane.showMessageDialog(this, "Error al cargar detalles: " + ex.getMessage());
     }
+}
+
+private Set<Integer> obtenerCobrosEnCuota(String idCuota) {
+    Set<Integer> cobros = new HashSet<>();
+    try (Scanner scanner = new Scanner(new File("data/detalle_cuota.txt"))) {
+        while (scanner.hasNextLine()) {
+            String[] campos = scanner.nextLine().split(";");
+            if (campos.length >= 5 && campos[0].equals(idCuota)) {
+                cobros.add(Integer.parseInt(campos[4])); // ID Cobro
+            }
+        }
+    } catch (FileNotFoundException ex) {
+        // Si el archivo no existe, no hay cobros registrados
+          JOptionPane.showMessageDialog(this, "No hay cobros" + ex.getMessage());
+    }
+    return cobros;
+}
 
     private String obtenerIdClienteDeEncabezado(String idCuota) {
         try (Scanner scanner = new Scanner(new File("data/encabezado_cuota.txt"))) {
@@ -172,64 +284,72 @@ public class Cuotas extends javax.swing.JFrame {
         return "N/A";
     }
 
-    private void guardarFilasSeleccionadas() {
-        int[] filasSeleccionadas = Tabla.getSelectedRows();
+   private void guardarFilasSeleccionadas() {
+    DefaultTableModel model = (DefaultTableModel) Tabla.getModel();
+    int[] filasSeleccionadas = Tabla.getSelectedRows();
 
-        if (filasSeleccionadas.length == 0) {
-            JOptionPane.showMessageDialog(this, "Debes seleccionar al menos una fila", "Advertencia", JOptionPane.WARNING_MESSAGE);
+    if (filasSeleccionadas.length == 0) {
+        JOptionPane.showMessageDialog(this, 
+            "Debes seleccionar al menos una fila", 
+            "Advertencia", 
+            JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+
+    try {
+        String idCliente = IDCliente.getText();
+        Cliente cliente = ClienteController.obtenerCliente(idCliente);
+        
+        if (cliente == null) {
+            JOptionPane.showMessageDialog(this, "Cliente no encontrado", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        DefaultTableModel model = (DefaultTableModel) Tabla.getModel();
-        Set<String> idsSeleccionados = new HashSet<>();
-
-        for (int fila : filasSeleccionadas) {
-            String idCobro = model.getValueAt(fila, 4).toString();
-            idsSeleccionados.add(idCobro);
+        double totalARestar = 0;
+        
+        // Procesar cada fila seleccionada (en orden inverso para evitar problemas con los índices)
+        for (int i = filasSeleccionadas.length - 1; i >= 0; i--) {
+            int fila = filasSeleccionadas[i];
+            
+            // Obtener datos de la fila
+            String idCobroStr = model.getValueAt(fila, 4).toString();
+            double valor = Double.parseDouble(model.getValueAt(fila, 3).toString());
+            
+            // Actualizar estado del cobro
+            int idCobro = Integer.parseInt(idCobroStr);
+            CobroController.actualizarEstadoCobro(idCobro, true);
+            
+            // Acumular total a restar
+            totalARestar += valor;
+            
+            // Eliminar fila de la tabla
+            model.removeRow(fila);
         }
 
-        File archivoCobros = new File("data/cobros.txt");
-        File archivoTemporal = new File("data/temp_cobros.txt");
-
-        try (
-            BufferedReader reader = new BufferedReader(new FileReader(archivoCobros));
-            BufferedWriter writerTemporal = new BufferedWriter(new FileWriter(archivoTemporal));
-            BufferedWriter writerDetalle = new BufferedWriter(new FileWriter("data/detalle_cuota.txt", true))
-        ) {
-            String linea;
-            int secuencia = 1;
-
-            while ((linea = reader.readLine()) != null) {
-                String[] partes = linea.split(";");
-                if (partes.length > 0 && idsSeleccionados.contains(partes[0])) {
-                    String idCuota = Text_ID.getText();
-                    String concepto = partes[2];
-                    String valor = partes[3];
-
-                    writerDetalle.write(String.join(";", idCuota, String.valueOf(secuencia++), concepto, valor, partes[0]));
-                    writerDetalle.newLine();
-                } else {
-                    writerTemporal.write(linea);
-                    writerTemporal.newLine();
-                }
-            }
-
-            reader.close();
-            writerTemporal.close();
-            archivoCobros.delete();
-            archivoTemporal.renameTo(archivoCobros);
-
-            for (int i = filasSeleccionadas.length - 1; i >= 0; i--) {
-                model.removeRow(filasSeleccionadas[i]);
-            }
-
-            JOptionPane.showMessageDialog(this, "Filas guardadas y eliminadas correctamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-
-        } catch (IOException ex) {
-            JOptionPane.showMessageDialog(this, "Error al procesar: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        // Actualizar balance del cliente
+        double nuevoBalance = cliente.getBalance() - totalARestar;
+        if (nuevoBalance < 0) {
+            JOptionPane.showMessageDialog(this, 
+                "El cliente no tiene suficiente saldo", 
+                "Error", 
+                JOptionPane.ERROR_MESSAGE);
+            return;
         }
+        
+        ClienteController.actualizarBalanceCliente(idCliente, nuevoBalance);
+        
+        JOptionPane.showMessageDialog(this, 
+            "Cuota procesada correctamente", 
+            "Éxito", 
+            JOptionPane.INFORMATION_MESSAGE);
+
+    } catch (Exception ex) {
+        JOptionPane.showMessageDialog(this, 
+            "Error al procesar: " + ex.getMessage(), 
+            "Error", 
+            JOptionPane.ERROR_MESSAGE);
     }
-
+}
     public void Limpiar(){
         Text_ID.setText("");
         TextNombre.setText("");
@@ -495,7 +615,7 @@ public class Cuotas extends javax.swing.JFrame {
     }//GEN-LAST:event_LimpiarActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        if (Text_ID.getText().isEmpty() || IDCliente.getText().isEmpty()) {
+      /*if (Text_ID.getText().isEmpty() || IDCliente.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Campos obligatorios faltantes", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
@@ -545,6 +665,7 @@ public class Cuotas extends javax.swing.JFrame {
 
             ClienteController.actualizarBalanceCliente(IDCliente.getText(), cliente.getBalance() - total);
             JOptionPane.showMessageDialog(this, "Cuota registrada exitosamente");
+            
             Limpiar();
             cargarDetallesCuota(Text_ID.getText().trim());
 
@@ -562,11 +683,112 @@ public class Cuotas extends javax.swing.JFrame {
             if (!ClienteController.actualizarBalanceCliente(IDCliente.getText(), nuevoBalance)) {
                 throw new IOException("Error al actualizar balance del cliente");
             }
-
+             
             guardarFilasSeleccionadas();
+            
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }*/
+       
+       if (Text_ID.getText().isEmpty() || IDCliente.getText().isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Campos obligatorios faltantes", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+
+    try {
+        Cliente cliente = ClienteController.obtenerCliente(IDCliente.getText());
+        if (cliente == null || cliente.getTipoCliente() != 1 || !cliente.isStatus()) {
+            JOptionPane.showMessageDialog(this, "Cliente no válido", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
         }
+
+        DefaultTableModel model = (DefaultTableModel) Tabla.getModel();
+        if (model.getRowCount() == 0) {
+            JOptionPane.showMessageDialog(this, "No hay cobros pendientes", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Procesar solo las filas seleccionadas
+        int[] filasSeleccionadas = Tabla.getSelectedRows();
+        if (filasSeleccionadas.length == 0) {
+            JOptionPane.showMessageDialog(this, "Seleccione al menos un cobro", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        double total = 0;
+        String idCuota = Text_ID.getText();
+        
+        // Guardar encabezado si no existe
+        if (!existeEncabezadoCuota(idCuota)) {
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter("data/encabezado_cuota.txt", true))) {
+                writer.write(String.join(";",
+                        idCuota,
+                        new SimpleDateFormat("dd/MM/yyyy").format(new Date()),
+                        IDCliente.getText(),
+                        String.valueOf(total),
+                        "false"
+                ));
+                writer.newLine();
+            }
+        }
+
+        // Procesar cobros seleccionados
+        try (BufferedWriter detalleWriter = new BufferedWriter(new FileWriter("data/detalle_cuota.txt", true))) {
+            for (int fila : filasSeleccionadas) {
+                int idCobro = Integer.parseInt(model.getValueAt(fila, 4).toString());
+                double valor = Double.parseDouble(model.getValueAt(fila, 3).toString());
+                
+                detalleWriter.write(String.join(";",
+                        idCuota,
+                        String.valueOf(fila + 1), // Secuencia
+                        model.getValueAt(fila, 2).toString(), // Concepto
+                        String.valueOf(valor),
+                        String.valueOf(idCobro)
+                ));
+                detalleWriter.newLine();
+                
+                total += valor;
+                CobroController.actualizarEstadoCobro(idCobro, true);
+                model.removeRow(fila); // Eliminar fila procesada
+            }
+        }
+
+        // Actualizar balance del cliente
+        double nuevoBalance = cliente.getBalance() - total;
+        if (nuevoBalance < 0) {
+            JOptionPane.showMessageDialog(this,
+                    "El cliente no tiene saldo suficiente",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (!ClienteController.actualizarBalanceCliente(IDCliente.getText(), nuevoBalance)) {
+            throw new IOException("Error al actualizar balance del cliente");
+        }
+
+        JOptionPane.showMessageDialog(this, "Cuota registrada exitosamente");
+        
+    } catch (Exception ex) {
+        JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    }
+}
+
+private boolean existeEncabezadoCuota(String idCuota) {
+    try (Scanner scanner = new Scanner(new File("data/encabezado_cuota.txt"))) {
+        while (scanner.hasNextLine()) {
+            String[] campos = scanner.nextLine().split(";");
+            if (campos.length > 0 && campos[0].equals(idCuota)) {
+                return true;
+            }
+        }
+    } catch (FileNotFoundException ex) {
+        return false;
+    }
+    return false;
+
+         
+       
 }//GEN-LAST:event_btnGuardarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
